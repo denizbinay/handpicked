@@ -72,6 +72,8 @@ export default defineEventHandler(async (event) => {
       id: extractedId,
       title: video.snippet.title,
       channelTitle: video.snippet.channelTitle,
+      channelId: video.snippet.channelId,
+      publishedAt: video.snippet.publishedAt,
       duration_seconds: duration,
       thumbnail: video.snippet.thumbnails?.medium?.url || null,
     }

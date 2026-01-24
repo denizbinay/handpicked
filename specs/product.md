@@ -56,7 +56,21 @@ The viewer experience is intentionally minimal:
 - no recommendations
 - no feeds
 - no personalization
-- no history or “continue watching”
+- no history or "continue watching"
+
+### Attribution and Transparency
+
+While viewers cannot interact with videos, they should have access to **information** about what they're watching. This serves transparency and gives proper credit to original creators.
+
+Above the fold: lean-back, minimal, channel-focused.
+Below the fold: informational, attribution, transparency.
+
+Displaying attribution info is encouraged. This includes:
+- Current video title and original YouTube channel
+- Link to the original video on YouTube
+- Curator information
+
+This is not feature creep—it's ethical transparency. Original YouTube creators retain their views, ad revenue, and visibility. We don't hide them.
 
 ---
 

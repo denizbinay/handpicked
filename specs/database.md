@@ -30,6 +30,14 @@ Required fields:
 - created_at
 - updated_at
 
+Optional profile fields:
+- avatar_url (square image URL for channel icon)
+- banner_url (header/banner image URL)
+- curator_name (display name of the curator)
+- curator_bio (short bio/description of the curator)
+- website_url (curator's website)
+- social_links (JSON object with social media links)
+
 Rules:
 - Channels are the primary public objects
 - Viewers never interact with videos directly
@@ -48,6 +56,13 @@ Required fields:
 - youtube_video_id
 - duration_seconds (cached)
 - created_at
+
+Cached video metadata (from YouTube API, for attribution):
+- title (video title)
+- youtube_channel_name (original creator's channel name)
+- youtube_channel_id (for linking)
+- thumbnail_url (video thumbnail)
+- published_at (original publish date)
 
 Rules:
 - Order is explicit, not inferred

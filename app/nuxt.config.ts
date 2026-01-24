@@ -5,6 +5,8 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/supabase'],
 
+  css: ['~/assets/css/variables.css'],
+
   supabase: {
     redirectOptions: {
       login: '/curator/login',

@@ -45,12 +45,41 @@ async function ensureCreatorAccount(userId: string, email: string) {
       id: userId,
       email: email,
     })
+
+    // Generate username from email (part before @, alphanumeric only)
+    const username = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '')
+    const displayName = email.split('@')[0]
+
+    // Create initial creator profile
+    await supabase.from('creator_profiles').insert({
+      id: userId,
+      username: username,
+      display_name: displayName,
+    })
   } else {
     // Update last login
     await supabase
       .from('creator_accounts')
       .update({ last_login_at: new Date().toISOString() })
       .eq('id', userId)
+
+    // Ensure profile exists (for existing users who don't have one yet)
+    const { data: profileExists } = await supabase
+      .from('creator_profiles')
+      .select('id')
+      .eq('id', userId)
+      .single()
+
+    if (!profileExists) {
+      const username = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '')
+      const displayName = email.split('@')[0]
+
+      await supabase.from('creator_profiles').insert({
+        id: userId,
+        username: username,
+        display_name: displayName,
+      })
+    }
   }
 }
 </script>

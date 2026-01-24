@@ -1,15 +1,28 @@
 <script setup lang="ts">
+import type { ChannelCategory } from '~/types/database'
+
 definePageMeta({
   middleware: 'curator-auth',
 })
 
+const CATEGORIES: { value: ChannelCategory; label: string }[] = [
+  { value: 'tech', label: 'Tech' },
+  { value: 'music', label: 'Music' },
+  { value: 'documentary', label: 'Documentary' },
+  { value: 'comedy', label: 'Comedy' },
+  { value: 'gaming', label: 'Gaming' },
+  { value: 'art', label: 'Art' },
+  { value: 'science', label: 'Science' },
+  { value: 'news', label: 'News' },
+]
+
 const supabase = useSupabaseClient()
-const user = useSupabaseUser()
 const router = useRouter()
 
 const title = ref('')
 const slug = ref('')
 const description = ref('')
+const category = ref<ChannelCategory | null>(null)
 const isPublic = ref(false)
 const isLoading = ref(false)
 const error = ref<string | null>(null)
@@ -28,7 +41,11 @@ async function handleSubmit() {
     return
   }
 
-  if (!user.value) {
+  // Get current session to ensure we have the user ID
+  const { data: sessionData } = await supabase.auth.getSession()
+  const userId = sessionData.session?.user?.id
+
+  if (!userId) {
     error.value = 'You must be logged in'
     return
   }
@@ -43,8 +60,9 @@ async function handleSubmit() {
         title: title.value,
         slug: slug.value,
         description: description.value || null,
+        category: category.value,
         is_public: isPublic.value,
-        created_by: user.value.id,
+        created_by: userId,
       })
       .select()
       .single()
@@ -119,6 +137,20 @@ async function handleSubmit() {
               rows="3"
               :disabled="isLoading"
             ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select
+              id="category"
+              v-model="category"
+              :disabled="isLoading"
+            >
+              <option :value="null">Select a category...</option>
+              <option v-for="cat in CATEGORIES" :key="cat.value" :value="cat.value">
+                {{ cat.label }}
+              </option>
+            </select>
           </div>
 
           <div class="form-group checkbox">
@@ -232,6 +264,27 @@ async function handleSubmit() {
 
 .form-group textarea {
   resize: vertical;
+}
+
+.form-group select {
+  padding: 12px 16px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
+.form-group select:focus {
+  border-color: #555;
+}
+
+.form-group select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .slug-input {

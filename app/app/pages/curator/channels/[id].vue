@@ -1,5 +1,16 @@
 <script setup lang="ts">
-import type { Channel, ChannelScheduleItem, ChannelTimeline } from '~/types/database'
+import type { Channel, ChannelScheduleItem, ChannelTimeline, ChannelCategory } from '~/types/database'
+
+const CATEGORIES: { value: ChannelCategory; label: string }[] = [
+  { value: 'tech', label: 'Tech' },
+  { value: 'music', label: 'Music' },
+  { value: 'documentary', label: 'Documentary' },
+  { value: 'comedy', label: 'Comedy' },
+  { value: 'gaming', label: 'Gaming' },
+  { value: 'art', label: 'Art' },
+  { value: 'science', label: 'Science' },
+  { value: 'news', label: 'News' },
+]
 
 definePageMeta({
   middleware: 'curator-auth',
@@ -7,7 +18,6 @@ definePageMeta({
 
 const route = useRoute()
 const supabase = useSupabaseClient()
-const user = useSupabaseUser()
 
 const channelId = computed(() => route.params.id as string)
 
@@ -21,6 +31,7 @@ const isEditing = ref(false)
 const editTitle = ref('')
 const editDescription = ref('')
 const editIsPublic = ref(false)
+const editCategory = ref<ChannelCategory | null>(null)
 
 // Add video state
 const newVideoUrl = ref('')
@@ -38,6 +49,15 @@ async function fetchChannel() {
   error.value = null
 
   try {
+    // Get current session to verify ownership
+    const { data: sessionData } = await supabase.auth.getSession()
+    const userId = sessionData.session?.user?.id
+
+    if (!userId) {
+      error.value = 'You must be logged in'
+      return
+    }
+
     // Fetch channel
     const { data: channelData, error: channelError } = await supabase
       .from('channels')
@@ -51,7 +71,7 @@ async function fetchChannel() {
     }
 
     // Verify ownership
-    if (channelData.created_by !== user.value?.id) {
+    if (channelData.created_by !== userId) {
       error.value = 'You do not have access to this channel'
       return
     }
@@ -60,6 +80,7 @@ async function fetchChannel() {
     editTitle.value = channelData.title
     editDescription.value = channelData.description || ''
     editIsPublic.value = channelData.is_public
+    editCategory.value = channelData.category || null
 
     // Fetch schedule
     const { data: scheduleData } = await supabase
@@ -97,6 +118,7 @@ async function saveMetadata() {
       title: editTitle.value,
       description: editDescription.value || null,
       is_public: editIsPublic.value,
+      category: editCategory.value,
     })
     .eq('id', channelId.value)
 
@@ -110,6 +132,7 @@ async function saveMetadata() {
   channel.value.title = editTitle.value
   channel.value.description = editDescription.value
   channel.value.is_public = editIsPublic.value
+  channel.value.category = editCategory.value
   isEditing.value = false
 }
 
@@ -137,6 +160,10 @@ async function addVideo() {
         youtube_video_id: videoInfo.id,
         title: videoInfo.title,
         duration_seconds: videoInfo.duration_seconds,
+        youtube_channel_name: videoInfo.channelTitle,
+        youtube_channel_id: videoInfo.channelId,
+        thumbnail_url: videoInfo.thumbnail,
+        published_at: videoInfo.publishedAt,
       })
       .select()
       .single()
@@ -328,6 +355,15 @@ onMounted(() => {
               <span class="value">{{ channel.description || 'No description' }}</span>
             </div>
             <div class="info-row">
+              <span class="label">Category</span>
+              <span class="value">
+                <span v-if="channel.category" class="category-badge">
+                  {{ CATEGORIES.find(c => c.value === channel.category)?.label || channel.category }}
+                </span>
+                <span v-else class="empty">Not set</span>
+              </span>
+            </div>
+            <div class="info-row">
               <span class="label">Status</span>
               <span class="value">
                 <span class="status-badge" :class="{ public: channel.is_public }">
@@ -345,6 +381,15 @@ onMounted(() => {
             <div class="form-group">
               <label>Description</label>
               <textarea v-model="editDescription" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <select v-model="editCategory">
+                <option :value="null">Select a category...</option>
+                <option v-for="cat in CATEGORIES" :key="cat.value" :value="cat.value">
+                  {{ cat.label }}
+                </option>
+              </select>
             </div>
             <div class="form-group checkbox">
               <input id="edit-public" v-model="editIsPublic" type="checkbox" />
@@ -591,6 +636,30 @@ onMounted(() => {
   color: #0c8;
 }
 
+.category-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  background: rgba(100, 150, 255, 0.1);
+  color: #6af;
+}
+
+.form-group select {
+  padding: 10px 12px;
+  background: #0a0a0a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.form-group select:focus {
+  border-color: #555;
+  outline: none;
+}
+
 .edit-form {
   padding: 20px;
   display: flex;
@@ -800,5 +869,44 @@ onMounted(() => {
 .reset-button:hover {
   border-color: #f80;
   color: #f80;
+}
+
+.preview-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #333;
+}
+
+.url-preview {
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  color: #666;
+}
+
+.empty {
+  color: #444;
+  font-style: italic;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group input[type='url'] {
+  padding: 10px 12px;
+  background: #0a0a0a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 13px;
+  font-family: inherit;
+  width: 100%;
 }
 </style>

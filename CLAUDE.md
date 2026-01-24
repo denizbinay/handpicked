@@ -96,6 +96,30 @@ Avoid premature optimization, scaling assumptions, or complex infrastructure.
 
 ---
 
+## Technical Gotchas
+
+### Supabase Auth: Avoid `useSupabaseUser()` for User ID
+
+**Problem:** The `useSupabaseUser()` composable from `@nuxtjs/supabase` returns a ref that may not be hydrated immediately after page navigation. This causes `user.value.id` to be `undefined` even when the user is authenticated.
+
+**Symptom:** RLS policy errors like "new row violates row-level security policy" or ownership checks failing immediately after redirect.
+
+**Solution:** Always use `supabase.auth.getSession()` to get the user ID reliably:
+
+```typescript
+// BAD - may be undefined after navigation
+const user = useSupabaseUser()
+const userId = user.value?.id  // can be undefined!
+
+// GOOD - always returns current session
+const { data: sessionData } = await supabase.auth.getSession()
+const userId = sessionData.session?.user?.id
+```
+
+This applies to any code that runs immediately after page load or navigation, especially in curator pages.
+
+---
+
 ## Working Style & Rules for AI Assistance
 
 When working on this project, the AI must follow these rules:
