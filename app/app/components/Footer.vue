@@ -5,9 +5,11 @@ const currentYear = new Date().getFullYear()
 <template>
   <footer class="footer">
     <div class="footer-content">
-      <!-- Left: Wordmark + Tagline -->
+      <!-- Left: Logo + Tagline -->
       <div class="brand">
-        <span class="wordmark">Handpicked</span>
+        <NuxtLink to="/" class="brand-link">
+          <img src="/logo.svg" alt="Handpicked" class="brand-logo" />
+        </NuxtLink>
         <span class="tagline">Curated TV for the internet</span>
       </div>
 
@@ -48,12 +50,21 @@ const currentYear = new Date().getFullYear()
   gap: var(--space-xs);
 }
 
-.wordmark {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  letter-spacing: -0.02em;
+.brand-link {
+  display: inline-block;
+  text-decoration: none;
+  line-height: 0;
+}
+
+.brand-logo {
+  height: 40px;
+  width: auto;
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+.brand-link:hover .brand-logo {
+  opacity: 1;
 }
 
 .tagline {
