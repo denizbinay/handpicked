@@ -112,18 +112,9 @@ function onPlayerError(error: string) {
 }
 
 /**
- * Keyboard shortcuts for channel switching
+ * Keyboard shortcuts for sidebar toggle
  */
 function handleKeydown(event: KeyboardEvent) {
-  // Number keys 1-9 for channel switching
-  const num = parseInt(event.key)
-  if (num >= 1 && num <= 9 && channels.value) {
-    const channel = channels.value[num - 1]
-    if (channel) {
-      selectChannel(channel.slug)
-    }
-  }
-
   // Toggle channel list with Tab or C
   if (event.key === 'Tab' || event.key === 'c') {
     event.preventDefault()
@@ -208,9 +199,9 @@ watch(slug, (newSlug) => {
             />
           </div>
 
-          <!-- Channel List Sidebar -->
+          <!-- Channel Sidebar -->
           <transition name="slide">
-            <ChannelList
+            <ChannelSidebar
               v-if="showChannelList"
               :channels="channels"
               :current-slug="currentChannel?.slug ?? null"

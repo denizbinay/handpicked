@@ -153,10 +153,59 @@ export function useYouTubePlayer() {
   }
 
   /**
+   * Mute the player
+   */
+  function mute() {
+    player?.mute()
+  }
+
+  /**
    * Check if player is muted
    */
   function isMuted(): boolean {
     return player?.isMuted() ?? true
+  }
+
+  /**
+   * Set volume (0-100)
+   */
+  function setVolume(volume: number) {
+    player?.setVolume(volume)
+  }
+
+  /**
+   * Get current volume (0-100)
+   */
+  function getVolume(): number {
+    return player?.getVolume() ?? 100
+  }
+
+  /**
+   * Pause the player
+   */
+  function pause() {
+    player?.pauseVideo()
+  }
+
+  /**
+   * Get available quality levels
+   */
+  function getAvailableQualityLevels(): string[] {
+    return player?.getAvailableQualityLevels() ?? []
+  }
+
+  /**
+   * Set playback quality
+   */
+  function setPlaybackQuality(quality: string) {
+    player?.setPlaybackQuality(quality)
+  }
+
+  /**
+   * Get current playback quality
+   */
+  function getPlaybackQuality(): string {
+    return player?.getPlaybackQuality() ?? 'auto'
   }
 
   /**
@@ -194,11 +243,18 @@ export function useYouTubePlayer() {
     loadVideo,
     cueVideo,
     play,
+    pause,
     unmute,
+    mute,
     isMuted,
+    setVolume,
+    getVolume,
     getCurrentTime,
     seekTo,
     getState,
+    getAvailableQualityLevels,
+    setPlaybackQuality,
+    getPlaybackQuality,
     destroy,
   }
 }
