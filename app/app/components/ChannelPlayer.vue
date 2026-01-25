@@ -451,7 +451,7 @@ watch(
   position: relative;
   width: 100%;
   height: 100%;
-  background: #000;
+  background: var(--color-bg-primary);
 }
 
 .player-wrapper {
@@ -471,14 +471,14 @@ watch(
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(9, 8, 7, 0.82);
 }
 
 .loading-spinner {
   width: 48px;
   height: 48px;
-  border: 3px solid #333;
-  border-top-color: #fff;
+  border: 3px solid rgba(244, 239, 230, 0.15);
+  border-top-color: var(--color-text-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -499,10 +499,10 @@ watch(
   align-items: center;
   gap: 12px;
   padding: 16px 28px;
-  background: rgba(0, 0, 0, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  color: #fff;
+  background: rgba(12, 11, 9, 0.9);
+  border: 1px solid rgba(215, 161, 103, 0.35);
+  border-radius: 999px;
+  color: var(--color-text-primary);
   font-size: 15px;
   cursor: pointer;
   transition: all 0.2s;
@@ -510,8 +510,8 @@ watch(
 }
 
 .unmute-prompt:hover {
-  background: rgba(0, 0, 0, 0.95);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(12, 11, 9, 0.98);
+  border-color: rgba(215, 161, 103, 0.6);
 }
 
 .unmute-icon {
@@ -532,7 +532,7 @@ watch(
   align-items: center;
   gap: 8px;
   padding: 16px 20px;
-  background: linear-gradient(transparent 0%, rgba(0, 0, 0, 0.7) 30%, rgba(0, 0, 0, 0.9) 100%);
+  background: linear-gradient(transparent 0%, rgba(9, 8, 7, 0.7) 30%, rgba(9, 8, 7, 0.92) 100%);
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -549,18 +549,19 @@ watch(
   min-width: 44px;
   height: 40px;
   padding: 0 14px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(4px);
-  border: none;
-  border-radius: 6px;
-  color: #fff;
+  background: rgba(244, 239, 230, 0.12);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(244, 239, 230, 0.12);
+  border-radius: 10px;
+  color: var(--color-text-primary);
   font-size: 14px;
   cursor: pointer;
   transition: background 0.15s;
 }
 
 .control-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(215, 161, 103, 0.22);
+  border-color: rgba(215, 161, 103, 0.5);
 }
 
 .control-icon {
@@ -583,7 +584,7 @@ watch(
   width: 80px;
   height: 4px;
   appearance: none;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(244, 239, 230, 0.25);
   border-radius: 2px;
   cursor: pointer;
   opacity: 0;
@@ -599,7 +600,7 @@ watch(
   appearance: none;
   width: 14px;
   height: 14px;
-  background: #fff;
+  background: var(--color-text-primary);
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -608,7 +609,7 @@ watch(
 .volume-slider::-moz-range-thumb {
   width: 14px;
   height: 14px;
-  background: #fff;
+  background: var(--color-text-primary);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -634,10 +635,10 @@ watch(
   bottom: 100%;
   right: 0;
   margin-bottom: 8px;
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
+  background: rgba(12, 11, 9, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(244, 239, 230, 0.12);
+  border-radius: 12px;
   overflow: hidden;
   min-width: 120px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
@@ -649,7 +650,7 @@ watch(
   padding: 12px 18px;
   background: none;
   border: none;
-  color: #ccc;
+  color: var(--color-text-secondary);
   font-size: 14px;
   text-align: left;
   cursor: pointer;
@@ -657,12 +658,12 @@ watch(
 }
 
 .quality-option:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background: rgba(215, 161, 103, 0.12);
+  color: var(--color-text-primary);
 }
 
 .quality-option.active {
-  color: #4af;
+  color: var(--color-accent);
   font-weight: 500;
 }
 
@@ -673,7 +674,7 @@ watch(
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(9, 8, 7, 0.6);
   pointer-events: none;
 }
 
@@ -682,7 +683,7 @@ watch(
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  color: #fff;
+  color: var(--color-text-primary);
   font-size: 20px;
   font-weight: 500;
 }
@@ -696,6 +697,6 @@ watch(
 .paused-hint {
   font-size: 14px;
   font-weight: 400;
-  color: #888;
+  color: var(--color-text-tertiary);
 }
 </style>

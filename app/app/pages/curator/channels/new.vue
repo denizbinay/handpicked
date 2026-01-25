@@ -180,23 +180,24 @@ async function handleSubmit() {
 <style scoped>
 .curator-page {
   min-height: 100vh;
-  background: #0a0a0a;
-  color: #fff;
+  background: transparent;
+  color: var(--color-text-primary);
 }
 
 .header {
   padding: 16px 24px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(180deg, rgba(244, 239, 230, 0.03), transparent);
 }
 
 .back-link {
-  color: #888;
+  color: var(--color-text-tertiary);
   text-decoration: none;
   font-size: 14px;
 }
 
 .back-link:hover {
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 .main {
@@ -206,8 +207,9 @@ async function handleSubmit() {
 }
 
 .form-container h1 {
-  font-size: 24px;
-  font-weight: 500;
+  font-size: 26px;
+  font-weight: 600;
+  font-family: var(--font-display);
   margin-bottom: 32px;
 }
 
@@ -232,21 +234,21 @@ async function handleSubmit() {
 .form-group label {
   font-size: 13px;
   font-weight: 500;
-  color: #888;
+  color: var(--color-text-muted);
 }
 
 .form-group.checkbox label {
   font-weight: 400;
-  color: #ccc;
+  color: var(--color-text-secondary);
 }
 
 .form-group input[type='text'],
 .form-group textarea {
   padding: 12px 16px;
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 4px;
-  color: #fff;
+  background: rgba(11, 10, 8, 0.9);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  color: var(--color-text-primary);
   font-size: 14px;
   font-family: inherit;
   outline: none;
@@ -254,12 +256,12 @@ async function handleSubmit() {
 
 .form-group input:focus,
 .form-group textarea:focus {
-  border-color: #555;
+  border-color: rgba(215, 161, 103, 0.6);
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  color: #555;
+  color: var(--color-text-muted);
 }
 
 .form-group textarea {
@@ -268,10 +270,10 @@ async function handleSubmit() {
 
 .form-group select {
   padding: 12px 16px;
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 4px;
-  color: #fff;
+  background: rgba(11, 10, 8, 0.9);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  color: var(--color-text-primary);
   font-size: 14px;
   font-family: inherit;
   cursor: pointer;
@@ -279,7 +281,7 @@ async function handleSubmit() {
 }
 
 .form-group select:focus {
-  border-color: #555;
+  border-color: rgba(215, 161, 103, 0.6);
 }
 
 .form-group select:disabled {
@@ -290,15 +292,15 @@ async function handleSubmit() {
 .slug-input {
   display: flex;
   align-items: center;
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 4px;
+  background: rgba(11, 10, 8, 0.9);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
 }
 
 .slug-prefix {
   padding-left: 16px;
-  color: #666;
-  font-family: ui-monospace, monospace;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
 }
 
 .slug-input input {
@@ -313,21 +315,21 @@ async function handleSubmit() {
 
 .hint {
   font-size: 12px;
-  color: #555;
+  color: var(--color-text-muted);
 }
 
 .form-group input[type='checkbox'] {
   width: 18px;
   height: 18px;
-  accent-color: #fff;
+  accent-color: var(--color-accent);
 }
 
 .error-message {
   padding: 12px;
   background: rgba(255, 80, 80, 0.1);
   border: 1px solid rgba(255, 80, 80, 0.2);
-  border-radius: 4px;
-  color: #f55;
+  border-radius: 10px;
+  color: #ef8a7a;
   font-size: 13px;
 }
 
@@ -341,28 +343,29 @@ async function handleSubmit() {
 .cancel-button {
   padding: 12px 24px;
   background: transparent;
-  border: 1px solid #333;
-  border-radius: 4px;
-  color: #888;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text-tertiary);
   font-size: 14px;
   text-decoration: none;
   cursor: pointer;
 }
 
 .cancel-button:hover {
-  border-color: #555;
-  color: #fff;
+  border-color: rgba(215, 161, 103, 0.6);
+  color: var(--color-text-primary);
 }
 
 .submit-button {
   padding: 12px 24px;
-  background: #fff;
-  border: none;
-  border-radius: 4px;
-  color: #000;
+  background: linear-gradient(120deg, rgba(215, 161, 103, 0.95), rgba(111, 196, 184, 0.85));
+  border: 1px solid rgba(215, 161, 103, 0.4);
+  border-radius: 999px;
+  color: #120f0a;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+  box-shadow: var(--shadow-glow);
 }
 
 .submit-button:hover:not(:disabled) {

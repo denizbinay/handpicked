@@ -299,8 +299,8 @@ async function deleteChannel(channelId: string) {
 <style scoped>
 .curator-page {
   min-height: 100vh;
-  background: #0a0a0a;
-  color: #fff;
+  background: transparent;
+  color: var(--color-text-primary);
 }
 
 .header {
@@ -308,7 +308,8 @@ async function deleteChannel(channelId: string) {
   justify-content: space-between;
   align-items: center;
   padding: 16px 24px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(180deg, rgba(244, 239, 230, 0.03), transparent);
 }
 
 .header-left {
@@ -319,12 +320,13 @@ async function deleteChannel(channelId: string) {
 
 .header h1 {
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: var(--font-display);
 }
 
 .user-email {
   font-size: 13px;
-  color: #666;
+  color: var(--color-text-muted);
 }
 
 .header-right {
@@ -336,31 +338,31 @@ async function deleteChannel(channelId: string) {
 .logout-button {
   padding: 8px 16px;
   font-size: 13px;
-  border-radius: 4px;
+  border-radius: 999px;
   cursor: pointer;
   text-decoration: none;
 }
 
 .link-button {
   background: transparent;
-  border: 1px solid #333;
-  color: #888;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-tertiary);
 }
 
 .link-button:hover {
-  border-color: #555;
-  color: #fff;
+  border-color: rgba(215, 161, 103, 0.6);
+  color: var(--color-text-primary);
 }
 
 .logout-button {
   background: transparent;
-  border: 1px solid #333;
-  color: #888;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-tertiary);
 }
 
 .logout-button:hover {
-  border-color: #f55;
-  color: #f55;
+  border-color: rgba(239, 138, 122, 0.8);
+  color: #ef8a7a;
 }
 
 .main {
@@ -370,9 +372,10 @@ async function deleteChannel(channelId: string) {
 }
 
 .channels-section {
-  background: #111;
-  border: 1px solid #222;
-  border-radius: 8px;
+  background: rgba(15, 14, 12, 0.85);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
 }
 
 .section-header {
@@ -380,7 +383,7 @@ async function deleteChannel(channelId: string) {
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .section-header h2 {
@@ -388,19 +391,20 @@ async function deleteChannel(channelId: string) {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #888;
+  color: var(--color-text-muted);
 }
 
 .create-button {
   padding: 8px 16px;
-  background: #fff;
-  border: none;
-  border-radius: 4px;
-  color: #000;
+  background: linear-gradient(120deg, rgba(215, 161, 103, 0.95), rgba(111, 196, 184, 0.85));
+  border: 1px solid rgba(215, 161, 103, 0.4);
+  border-radius: 999px;
+  color: #120f0a;
   font-size: 13px;
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
+  box-shadow: var(--shadow-glow);
 }
 
 .create-button:hover {
@@ -413,13 +417,13 @@ async function deleteChannel(channelId: string) {
 }
 
 .empty-state p {
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 14px;
   margin-bottom: 16px;
 }
 
 .create-link {
-  color: #4af;
+  color: var(--color-accent);
   text-decoration: none;
   font-size: 14px;
 }
@@ -437,7 +441,7 @@ async function deleteChannel(channelId: string) {
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .channel-item:last-child {
@@ -452,25 +456,26 @@ async function deleteChannel(channelId: string) {
 
 .channel-title {
   font-weight: 500;
+  font-family: var(--font-display);
 }
 
 .channel-slug {
   font-size: 13px;
-  color: #666;
-  font-family: ui-monospace, monospace;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
 }
 
 .channel-status {
   font-size: 11px;
   padding: 2px 8px;
-  border-radius: 4px;
-  background: #333;
-  color: #888;
+  border-radius: 999px;
+  background: rgba(244, 239, 230, 0.08);
+  color: var(--color-text-tertiary);
 }
 
 .channel-status.public {
   background: rgba(0, 200, 100, 0.1);
-  color: #0c8;
+  color: #7fd1a1;
 }
 
 .channel-actions {
@@ -482,29 +487,30 @@ async function deleteChannel(channelId: string) {
   padding: 6px 12px;
   font-size: 12px;
   background: transparent;
-  border: 1px solid #333;
-  border-radius: 4px;
-  color: #888;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text-tertiary);
   cursor: pointer;
   text-decoration: none;
 }
 
 .action-button:hover {
-  border-color: #555;
-  color: #fff;
+  border-color: rgba(215, 161, 103, 0.6);
+  color: var(--color-text-primary);
 }
 
 .action-button.danger:hover {
-  border-color: #f55;
-  color: #f55;
+  border-color: rgba(239, 138, 122, 0.8);
+  color: #ef8a7a;
 }
 
 /* Profile Section */
 .profile-section {
-  background: #111;
-  border: 1px solid #222;
-  border-radius: 8px;
+  background: rgba(15, 14, 12, 0.85);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   margin-bottom: 24px;
+  box-shadow: var(--shadow-soft);
 }
 
 .profile-section .section-header {
@@ -512,7 +518,7 @@ async function deleteChannel(channelId: string) {
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .header-meta {
@@ -523,23 +529,23 @@ async function deleteChannel(channelId: string) {
 
 .username {
   font-size: 13px;
-  color: #666;
-  font-family: ui-monospace, monospace;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
 }
 
 .edit-button {
   padding: 6px 12px;
   background: transparent;
-  border: 1px solid #333;
-  border-radius: 4px;
-  color: #888;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text-tertiary);
   font-size: 12px;
   cursor: pointer;
 }
 
 .edit-button:hover {
-  border-color: #555;
-  color: #fff;
+  border-color: rgba(215, 161, 103, 0.6);
+  color: var(--color-text-primary);
 }
 
 .profile-display {
@@ -557,15 +563,15 @@ async function deleteChannel(channelId: string) {
   height: 64px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #333;
+  border: 2px solid rgba(244, 239, 230, 0.15);
 }
 
 .profile-avatar-placeholder {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: #222;
-  border: 2px solid #333;
+  background: rgba(244, 239, 230, 0.05);
+  border: 2px solid rgba(244, 239, 230, 0.12);
 }
 
 .profile-info {
@@ -578,12 +584,13 @@ async function deleteChannel(channelId: string) {
 .display-name {
   font-size: 16px;
   font-weight: 500;
-  color: #fff;
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
 }
 
 .bio {
   font-size: 13px;
-  color: #888;
+  color: var(--color-text-tertiary);
 }
 
 .profile-website {
@@ -592,7 +599,7 @@ async function deleteChannel(channelId: string) {
 
 .profile-website a {
   font-size: 13px;
-  color: #4af;
+  color: var(--color-accent);
   text-decoration: none;
 }
 
@@ -609,9 +616,9 @@ async function deleteChannel(channelId: string) {
 .social-badge {
   font-size: 11px;
   padding: 4px 8px;
-  background: #222;
-  border-radius: 4px;
-  color: #888;
+  background: rgba(244, 239, 230, 0.05);
+  border-radius: 999px;
+  color: var(--color-text-muted);
   text-transform: capitalize;
 }
 
@@ -630,23 +637,23 @@ async function deleteChannel(channelId: string) {
 
 .form-group label {
   font-size: 12px;
-  color: #666;
+  color: var(--color-text-muted);
 }
 
 .form-group input,
 .form-group textarea {
   padding: 10px 12px;
-  background: #0a0a0a;
-  border: 1px solid #333;
-  border-radius: 4px;
-  color: #fff;
+  background: rgba(11, 10, 8, 0.9);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  color: var(--color-text-primary);
   font-size: 13px;
   font-family: inherit;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
-  border-color: #555;
+  border-color: rgba(215, 161, 103, 0.6);
   outline: none;
 }
 
@@ -669,27 +676,28 @@ async function deleteChannel(channelId: string) {
 .cancel-button,
 .save-button {
   padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: 999px;
   font-size: 13px;
   cursor: pointer;
 }
 
 .cancel-button {
   background: transparent;
-  border: 1px solid #333;
-  color: #888;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-tertiary);
 }
 
 .cancel-button:hover {
-  border-color: #555;
-  color: #fff;
+  border-color: rgba(215, 161, 103, 0.6);
+  color: var(--color-text-primary);
 }
 
 .save-button {
-  background: #fff;
-  border: none;
-  color: #000;
+  background: linear-gradient(120deg, rgba(215, 161, 103, 0.95), rgba(111, 196, 184, 0.85));
+  border: 1px solid rgba(215, 161, 103, 0.4);
+  color: #120f0a;
   font-weight: 500;
+  box-shadow: var(--shadow-glow);
 }
 
 .save-button:disabled {

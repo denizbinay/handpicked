@@ -31,7 +31,7 @@ const currentYear = new Date().getFullYear()
 <style scoped>
 .footer {
   padding: var(--space-xl) var(--space-xl);
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(11, 10, 8, 0.8) 100%);
   border-top: 1px solid var(--color-border-subtle);
 }
 
@@ -59,7 +59,7 @@ const currentYear = new Date().getFullYear()
 .brand-logo {
   height: 40px;
   width: auto;
-  opacity: 0.8;
+  opacity: 0.85;
   transition: opacity var(--transition-fast);
 }
 
@@ -88,7 +88,7 @@ const currentYear = new Date().getFullYear()
 }
 
 .link:hover {
-  color: var(--color-text-secondary);
+  color: var(--color-accent);
 }
 
 .copyright {

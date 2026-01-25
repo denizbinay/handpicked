@@ -150,11 +150,11 @@
 }
 
 .back-link:hover {
-  color: var(--color-text-secondary);
+  color: var(--color-accent);
 }
 
 .hero-title {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: 48px;
   font-weight: 600;
   color: var(--color-text-primary);
@@ -200,9 +200,11 @@
 /* Featured Image */
 .featured-image {
   margin: var(--space-3xl) 0;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  background: var(--color-bg-secondary);
+  background: rgba(15, 14, 12, 0.9);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
 }
 
 .featured-image img {
@@ -238,8 +240,9 @@
   line-height: 1.6;
   color: var(--color-text-primary);
   font-style: italic;
-  background: var(--color-bg-secondary);
-  border-radius: 0 8px 8px 0;
+  background: rgba(15, 14, 12, 0.85);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  box-shadow: var(--shadow-soft);
 }
 
 .quote-emphasis {
@@ -261,10 +264,11 @@
 .sidebar-aside {
   margin: var(--space-2xl) 0;
   padding: var(--space-xl);
-  background: var(--color-bg-tertiary);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 8px;
+  background: rgba(15, 14, 12, 0.85);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   border-left: 3px solid var(--color-accent);
+  box-shadow: var(--shadow-soft);
 }
 
 .aside-label {

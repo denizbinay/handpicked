@@ -164,8 +164,8 @@ const socialIcons: Record<string, { label: string; getUrl: (h: string) => string
 <style scoped>
 .curator-page {
   min-height: 100vh;
-  background: #0a0a0a;
-  color: #fff;
+  background: transparent;
+  color: var(--color-text-primary);
 }
 
 .not-found {
@@ -180,16 +180,18 @@ const socialIcons: Record<string, { label: string; getUrl: (h: string) => string
 
 .not-found h1 {
   font-size: 24px;
+  font-family: var(--font-display);
+  font-weight: 600;
   margin-bottom: 8px;
 }
 
 .not-found p {
-  color: #888;
+  color: var(--color-text-tertiary);
   margin-bottom: 24px;
 }
 
 .home-link {
-  color: #4af;
+  color: var(--color-accent);
   text-decoration: none;
 }
 
@@ -199,17 +201,18 @@ const socialIcons: Record<string, { label: string; getUrl: (h: string) => string
 
 .header {
   padding: 16px 24px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(180deg, rgba(244, 239, 230, 0.03), transparent);
 }
 
 .back-link {
-  color: #888;
+  color: var(--color-text-tertiary);
   text-decoration: none;
   font-size: 14px;
 }
 
 .back-link:hover {
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 .main {
@@ -229,7 +232,7 @@ const socialIcons: Record<string, { label: string; getUrl: (h: string) => string
   height: 96px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #333;
+  border: 3px solid rgba(244, 239, 230, 0.15);
   flex-shrink: 0;
 }
 
@@ -237,8 +240,8 @@ const socialIcons: Record<string, { label: string; getUrl: (h: string) => string
   width: 96px;
   height: 96px;
   border-radius: 50%;
-  background: #222;
-  border: 3px solid #333;
+  background: rgba(244, 239, 230, 0.05);
+  border: 3px solid rgba(244, 239, 230, 0.12);
   flex-shrink: 0;
 }
 
@@ -251,18 +254,19 @@ const socialIcons: Record<string, { label: string; getUrl: (h: string) => string
   font-weight: 600;
   margin-bottom: 4px;
   letter-spacing: -0.02em;
+  font-family: var(--font-display);
 }
 
 .username {
   font-size: 14px;
-  color: #666;
-  font-family: ui-monospace, monospace;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
 }
 
 .bio {
   margin-top: 16px;
   font-size: 15px;
-  color: #aaa;
+  color: var(--color-text-tertiary);
   line-height: 1.6;
 }
 
@@ -276,7 +280,7 @@ const socialIcons: Record<string, { label: string; getUrl: (h: string) => string
 
 .website-link {
   font-size: 13px;
-  color: #4af;
+  color: var(--color-accent);
   text-decoration: none;
 }
 
@@ -292,37 +296,37 @@ const socialIcons: Record<string, { label: string; getUrl: (h: string) => string
 .social-link {
   font-size: 12px;
   padding: 4px 10px;
-  background: #222;
-  border: 1px solid #333;
+  background: rgba(244, 239, 230, 0.04);
+  border: 1px solid rgba(244, 239, 230, 0.12);
   border-radius: 4px;
-  color: #888;
+  color: var(--color-text-muted);
   text-decoration: none;
   transition: all 0.15s;
 }
 
 .social-link:hover {
-  border-color: #4af;
-  color: #4af;
+  border-color: rgba(215, 161, 103, 0.6);
+  color: var(--color-accent);
 }
 
 .channels-section h2 {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #666;
+  color: var(--color-text-muted);
   margin-bottom: 16px;
 }
 
 .no-channels {
   padding: 32px;
   text-align: center;
-  background: #111;
-  border: 1px solid #222;
-  border-radius: 8px;
+  background: rgba(15, 14, 12, 0.8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
 .no-channels p {
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 14px;
 }
 
@@ -334,15 +338,15 @@ const socialIcons: Record<string, { label: string; getUrl: (h: string) => string
 }
 
 .channel-item {
-  background: #111;
-  border: 1px solid #222;
-  border-radius: 8px;
+  background: rgba(15, 14, 12, 0.8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   transition: border-color 0.15s;
 }
 
 .channel-item:hover {
-  border-color: #444;
+  border-color: rgba(215, 161, 103, 0.5);
 }
 
 .channel-link {
@@ -362,28 +366,29 @@ const socialIcons: Record<string, { label: string; getUrl: (h: string) => string
 .category-badge {
   font-size: 11px;
   padding: 3px 8px;
-  background: rgba(100, 170, 255, 0.1);
-  color: #6af;
-  border-radius: 4px;
+  background: rgba(215, 161, 103, 0.12);
+  color: var(--color-accent);
+  border-radius: 999px;
   font-weight: 500;
 }
 
 .channel-title {
   font-size: 18px;
   font-weight: 500;
-  color: #fff;
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
 }
 
 .channel-description {
   font-size: 14px;
-  color: #888;
+  color: var(--color-text-tertiary);
   line-height: 1.5;
   margin-bottom: 12px;
 }
 
 .view-link {
   font-size: 13px;
-  color: #4af;
+  color: var(--color-accent);
 }
 
 /* Mobile adjustments */

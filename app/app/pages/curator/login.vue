@@ -106,13 +106,19 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0a0a0a;
+  background: transparent;
   padding: 24px;
 }
 
 .login-container {
   width: 100%;
   max-width: 360px;
+  background: rgba(15, 14, 12, 0.8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 28px 26px;
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(8px);
 }
 
 .login-header {
@@ -122,14 +128,15 @@ onUnmounted(() => {
 
 .login-header h1 {
   font-size: 24px;
-  font-weight: 500;
-  color: #fff;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
   margin-bottom: 8px;
 }
 
 .login-header p {
   font-size: 14px;
-  color: #888;
+  color: var(--color-text-tertiary);
 }
 
 .login-form {
@@ -147,40 +154,41 @@ onUnmounted(() => {
 .form-group label {
   font-size: 12px;
   font-weight: 500;
-  color: #888;
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .form-group input {
   padding: 12px 16px;
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 4px;
-  color: #fff;
+  background: rgba(11, 10, 8, 0.9);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  color: var(--color-text-primary);
   font-size: 14px;
   outline: none;
   transition: border-color 0.2s;
 }
 
 .form-group input:focus {
-  border-color: #555;
+  border-color: rgba(215, 161, 103, 0.6);
 }
 
 .form-group input::placeholder {
-  color: #555;
+  color: var(--color-text-muted);
 }
 
 .login-button {
   padding: 12px 24px;
-  background: #fff;
-  border: none;
-  border-radius: 4px;
-  color: #000;
+  background: linear-gradient(120deg, rgba(215, 161, 103, 0.95), rgba(111, 196, 184, 0.85));
+  border: 1px solid rgba(215, 161, 103, 0.4);
+  border-radius: 999px;
+  color: #120f0a;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: opacity 0.2s;
+  box-shadow: var(--shadow-glow);
 }
 
 .login-button:hover:not(:disabled) {
@@ -194,20 +202,20 @@ onUnmounted(() => {
 
 .message {
   padding: 12px;
-  border-radius: 4px;
+  border-radius: 10px;
   font-size: 13px;
   text-align: center;
 }
 
 .message.success {
   background: rgba(0, 200, 100, 0.1);
-  color: #0c8;
+  color: #7fd1a1;
   border: 1px solid rgba(0, 200, 100, 0.2);
 }
 
 .message.error {
   background: rgba(255, 80, 80, 0.1);
-  color: #f55;
+  color: #ef8a7a;
   border: 1px solid rgba(255, 80, 80, 0.2);
 }
 
@@ -217,12 +225,12 @@ onUnmounted(() => {
 }
 
 .back-link {
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 13px;
   text-decoration: none;
 }
 
 .back-link:hover {
-  color: #888;
+  color: var(--color-text-secondary);
 }
 </style>

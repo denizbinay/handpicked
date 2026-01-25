@@ -238,9 +238,8 @@ html,
 body,
 #__nuxt {
   height: 100%;
-  background: #000;
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
 }
 </style>
 
@@ -266,13 +265,14 @@ body,
 
 .error-content h1,
 .empty-content h1 {
-  font-size: 24px;
-  font-weight: 500;
+  font-size: 26px;
+  font-weight: 600;
+  font-family: var(--font-display);
   margin-bottom: 12px;
 }
 
 .error-content p {
-  color: #888;
+  color: var(--color-text-tertiary);
   font-size: 14px;
   margin-bottom: 16px;
 }
@@ -280,13 +280,14 @@ body,
 .empty-content .brand {
   font-size: 42px;
   font-weight: 600;
+  font-family: var(--font-display);
   letter-spacing: -0.03em;
   margin-bottom: 8px;
 }
 
 .empty-content .tagline {
   font-size: 18px;
-  color: #4af;
+  color: var(--color-accent-cool);
   margin-bottom: 32px;
 }
 
@@ -297,7 +298,7 @@ body,
 
 .empty-content .explanation p {
   font-size: 15px;
-  color: #888;
+  color: var(--color-text-tertiary);
   line-height: 1.6;
 }
 
@@ -306,18 +307,18 @@ body,
   align-items: center;
   gap: 10px;
   padding: 10px 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid #333;
+  background: rgba(244, 239, 230, 0.04);
+  border: 1px solid var(--color-border);
   border-radius: 24px;
   font-size: 14px;
-  color: #666;
+  color: var(--color-text-muted);
   margin-bottom: 32px;
 }
 
 .empty-content .status-dot {
   width: 8px;
   height: 8px;
-  background: #666;
+  background: var(--color-accent);
   border-radius: 50%;
   animation: pulse 2s ease-in-out infinite;
 }
@@ -335,21 +336,21 @@ body,
 
 .empty-content .curator-cta {
   font-size: 13px;
-  color: #555;
+  color: var(--color-text-muted);
 }
 
 .empty-content .curator-cta a {
-  color: #888;
+  color: var(--color-text-tertiary);
   text-decoration: none;
 }
 
 .empty-content .curator-cta a:hover {
-  color: #fff;
+  color: var(--color-text-primary);
   text-decoration: underline;
 }
 
 .back-link {
-  color: #4af;
+  color: var(--color-accent);
   text-decoration: none;
   font-size: 14px;
 }

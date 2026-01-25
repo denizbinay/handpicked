@@ -125,10 +125,11 @@ const socialIcons: Record<string, string> = {
 
 <style scoped>
 .channel-info {
-  background: #0a0a0a;
-  border: 1px solid #1a1a1a;
-  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(21, 19, 16, 0.92), rgba(12, 11, 9, 0.95));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  box-shadow: var(--shadow-soft);
 }
 
 .grid {
@@ -139,7 +140,7 @@ const socialIcons: Record<string, string> = {
 /* Channel Section (Left) */
 .channel-section {
   padding: 28px;
-  border-right: 1px solid #1a1a1a;
+  border-right: 1px solid var(--color-border);
 }
 
 .channel-header {
@@ -152,24 +153,26 @@ const socialIcons: Record<string, string> = {
 .category-badge {
   font-size: 11px;
   padding: 4px 10px;
-  background: rgba(100, 170, 255, 0.1);
-  color: #6af;
-  border-radius: 4px;
+  background: rgba(215, 161, 103, 0.14);
+  color: var(--color-accent);
+  border-radius: 999px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  border: 1px solid rgba(215, 161, 103, 0.3);
 }
 
 .channel-title {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 600;
-  color: #fff;
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
   letter-spacing: -0.02em;
 }
 
 .channel-description {
   font-size: 15px;
-  color: #888;
+  color: var(--color-text-tertiary);
   line-height: 1.6;
 }
 
@@ -178,7 +181,7 @@ const socialIcons: Record<string, string> = {
   padding: 24px;
   display: flex;
   flex-direction: column;
-  background: #080808;
+  background: rgba(12, 11, 9, 0.85);
 }
 
 .curator-header {
@@ -192,7 +195,7 @@ const socialIcons: Record<string, string> = {
   height: 48px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #333;
+  border: 2px solid rgba(244, 239, 230, 0.15);
   flex-shrink: 0;
 }
 
@@ -200,8 +203,8 @@ const socialIcons: Record<string, string> = {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #1a1a1a;
-  border: 2px solid #333;
+  background: rgba(244, 239, 230, 0.04);
+  border: 2px solid rgba(244, 239, 230, 0.12);
   flex-shrink: 0;
 }
 
@@ -214,7 +217,7 @@ const socialIcons: Record<string, string> = {
 
 .curator-label {
   font-size: 10px;
-  color: #555;
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -222,7 +225,7 @@ const socialIcons: Record<string, string> = {
 .curator-name {
   font-size: 15px;
   font-weight: 500;
-  color: #fff;
+  color: var(--color-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -230,7 +233,7 @@ const socialIcons: Record<string, string> = {
 
 .curator-username {
   font-size: 12px;
-  color: #555;
+  color: var(--color-text-muted);
   font-family: ui-monospace, monospace;
 }
 
@@ -256,29 +259,29 @@ const socialIcons: Record<string, string> = {
   width: 32px;
   height: 32px;
   border-radius: 6px;
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  color: #666;
+  background: rgba(244, 239, 230, 0.04);
+  border: 1px solid rgba(244, 239, 230, 0.12);
+  color: var(--color-text-muted);
   text-decoration: none;
   transition: all 0.15s;
 }
 
 .icon-link:hover {
-  border-color: #4af;
-  color: #4af;
-  background: rgba(68, 170, 255, 0.05);
+  border-color: rgba(215, 161, 103, 0.7);
+  color: var(--color-accent);
+  background: rgba(215, 161, 103, 0.08);
 }
 
 .profile-link {
   font-size: 12px;
-  color: #666;
+  color: var(--color-text-muted);
   text-decoration: none;
   white-space: nowrap;
   transition: color 0.15s;
 }
 
 .profile-link:hover {
-  color: #4af;
+  color: var(--color-accent);
 }
 
 /* Mobile: Stack vertically */

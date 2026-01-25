@@ -107,12 +107,17 @@ async function ensureCreatorAccount(userId: string, email: string) {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0a0a0a;
+  background: transparent;
 }
 
 .confirm-container {
   text-align: center;
-  padding: 32px;
+  padding: 32px 28px;
+  background: rgba(15, 14, 12, 0.85);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(8px);
 }
 
 .loading {
@@ -125,8 +130,8 @@ async function ensureCreatorAccount(userId: string, email: string) {
 .spinner {
   width: 32px;
   height: 32px;
-  border: 2px solid #333;
-  border-top-color: #fff;
+  border: 2px solid rgba(244, 239, 230, 0.15);
+  border-top-color: var(--color-text-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -139,13 +144,14 @@ async function ensureCreatorAccount(userId: string, email: string) {
 
 .loading p,
 .error p {
-  color: #888;
+  color: var(--color-text-tertiary);
   font-size: 14px;
 }
 
 .error h2 {
-  color: #fff;
+  color: var(--color-text-primary);
   font-size: 20px;
+  font-family: var(--font-display);
   margin-bottom: 8px;
 }
 
@@ -154,7 +160,7 @@ async function ensureCreatorAccount(userId: string, email: string) {
 }
 
 .retry-link {
-  color: #4af;
+  color: var(--color-accent);
   text-decoration: none;
   font-size: 14px;
 }

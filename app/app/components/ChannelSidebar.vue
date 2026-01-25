@@ -135,13 +135,15 @@ function isActive(channel: Channel): boolean {
 .channel-sidebar {
   display: flex;
   flex-direction: column;
-  background: rgba(0, 0, 0, 0.9);
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  background: rgba(12, 11, 9, 0.86);
+  border-left: 1px solid var(--color-border);
+  backdrop-filter: blur(10px);
+  font-family: var(--font-mono);
   font-size: 13px;
   width: 240px;
   height: 100%;
   overflow: hidden;
+  box-shadow: inset 1px 0 0 rgba(244, 239, 230, 0.04);
 }
 
 .header {
@@ -149,12 +151,13 @@ function isActive(channel: Channel): boolean {
   justify-content: space-between;
   align-items: baseline;
   padding: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(180deg, rgba(244, 239, 230, 0.04), transparent);
   flex-shrink: 0;
 }
 
 .title {
-  color: #fff;
+  color: var(--color-text-primary);
   font-weight: 500;
   font-size: 11px;
   letter-spacing: 1px;
@@ -176,7 +179,7 @@ function isActive(channel: Channel): boolean {
   padding: 0 16px 8px;
   font-size: 10px;
   letter-spacing: 1px;
-  color: #666;
+  color: var(--color-text-muted);
   font-weight: 500;
 }
 
@@ -192,19 +195,22 @@ function isActive(channel: Channel): boolean {
   gap: 10px;
   padding: 8px 16px;
   cursor: pointer;
-  transition: background 0.15s;
+  border-left: 2px solid transparent;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
 .channel-item:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(244, 239, 230, 0.06);
 }
 
 .channel-item.active {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(215, 161, 103, 0.12);
+  border-left-color: var(--color-accent);
+  box-shadow: inset 0 0 0 1px rgba(215, 161, 103, 0.08);
 }
 
 .name {
-  color: #ccc;
+  color: var(--color-text-secondary);
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
@@ -212,11 +218,11 @@ function isActive(channel: Channel): boolean {
 }
 
 .channel-item.active .name {
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 .live-badge {
-  color: #f44;
+  color: #e3775b;
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 1px;
@@ -231,7 +237,7 @@ function isActive(channel: Channel): boolean {
 /* Accordions section */
 .accordions-section {
   flex-shrink: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--color-border-subtle);
   max-height: 50%;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -252,7 +258,7 @@ function isActive(channel: Channel): boolean {
 }
 
 .accordion {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .accordion:last-child {
@@ -267,7 +273,7 @@ function isActive(channel: Channel): boolean {
   padding: 10px 16px;
   background: none;
   border: none;
-  color: #888;
+  color: var(--color-text-tertiary);
   font-size: 12px;
   font-family: inherit;
   cursor: pointer;
@@ -276,22 +282,22 @@ function isActive(channel: Channel): boolean {
 }
 
 .accordion-header:hover {
-  background: rgba(255, 255, 255, 0.03);
-  color: #ccc;
+  background: rgba(244, 239, 230, 0.04);
+  color: var(--color-text-secondary);
 }
 
 .accordion.expanded .accordion-header {
-  color: #fff;
+  color: var(--color-text-primary);
 }
 
 .accordion-icon {
   font-size: 8px;
   width: 12px;
-  color: #555;
+  color: var(--color-text-muted);
 }
 
 .accordion.expanded .accordion-icon {
-  color: #4af;
+  color: var(--color-accent);
 }
 
 .accordion-label {
@@ -300,7 +306,7 @@ function isActive(channel: Channel): boolean {
 
 .accordion-count {
   font-size: 10px;
-  color: #555;
+  color: var(--color-text-muted);
 }
 
 .accordion-content {
@@ -314,20 +320,20 @@ function isActive(channel: Channel): boolean {
 .see-all {
   display: block;
   padding: 6px 20px;
-  color: #555;
+  color: var(--color-text-muted);
   font-size: 11px;
   text-decoration: none;
   transition: color 0.15s;
 }
 
 .see-all:hover {
-  color: #4af;
+  color: var(--color-accent);
 }
 
 /* Explore button */
 .explore-section {
   padding: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--color-border);
   flex-shrink: 0;
 }
 
@@ -335,10 +341,10 @@ function isActive(channel: Channel): boolean {
   display: block;
   width: 100%;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  color: #aaa;
+  background: rgba(21, 19, 16, 0.9);
+  border: 1px solid rgba(244, 239, 230, 0.12);
+  border-radius: 10px;
+  color: var(--color-text-tertiary);
   font-size: 11px;
   font-family: inherit;
   text-align: center;
@@ -347,8 +353,9 @@ function isActive(channel: Channel): boolean {
 }
 
 .explore-button:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: #fff;
+  background: rgba(215, 161, 103, 0.14);
+  border-color: rgba(215, 161, 103, 0.6);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-glow);
 }
 </style>

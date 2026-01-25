@@ -243,7 +243,8 @@ onUnmounted(() => {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(7, 6, 5, 0.86);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -254,12 +255,13 @@ onUnmounted(() => {
   width: 90%;
   max-width: 700px;
   max-height: 80vh;
-  background: var(--color-bg-tertiary);
+  background: linear-gradient(180deg, rgba(21, 19, 16, 0.95), rgba(11, 10, 8, 0.98));
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  box-shadow: var(--shadow-soft);
 }
 
 .modal-header {
@@ -268,6 +270,7 @@ onUnmounted(() => {
   align-items: center;
   padding: 16px 20px;
   border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(180deg, rgba(244, 239, 230, 0.04), transparent);
 }
 
 .header-info {
@@ -306,7 +309,7 @@ onUnmounted(() => {
 }
 
 .close-button:hover {
-  border-color: var(--color-text-muted);
+  border-color: rgba(215, 161, 103, 0.6);
   color: var(--color-text-primary);
 }
 
@@ -328,7 +331,7 @@ onUnmounted(() => {
 }
 
 .schedule-item.current {
-  background: var(--color-accent-glow);
+  background: rgba(215, 161, 103, 0.18);
 }
 
 .schedule-item.past {

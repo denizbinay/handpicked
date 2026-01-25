@@ -175,9 +175,9 @@ function getCategoryLabel(category: ChannelCategory): string {
 <style scoped>
 .explore-page {
   min-height: 100vh;
-  background: #000;
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: transparent;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
 }
 
 .page-header {
@@ -185,23 +185,25 @@ function getCategoryLabel(category: ChannelCategory): string {
   align-items: center;
   gap: 24px;
   padding: 24px 32px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(180deg, rgba(244, 239, 230, 0.03), transparent);
 }
 
 .back-link {
-  color: #666;
+  color: var(--color-text-muted);
   text-decoration: none;
   font-size: 14px;
   transition: color 0.15s;
 }
 
 .back-link:hover {
-  color: #4af;
+  color: var(--color-accent);
 }
 
 .page-title {
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 600;
+  font-family: var(--font-display);
   margin: 0;
 }
 
@@ -209,32 +211,33 @@ function getCategoryLabel(category: ChannelCategory): string {
   display: flex;
   gap: 8px;
   padding: 16px 32px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--color-border-subtle);
   overflow-x: auto;
 }
 
 .filter-pill {
   padding: 8px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: transparent;
-  color: #888;
+  border: 1px solid rgba(244, 239, 230, 0.18);
+  background: rgba(15, 14, 12, 0.6);
+  color: var(--color-text-tertiary);
   font-size: 13px;
   font-family: inherit;
-  border-radius: 6px;
+  border-radius: 999px;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.15s;
 }
 
 .filter-pill:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  color: #ccc;
+  border-color: rgba(215, 161, 103, 0.5);
+  color: var(--color-text-secondary);
 }
 
 .filter-pill.active {
-  border-color: #4af;
-  color: #4af;
-  background: rgba(68, 170, 255, 0.1);
+  border-color: rgba(215, 161, 103, 0.7);
+  color: var(--color-bg-primary);
+  background: linear-gradient(120deg, rgba(215, 161, 103, 0.9), rgba(111, 196, 184, 0.8));
+  box-shadow: var(--shadow-glow);
 }
 
 .content {
@@ -248,9 +251,10 @@ function getCategoryLabel(category: ChannelCategory): string {
 }
 
 .category-header {
-  font-size: 16px;
-  font-weight: 500;
-  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
   margin: 0 0 16px;
   display: flex;
   align-items: baseline;
@@ -260,15 +264,16 @@ function getCategoryLabel(category: ChannelCategory): string {
 .channel-count {
   font-size: 13px;
   font-weight: 400;
-  color: #666;
+  color: var(--color-text-muted);
 }
 
 .channels-list {
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: rgba(15, 14, 12, 0.65);
+  box-shadow: var(--shadow-soft);
   overflow: hidden;
 }
 
@@ -281,7 +286,7 @@ function getCategoryLabel(category: ChannelCategory): string {
   justify-content: center;
   align-items: center;
   min-height: 200px;
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 14px;
 }
 </style>

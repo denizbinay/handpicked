@@ -55,13 +55,14 @@ const categoryLabels: Record<ChannelCategory, string> = {
   gap: 16px;
   padding: 16px 20px;
   text-decoration: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  transition: background 0.15s, border-color 0.15s;
+  border-bottom: 1px solid var(--color-border-subtle);
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 
 .channel-row:hover {
-  background: rgba(255, 255, 255, 0.03);
-  border-bottom-color: rgba(255, 255, 255, 0.12);
+  background: rgba(244, 239, 230, 0.04);
+  border-bottom-color: rgba(215, 161, 103, 0.2);
+  box-shadow: inset 2px 0 0 rgba(215, 161, 103, 0.4);
 }
 
 .row-main {
@@ -81,7 +82,8 @@ const categoryLabels: Record<ChannelCategory, string> = {
 .channel-title {
   font-size: 15px;
   font-weight: 500;
-  color: #fff;
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
   margin: 0;
   line-height: 1.3;
   white-space: nowrap;
@@ -92,18 +94,18 @@ const categoryLabels: Record<ChannelCategory, string> = {
 .category-badge {
   flex-shrink: 0;
   padding: 3px 8px;
-  background: rgba(68, 170, 255, 0.08);
-  border: 1px solid rgba(68, 170, 255, 0.2);
-  border-radius: 4px;
+  background: rgba(215, 161, 103, 0.12);
+  border: 1px solid rgba(215, 161, 103, 0.3);
+  border-radius: 999px;
   font-size: 10px;
-  color: #4af;
+  color: var(--color-accent);
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
 
 .channel-description {
   font-size: 13px;
-  color: #888;
+  color: var(--color-text-tertiary);
   line-height: 1.5;
   margin: 0;
   display: -webkit-box;
@@ -116,23 +118,23 @@ const categoryLabels: Record<ChannelCategory, string> = {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #666;
+  color: var(--color-text-muted);
   font-size: 12px;
-  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  font-family: var(--font-mono);
   white-space: nowrap;
 }
 
 .curator-link {
-  color: #666;
+  color: var(--color-text-muted);
   text-decoration: none;
   transition: color 0.15s;
 }
 
 .curator-link:hover {
-  color: #4af;
+  color: var(--color-accent);
 }
 
 .curator-placeholder {
-  color: #444;
+  color: #4f4a41;
 }
 </style>

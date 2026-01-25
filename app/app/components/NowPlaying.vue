@@ -70,7 +70,7 @@ function getYouTubeUrl(videoId: string): string {
   align-items: center;
   gap: var(--space-md);
   padding: var(--space-md) var(--space-lg);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0.95) 100%);
+  background: linear-gradient(180deg, rgba(244, 239, 230, 0.04) 0%, rgba(11, 10, 8, 0.96) 100%);
   border-top: 1px solid var(--color-border);
   font-family: var(--font-mono);
   font-size: 13px;
@@ -85,7 +85,23 @@ function getYouTubeUrl(videoId: string): string {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-accent-glow), transparent);
+  background: linear-gradient(90deg, transparent, rgba(215, 161, 103, 0.4), transparent);
+  z-index: 0;
+}
+
+.now-playing::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(800px 140px at 30% 0%, rgba(215, 161, 103, 0.18), transparent 70%);
+  opacity: 0.6;
+  z-index: 0;
+}
+
+.now-playing > * {
+  position: relative;
+  z-index: 1;
 }
 
 .section {
@@ -168,9 +184,9 @@ function getYouTubeUrl(videoId: string): string {
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
-  background: transparent;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
+  background: rgba(15, 14, 12, 0.7);
+  border: 1px solid rgba(244, 239, 230, 0.15);
+  border-radius: 999px;
   color: var(--color-text-tertiary);
   font-family: var(--font-mono);
   font-size: 12px;
@@ -180,8 +196,8 @@ function getYouTubeUrl(videoId: string): string {
 }
 
 .schedule-button:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+  border-color: rgba(215, 161, 103, 0.6);
+  color: var(--color-text-primary);
   box-shadow: var(--shadow-glow);
 }
 
