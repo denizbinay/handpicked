@@ -1,156 +1,33 @@
 <script setup lang="ts">
-import type { Channel, ChannelScheduleItem, ChannelTimeline, PlaybackState, CreatorProfile } from '~/types/database'
-
 const route = useRoute()
-const router = useRouter()
-const supabase = useSupabaseClient()
+const { channel, creator, isLoading, error, loadChannelDetailsBySlug } = useChannelDetails()
 
-const slug = computed(() => route.params.slug as string)
+const slug = computed(() => (typeof route.params.slug === 'string' ? route.params.slug : null))
 
-// Fetch all public channels
-const { data: channels, error: channelsError } = await useAsyncData('channels', async () => {
-  const { data, error } = await supabase
-    .from('channels')
-    .select('*')
-    .eq('is_public', true)
-    .order('created_at', { ascending: true })
-
-  if (error) throw error
-  return data as Channel[]
-})
-
-// Current channel state
-const currentChannel = ref<Channel | null>(null)
-const currentCreator = ref<CreatorProfile | null>(null)
-const schedule = ref<ChannelScheduleItem[]>([])
-const timeline = ref<ChannelTimeline | null>(null)
-const playbackState = ref<PlaybackState | null>(null)
-const errorMessage = ref<string | null>(null)
-const showChannelList = ref(true)
-const showScheduleModal = ref(false)
-
-// Computed: next video based on playback state
-const nextVideo = computed(() => {
-  if (!playbackState.value || !schedule.value.length) return null
-  const nextIndex = playbackState.value.currentVideoIndex + 1
-  if (nextIndex >= schedule.value.length) return null
-  return schedule.value[nextIndex] ?? null
-})
-
-/**
- * Load a channel by slug
- */
-async function loadChannel(channelSlug: string) {
-  errorMessage.value = null
-
-  // Find channel
-  const channel = channels.value?.find((c) => c.slug === channelSlug)
-  if (!channel) {
-    errorMessage.value = 'Channel not found'
-    return
-  }
-
-  currentChannel.value = channel
-
-  // Fetch creator profile
-  const { data: creatorData } = await supabase
-    .from('creator_profiles')
-    .select('*')
-    .eq('id', channel.created_by)
-    .single()
-
-  currentCreator.value = creatorData as CreatorProfile | null
-
-  // Fetch schedule
-  const { data: scheduleData, error: scheduleError } = await supabase
-    .from('channel_schedules')
-    .select('*')
-    .eq('channel_id', channel.id)
-    .order('position', { ascending: true })
-
-  if (scheduleError) {
-    errorMessage.value = 'Failed to load schedule'
-    return
-  }
-
-  schedule.value = scheduleData as ChannelScheduleItem[]
-
-  // Fetch timeline
-  const { data: timelineData, error: timelineError } = await supabase
-    .from('channel_timelines')
-    .select('*')
-    .eq('channel_id', channel.id)
-    .single()
-
-  if (timelineError || !timelineData) {
-    errorMessage.value = 'Channel has no timeline'
-    return
-  }
-
-  timeline.value = timelineData as ChannelTimeline
-}
-
-/**
- * Handle channel selection
- */
-function selectChannel(newSlug: string) {
-  router.push(`/${newSlug}`)
-}
-
-/**
- * Handle playback state updates
- */
-function onPlaybackState(state: PlaybackState) {
-  playbackState.value = state
-}
-
-/**
- * Handle player errors
- */
-function onPlayerError(error: string) {
-  errorMessage.value = error
-}
-
-/**
- * Keyboard shortcuts for sidebar toggle
- */
-function handleKeydown(event: KeyboardEvent) {
-  // Toggle channel list with Tab or C
-  if (event.key === 'Tab' || event.key === 'c') {
-    event.preventDefault()
-    showChannelList.value = !showChannelList.value
-  }
-}
-
-// Load channel from slug on mount
 onMounted(() => {
-  loadChannel(slug.value)
-  window.addEventListener('keydown', handleKeydown)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeydown)
-})
-
-// Watch for slug changes
-watch(slug, (newSlug) => {
-  loadChannel(newSlug)
+  watch(
+    slug,
+    (value) => {
+      loadChannelDetailsBySlug(value)
+    },
+    { immediate: true }
+  )
 })
 </script>
 
 <template>
   <div class="app">
     <!-- Error State -->
-    <div v-if="channelsError || errorMessage" class="error-screen">
+    <div v-if="error && !isLoading && !channel" class="error-screen">
       <div class="error-content">
         <h1>Error</h1>
-        <p>{{ channelsError?.message || errorMessage }}</p>
+        <p>{{ error }}</p>
         <NuxtLink to="/" class="back-link">Go to home</NuxtLink>
       </div>
     </div>
 
     <!-- No Channels State -->
-    <div v-else-if="!channels || channels.length === 0" class="empty-screen">
+    <div v-else-if="!isLoading && !channel" class="empty-screen">
       <div class="empty-content">
         <h1 class="brand">Handpicked</h1>
         <p class="tagline">Curated TV for the internet</p>
@@ -176,52 +53,7 @@ watch(slug, (newSlug) => {
 
     <!-- Main Player View -->
     <div v-else class="player-page">
-      <!-- Above the Fold (100vh) -->
-      <div class="above-the-fold">
-        <div class="player-view">
-          <!-- Player -->
-          <div class="player-container">
-            <ChannelPlayer
-              v-if="schedule.length > 0 && timeline"
-              :schedule="schedule"
-              :timeline="timeline"
-              @playback-state="onPlaybackState"
-              @error="onPlayerError"
-            />
-
-            <!-- Now Playing Bar -->
-            <NowPlaying
-              v-if="currentChannel"
-              :channel-title="currentChannel.title"
-              :state="playbackState"
-              :next-video="nextVideo"
-              @show-schedule="showScheduleModal = true"
-            />
-          </div>
-
-          <!-- Channel Sidebar -->
-          <transition name="slide">
-            <ChannelSidebar
-              v-if="showChannelList"
-              :channels="channels"
-              :current-slug="currentChannel?.slug ?? null"
-              @select="selectChannel"
-            />
-          </transition>
-        </div>
-      </div>
-
-      <!-- Below the Fold -->
-      <BelowTheFold :channel="currentChannel" :creator="currentCreator" />
-
-      <!-- Schedule Modal -->
-      <ScheduleModal
-        v-if="showScheduleModal"
-        :schedule="schedule"
-        :timeline="timeline"
-        :playback-state="playbackState"
-        @close="showScheduleModal = false"
-      />
+      <BelowTheFold :channel="channel" :creator="creator" />
     </div>
   </div>
 </template>
@@ -245,7 +77,7 @@ body,
 
 <style scoped>
 .app {
-  min-height: 100vh;
+  min-height: 0;
 }
 
 .error-screen,
@@ -360,36 +192,6 @@ body,
 }
 
 .player-page {
-  min-height: 100vh;
-}
-
-.above-the-fold {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.player-view {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-}
-
-.player-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-/* Slide transition for channel list */
-.slide-enter-active,
-.slide-leave-active {
-  transition: transform 0.2s ease;
-}
-
-.slide-enter-from,
-.slide-leave-to {
-  transform: translateX(100%);
+  min-height: 0;
 }
 </style>

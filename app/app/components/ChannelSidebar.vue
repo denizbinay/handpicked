@@ -25,22 +25,26 @@ const categories: { value: ChannelCategory; label: string }[] = [
 // Track which accordion is expanded (only one at a time)
 const expandedCategory = ref<ChannelCategory | null>(null)
 
+const channelList = computed<Channel[]>(() => {
+  return Array.isArray(props.channels) ? props.channels : []
+})
+
 // Highlight channels: top 6 channels
 const highlightChannels = computed(() => {
-  return props.channels.slice(0, 6)
+  return channelList.value.slice(0, 6)
 })
 
 // Get ALL channels for a category (excluding highlights)
 function getCategoryChannels(category: ChannelCategory): Channel[] {
   const highlightIds = new Set(highlightChannels.value.map(c => c.id))
-  return props.channels.filter(c => c.category === category && !highlightIds.has(c.id))
+  return channelList.value.filter(c => c.category === category && !highlightIds.has(c.id))
 }
 
 // Available categories (only categories with channels beyond highlights)
 const availableCategories = computed(() => {
   const highlightIds = new Set(highlightChannels.value.map(c => c.id))
   return categories.filter(cat =>
-    props.channels.some(c => c.category === cat.value && !highlightIds.has(c.id))
+    channelList.value.some(c => c.category === cat.value && !highlightIds.has(c.id))
   )
 })
 

@@ -15,7 +15,7 @@ const currentYear = new Date().getFullYear()
 
       <!-- Center: Links -->
       <nav class="links">
-        <a href="/about" class="link">About</a>
+        <NuxtLink to="/about" class="link">About</NuxtLink>
         <a href="https://github.com" target="_blank" rel="noopener" class="link">GitHub</a>
         <a href="mailto:hello@example.com" class="link">Contact</a>
       </nav>

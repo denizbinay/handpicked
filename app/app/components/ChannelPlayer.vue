@@ -6,6 +6,7 @@ import { useYouTubePlayer, PlayerState } from '~/composables/useYouTubePlayer'
 const props = defineProps<{
   schedule: ChannelScheduleItem[]
   timeline: ChannelTimeline
+  controlsVariant?: 'full' | 'minimal'
 }>()
 
 const emit = defineEmits<{
@@ -18,6 +19,9 @@ const youtube = useYouTubePlayer()
 
 const playerElementId = 'youtube-player'
 const playerContainer = ref<HTMLElement | null>(null)
+
+const controlsVariant = computed(() => props.controlsVariant ?? 'full')
+const isMinimalControls = computed(() => controlsVariant.value === 'minimal')
 
 // Player state
 const isMuted = ref(true)
@@ -292,6 +296,11 @@ function handleClickOutside(event: MouseEvent) {
   }
 }
 
+defineExpose({
+  pause: () => youtube.pause(),
+  play: () => youtube.play(),
+})
+
 onMounted(async () => {
   document.addEventListener('fullscreenchange', handleFullscreenChange)
   document.addEventListener('click', handleClickOutside)
@@ -383,6 +392,7 @@ watch(
             </svg>
           </button>
           <input
+            v-if="!isMinimalControls"
             type="range"
             class="volume-slider"
             min="0"
@@ -396,7 +406,7 @@ watch(
         <div class="spacer"></div>
 
         <!-- Quality Selector -->
-        <div class="quality-selector">
+        <div v-if="!isMinimalControls" class="quality-selector">
           <button
             class="control-btn quality-btn"
             title="Video quality"
@@ -578,6 +588,10 @@ watch(
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.volume-control .control-btn {
+  min-width: 40px;
 }
 
 .volume-slider {

@@ -19,7 +19,6 @@ defineProps<{
 <style scoped>
 .below-the-fold {
   background: var(--color-bg-secondary);
-  min-height: 50vh;
   display: flex;
   flex-direction: column;
 }
