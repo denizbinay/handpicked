@@ -1,0 +1,310 @@
+insert into public.channel_schedules (
+  channel_id,
+  position,
+  youtube_video_id,
+  title,
+  duration_seconds,
+  youtube_channel_id,
+  youtube_channel_name,
+  thumbnail_url,
+  published_at,
+  is_disabled
+)
+select
+  (select id from public.channels where slug = 'acoustic-sessions'),
+  payload.position,
+  payload.youtube_video_id,
+  payload.title,
+  payload.duration_seconds,
+  payload.youtube_channel_id,
+  payload.youtube_channel_name,
+  payload.thumbnail_url,
+  payload.published_at,
+  false
+from jsonb_to_recordset($$[
+  {
+    "position": 0,
+    "youtube_video_id": "UJMhvIlADYc",
+    "title": "Feid: Tiny Desk (Home) Concert",
+    "duration_seconds": 937,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/UJMhvIlADYc/hqdefault.jpg",
+    "published_at": "2022-04-22T16:30:02Z",
+    "score": 0.7738
+  },
+  {
+    "position": 1,
+    "youtube_video_id": "DBonY_cJXLA",
+    "title": "Nahko and Medicine For the People - Dear Brother | Paste Studios, NYC (2018)",
+    "duration_seconds": 362,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/DBonY_cJXLA/hqdefault.jpg",
+    "published_at": "2018-03-08T14:55:06Z",
+    "score": 0.7024
+  },
+  {
+    "position": 2,
+    "youtube_video_id": "HcAxgErAkTw",
+    "title": "Cigarettes After Sex: NPR Music Tiny Desk Concert",
+    "duration_seconds": 899,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/HcAxgErAkTw/hqdefault.jpg",
+    "published_at": "2017-12-20T14:00:03Z",
+    "score": 0.6979
+  },
+  {
+    "position": 3,
+    "youtube_video_id": "QvG6DTMMtt8",
+    "title": "Sticky Fingers  - Full Session | Live at Paste Studios NYC [Paste Rewind, 2019]",
+    "duration_seconds": 1048,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/QvG6DTMMtt8/hqdefault.jpg",
+    "published_at": "2025-10-21T15:00:46Z",
+    "score": 0.6965
+  },
+  {
+    "position": 4,
+    "youtube_video_id": "DmC2QQESN6E",
+    "title": "WILLOW: Tiny Desk Concert",
+    "duration_seconds": 1190,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/DmC2QQESN6E/hqdefault.jpg",
+    "published_at": "2024-05-01T09:00:10Z",
+    "score": 0.6964
+  },
+  {
+    "position": 5,
+    "youtube_video_id": "SQm1eInIdFo",
+    "title": "Adam Beattie - Stripped to the Bone | Sofar Naples",
+    "duration_seconds": 433,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/SQm1eInIdFo/hqdefault.jpg",
+    "published_at": "2020-02-11T04:59:48Z",
+    "score": 0.6885
+  },
+  {
+    "position": 6,
+    "youtube_video_id": "19dIwTQk0GU",
+    "title": "Khalid: NPR Music Tiny Desk Concert",
+    "duration_seconds": 810,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/19dIwTQk0GU/hqdefault.jpg",
+    "published_at": "2018-06-20T09:00:00Z",
+    "score": 0.6876
+  },
+  {
+    "position": 7,
+    "youtube_video_id": "O-B-BBwfAWU",
+    "title": "Her's - What Once Was | Paste Studios, NYC (2018)",
+    "duration_seconds": 271,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/O-B-BBwfAWU/hqdefault.jpg",
+    "published_at": "2018-11-11T21:15:46Z",
+    "score": 0.6845
+  },
+  {
+    "position": 8,
+    "youtube_video_id": "bdneye4pzMw",
+    "title": "Sting And Shaggy: NPR Music Tiny Desk Concert",
+    "duration_seconds": 876,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/bdneye4pzMw/hqdefault.jpg",
+    "published_at": "2019-07-17T09:00:04Z",
+    "score": 0.6746
+  },
+  {
+    "position": 9,
+    "youtube_video_id": "ueQrpfAZeTU",
+    "title": "Joss Stone - Full Session | Live at Paste Studios NYC [Paste Rewind]",
+    "duration_seconds": 768,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/ueQrpfAZeTU/hqdefault.jpg",
+    "published_at": "2025-11-15T16:01:25Z",
+    "score": 0.668
+  },
+  {
+    "position": 10,
+    "youtube_video_id": "vBlHfyPLEtk",
+    "title": "Lidiop - Road of Jah | Sofar Paris",
+    "duration_seconds": 466,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/vBlHfyPLEtk/hqdefault.jpg",
+    "published_at": "2020-02-27T04:59:48Z",
+    "score": 0.6672
+  },
+  {
+    "position": 11,
+    "youtube_video_id": "sFIQgPAms88",
+    "title": "Sierra Hull - Mad World (Tears For Fears) | DelFest (2022)",
+    "duration_seconds": 321,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/sFIQgPAms88/hqdefault.jpg",
+    "published_at": "2022-08-18T02:32:20Z",
+    "score": 0.6665
+  },
+  {
+    "position": 12,
+    "youtube_video_id": "evBgLWQwAFA",
+    "title": "Aurora: NPR Music Tiny Desk Concert",
+    "duration_seconds": 801,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/evBgLWQwAFA/hqdefault.jpg",
+    "published_at": "2015-11-09T19:36:11Z",
+    "score": 0.6616
+  },
+  {
+    "position": 13,
+    "youtube_video_id": "bMkV_pc8-vI",
+    "title": "Molly Sterling ft. Laura McCabe - Stripped Down | Sofar Dublin",
+    "duration_seconds": 293,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/bMkV_pc8-vI/hqdefault.jpg",
+    "published_at": "2017-07-03T10:00:12Z",
+    "score": 0.661
+  },
+  {
+    "position": 14,
+    "youtube_video_id": "U86gyuRB6GI",
+    "title": "Scars on 45 - Full Session - 7/10/2017 - Paste Studios - New York, NY",
+    "duration_seconds": 1125,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/U86gyuRB6GI/hqdefault.jpg",
+    "published_at": "2018-08-08T13:22:17Z",
+    "score": 0.6536
+  },
+  {
+    "position": 15,
+    "youtube_video_id": "yIdKbSeAueY",
+    "title": "City of the Sun - Intro (The xx Cover) | Sofar NYC",
+    "duration_seconds": 384,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/yIdKbSeAueY/hqdefault.jpg",
+    "published_at": "2014-09-17T17:00:08Z",
+    "score": 0.6511
+  },
+  {
+    "position": 16,
+    "youtube_video_id": "iGW9qT-3Z88",
+    "title": "Aurora - Full Session | Live at Paste Studios NYC [Paste Rewind]",
+    "duration_seconds": 862,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/iGW9qT-3Z88/hqdefault.jpg",
+    "published_at": "2025-07-18T16:01:15Z",
+    "score": 0.6496
+  },
+  {
+    "position": 17,
+    "youtube_video_id": "RXwE1G7_U9M",
+    "title": "YEBBA - My Mind | Sofar NYC",
+    "duration_seconds": 370,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/RXwE1G7_U9M/hqdefault.jpg",
+    "published_at": "2016-12-24T19:00:23Z",
+    "score": 0.6484
+  },
+  {
+    "position": 18,
+    "youtube_video_id": "nSS4FiOY8P0",
+    "title": "Davido: Tiny Desk (Home) Concert",
+    "duration_seconds": 742,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/nSS4FiOY8P0/hqdefault.jpg",
+    "published_at": "2021-02-24T17:00:10Z",
+    "score": 0.6454
+  },
+  {
+    "position": 19,
+    "youtube_video_id": "mYGGfK4bqVs",
+    "title": "Everlast - Smoking and Drinking | Paste Studios, NYC (2018)",
+    "duration_seconds": 208,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/mYGGfK4bqVs/hqdefault.jpg",
+    "published_at": "2018-08-28T02:56:50Z",
+    "score": 0.6444
+  },
+  {
+    "position": 20,
+    "youtube_video_id": "YcHL0kUFPhw",
+    "title": "Chris Stapleton: NPR Music Tiny Desk Concert",
+    "duration_seconds": 898,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/YcHL0kUFPhw/hqdefault.jpg",
+    "published_at": "2015-09-14T18:28:18Z",
+    "score": 0.6425
+  },
+  {
+    "position": 21,
+    "youtube_video_id": "GSEz5ViwiVQ",
+    "title": "Elle King - My Neck, My Back | The Blackheart (2013)",
+    "duration_seconds": 192,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/GSEz5ViwiVQ/hqdefault.jpg",
+    "published_at": "2014-07-07T16:53:04Z",
+    "score": 0.6412
+  },
+  {
+    "position": 22,
+    "youtube_video_id": "oLgZo6Qi3Uo",
+    "title": "Hozier: NPR Music Tiny Desk Concert",
+    "duration_seconds": 911,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/oLgZo6Qi3Uo/hqdefault.jpg",
+    "published_at": "2014-05-28T18:23:38Z",
+    "score": 0.64
+  },
+  {
+    "position": 23,
+    "youtube_video_id": "u8CAMUdRhBE",
+    "title": "Kenny Wayne Shepherd Band - Blue On Black - 8/17/2017 - Paste Studios, New York, NY",
+    "duration_seconds": 309,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/u8CAMUdRhBE/hqdefault.jpg",
+    "published_at": "2017-09-07T18:08:11Z",
+    "score": 0.6364
+  },
+  {
+    "position": 24,
+    "youtube_video_id": "OndyizSdCEE",
+    "title": "Her’s - What Once Was | Sofar London",
+    "duration_seconds": 304,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/OndyizSdCEE/hqdefault.jpg",
+    "published_at": "2017-02-12T21:44:50Z",
+    "score": 0.6354
+  }
+]$$::jsonb) as payload(
+  position int,
+  youtube_video_id text,
+  title text,
+  duration_seconds int,
+  youtube_channel_id text,
+  youtube_channel_name text,
+  thumbnail_url text,
+  published_at timestamptz
+)
+order by payload.position;

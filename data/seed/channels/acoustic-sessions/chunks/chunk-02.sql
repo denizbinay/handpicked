@@ -1,0 +1,310 @@
+insert into public.channel_schedules (
+  channel_id,
+  position,
+  youtube_video_id,
+  title,
+  duration_seconds,
+  youtube_channel_id,
+  youtube_channel_name,
+  thumbnail_url,
+  published_at,
+  is_disabled
+)
+select
+  (select id from public.channels where slug = 'acoustic-sessions'),
+  payload.position,
+  payload.youtube_video_id,
+  payload.title,
+  payload.duration_seconds,
+  payload.youtube_channel_id,
+  payload.youtube_channel_name,
+  payload.thumbnail_url,
+  payload.published_at,
+  false
+from jsonb_to_recordset($$[
+  {
+    "position": 25,
+    "youtube_video_id": "xaaYgVRZTnE",
+    "title": "Burna Boy: NPR Music Tiny Desk Concert",
+    "duration_seconds": 885,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/xaaYgVRZTnE/hqdefault.jpg",
+    "published_at": "2019-11-25T10:00:20Z",
+    "score": 0.6173
+  },
+  {
+    "position": 26,
+    "youtube_video_id": "LtQ7oXXykSM",
+    "title": "Mac DeMarco - Full Performance (Live on KEXP @Pickathon)",
+    "duration_seconds": 754,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/LtQ7oXXykSM/hqdefault.jpg",
+    "published_at": "2014-08-27T16:00:13Z",
+    "score": 0.6152
+  },
+  {
+    "position": 27,
+    "youtube_video_id": "QYPzJOYElIA",
+    "title": "Brent Faiyaz - Poison | Sofar Los Angeles",
+    "duration_seconds": 199,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/QYPzJOYElIA/hqdefault.jpg",
+    "published_at": "2017-06-04T16:59:53Z",
+    "score": 0.6148
+  },
+  {
+    "position": 28,
+    "youtube_video_id": "Ub-naDJbKFY",
+    "title": "Billy Strings & Don Julin - Full Performance (Live on KEXP @Pickathon)",
+    "duration_seconds": 757,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/Ub-naDJbKFY/hqdefault.jpg",
+    "published_at": "2016-04-10T17:00:02Z",
+    "score": 0.6146
+  },
+  {
+    "position": 29,
+    "youtube_video_id": "K9yaiDG29TM",
+    "title": "The Walters - I​ Love You So | Sofar NYC",
+    "duration_seconds": 188,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/K9yaiDG29TM/hqdefault.jpg",
+    "published_at": "2015-11-02T13:57:49Z",
+    "score": 0.6127
+  },
+  {
+    "position": 30,
+    "youtube_video_id": "NIfTCmwgIbY",
+    "title": "Conor Oberst: NPR Music Tiny Desk Concert",
+    "duration_seconds": 1195,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/NIfTCmwgIbY/hqdefault.jpg",
+    "published_at": "2014-06-23T19:51:06Z",
+    "score": 0.6121
+  },
+  {
+    "position": 31,
+    "youtube_video_id": "_Xw7qKZxUA8",
+    "title": "Lianne La Havas - Midnight | Sofar London",
+    "duration_seconds": 290,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/_Xw7qKZxUA8/hqdefault.jpg",
+    "published_at": "2016-03-18T14:00:02Z",
+    "score": 0.6049
+  },
+  {
+    "position": 32,
+    "youtube_video_id": "XZ46Ha_0wMU",
+    "title": "Taj Mahal & Keb' Mo' - Life is Beautiful - 8/14/2017 - Paste Studios, New York, NY",
+    "duration_seconds": 258,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/XZ46Ha_0wMU/hqdefault.jpg",
+    "published_at": "2017-09-07T18:07:39Z",
+    "score": 0.5986
+  },
+  {
+    "position": 33,
+    "youtube_video_id": "CDaA0cLBOUY",
+    "title": "The Lumineers - Full Performance (Live on KEXP at Home)",
+    "duration_seconds": 1045,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/CDaA0cLBOUY/hqdefault.jpg",
+    "published_at": "2022-02-09T17:00:12Z",
+    "score": 0.5859
+  },
+  {
+    "position": 34,
+    "youtube_video_id": "VY-2MB0SkNM",
+    "title": "Ryan Bingham at Paste Studio NYC live from The Manhattan Center",
+    "duration_seconds": 1136,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/VY-2MB0SkNM/hqdefault.jpg",
+    "published_at": "2019-05-09T21:23:38Z",
+    "score": 0.5681
+  },
+  {
+    "position": 35,
+    "youtube_video_id": "nCSYVlvEokw",
+    "title": "The Warning - Burnout | Sofar London",
+    "duration_seconds": 220,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/nCSYVlvEokw/hqdefault.jpg",
+    "published_at": "2024-10-15T04:59:47Z",
+    "score": 0.5634
+  },
+  {
+    "position": 36,
+    "youtube_video_id": "OZPK2hDwzfQ",
+    "title": "SOFI TUKKER - Brazilian Soul (Live on KEXP)",
+    "duration_seconds": 359,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/OZPK2hDwzfQ/hqdefault.jpg",
+    "published_at": "2023-02-06T12:00:16Z",
+    "score": 0.5629
+  },
+  {
+    "position": 37,
+    "youtube_video_id": "RCK-Wp0EzKA",
+    "title": "The Revivalists - Wish I Knew You - 5/11/2017 - Paste Studios, New York, NY",
+    "duration_seconds": 338,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/RCK-Wp0EzKA/hqdefault.jpg",
+    "published_at": "2017-05-17T17:58:48Z",
+    "score": 0.5588
+  },
+  {
+    "position": 38,
+    "youtube_video_id": "AvfN2dEwzHo",
+    "title": "Ryley Walker - Go Your Way My Love (Live on KEXP)",
+    "duration_seconds": 333,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/AvfN2dEwzHo/hqdefault.jpg",
+    "published_at": "2014-08-30T16:00:09Z",
+    "score": 0.5578
+  },
+  {
+    "position": 39,
+    "youtube_video_id": "qW03d33QAYc",
+    "title": "Hollow Coves at Paste Studio NYC live from The Manhattan Center",
+    "duration_seconds": 1200,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/qW03d33QAYc/hqdefault.jpg",
+    "published_at": "2020-02-10T22:22:16Z",
+    "score": 0.5556
+  },
+  {
+    "position": 40,
+    "youtube_video_id": "iDe8Ft0rdC8",
+    "title": "Kaleo - All the Pretty Girls (Live on KEXP)",
+    "duration_seconds": 316,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/iDe8Ft0rdC8/hqdefault.jpg",
+    "published_at": "2015-04-25T13:00:00Z",
+    "score": 0.5544
+  },
+  {
+    "position": 41,
+    "youtube_video_id": "wntDmMghjiM",
+    "title": "Rusted Root - Send Me On My Way - 2/22/2016 - Paste Studios, New York, NY",
+    "duration_seconds": 302,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/wntDmMghjiM/hqdefault.jpg",
+    "published_at": "2016-03-15T14:06:39Z",
+    "score": 0.5517
+  },
+  {
+    "position": 42,
+    "youtube_video_id": "2Td4w1WYdaQ",
+    "title": "Juana Molina - Eras (Live on KEXP)",
+    "duration_seconds": 300,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/2Td4w1WYdaQ/hqdefault.jpg",
+    "published_at": "2014-05-19T16:14:10Z",
+    "score": 0.5513
+  },
+  {
+    "position": 43,
+    "youtube_video_id": "pllYesK_b-g",
+    "title": "Jason Isbell - Goddamn Lonely Love - 10/20/2011 - The Living Room, New York, NY",
+    "duration_seconds": 279,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/pllYesK_b-g/hqdefault.jpg",
+    "published_at": "2014-05-30T20:25:45Z",
+    "score": 0.5472
+  },
+  {
+    "position": 44,
+    "youtube_video_id": "vmuSOrsTNso",
+    "title": "Aurora - Through the Eyes of a Child (Live on KEXP)",
+    "duration_seconds": 277,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/vmuSOrsTNso/hqdefault.jpg",
+    "published_at": "2019-05-14T11:00:08Z",
+    "score": 0.5468
+  },
+  {
+    "position": 45,
+    "youtube_video_id": "G0uDT5pcHnQ",
+    "title": "Colter Wall - Kate McCannon - 5/16/2017 - Paste Studios, New York, NY",
+    "duration_seconds": 271,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/G0uDT5pcHnQ/hqdefault.jpg",
+    "published_at": "2017-05-17T17:58:09Z",
+    "score": 0.5456
+  },
+  {
+    "position": 46,
+    "youtube_video_id": "7pta2fAw9gM",
+    "title": "NAO - Bad Blood (Live on KEXP)",
+    "duration_seconds": 270,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/7pta2fAw9gM/hqdefault.jpg",
+    "published_at": "2016-10-24T12:00:00Z",
+    "score": 0.5454
+  },
+  {
+    "position": 47,
+    "youtube_video_id": "vzQ07lataP4",
+    "title": "Greg Kihn - The Breakup Song (They Don't Write 'Em) - 2/24/2011 - Wolfgang's Vault",
+    "duration_seconds": 265,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/vzQ07lataP4/hqdefault.jpg",
+    "published_at": "2014-07-07T16:53:15Z",
+    "score": 0.5444
+  },
+  {
+    "position": 48,
+    "youtube_video_id": "vDAR5O3lUVs",
+    "title": "Sturgill Simpson - I Never Go Around Mirrors (Live on KEXP)",
+    "duration_seconds": 262,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/vDAR5O3lUVs/hqdefault.jpg",
+    "published_at": "2014-03-09T01:00:01Z",
+    "score": 0.5439
+  },
+  {
+    "position": 49,
+    "youtube_video_id": "9WkSpbqqWmw",
+    "title": "Hot Tuna - Water Song - 6/24/2011 - Wolfgang's Vault",
+    "duration_seconds": 401,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/9WkSpbqqWmw/hqdefault.jpg",
+    "published_at": "2014-07-07T16:52:48Z",
+    "score": 0.5433
+  }
+]$$::jsonb) as payload(
+  position int,
+  youtube_video_id text,
+  title text,
+  duration_seconds int,
+  youtube_channel_id text,
+  youtube_channel_name text,
+  thumbnail_url text,
+  published_at timestamptz
+)
+order by payload.position;

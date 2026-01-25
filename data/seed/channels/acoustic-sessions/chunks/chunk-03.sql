@@ -1,0 +1,310 @@
+insert into public.channel_schedules (
+  channel_id,
+  position,
+  youtube_video_id,
+  title,
+  duration_seconds,
+  youtube_channel_id,
+  youtube_channel_name,
+  thumbnail_url,
+  published_at,
+  is_disabled
+)
+select
+  (select id from public.channels where slug = 'acoustic-sessions'),
+  payload.position,
+  payload.youtube_video_id,
+  payload.title,
+  payload.duration_seconds,
+  payload.youtube_channel_id,
+  payload.youtube_channel_name,
+  payload.thumbnail_url,
+  payload.published_at,
+  false
+from jsonb_to_recordset($$[
+  {
+    "position": 50,
+    "youtube_video_id": "bca4VH2dDws",
+    "title": "Wand - Flying Golem (Live on KEXP)",
+    "duration_seconds": 254,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/bca4VH2dDws/hqdefault.jpg",
+    "published_at": "2023-09-01T11:00:34Z",
+    "score": 0.5423
+  },
+  {
+    "position": 51,
+    "youtube_video_id": "k5g2gwwhuvQ",
+    "title": "Shana Falana - Stripped - Daytrotter Session - 11/5/2018",
+    "duration_seconds": 233,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/k5g2gwwhuvQ/hqdefault.jpg",
+    "published_at": "2018-11-05T23:08:58Z",
+    "score": 0.5382
+  },
+  {
+    "position": 52,
+    "youtube_video_id": "CQRy_ygDF4o",
+    "title": "Kaleo - Broken Bones (Live on KEXP)",
+    "duration_seconds": 232,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/CQRy_ygDF4o/hqdefault.jpg",
+    "published_at": "2015-04-25T13:00:00Z",
+    "score": 0.538
+  },
+  {
+    "position": 53,
+    "youtube_video_id": "Y_D9s5ML6S0",
+    "title": "The Marcus King Band - Beautiful Stranger - 10/24/2019 - Paste Studio NYC - New York, NY",
+    "duration_seconds": 220,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/Y_D9s5ML6S0/hqdefault.jpg",
+    "published_at": "2019-10-25T21:46:12Z",
+    "score": 0.5356
+  },
+  {
+    "position": 54,
+    "youtube_video_id": "HpJGlCqu1ok",
+    "title": "Portugal. The Man - Modern Jesus (Live on KEXP)",
+    "duration_seconds": 218,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/HpJGlCqu1ok/hqdefault.jpg",
+    "published_at": "2017-04-22T12:00:03Z",
+    "score": 0.5352
+  },
+  {
+    "position": 55,
+    "youtube_video_id": "xk-i08dvfnA",
+    "title": "Jack Savoretti - When We Were Lovers - 3/6/2017 - Paste Studios, New York, NY",
+    "duration_seconds": 209,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/xk-i08dvfnA/hqdefault.jpg",
+    "published_at": "2017-03-30T22:24:09Z",
+    "score": 0.5335
+  },
+  {
+    "position": 56,
+    "youtube_video_id": "Dpfv9P23uCM",
+    "title": "Mitski - Once More To See You (Live on KEXP)",
+    "duration_seconds": 204,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/Dpfv9P23uCM/hqdefault.jpg",
+    "published_at": "2017-01-04T13:00:01Z",
+    "score": 0.5325
+  },
+  {
+    "position": 57,
+    "youtube_video_id": "qbAvUKRomU0",
+    "title": "Billy Strings - Taking Water - 11/11/2019 - Paste Studio NYC - New York, NY",
+    "duration_seconds": 236,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/qbAvUKRomU0/hqdefault.jpg",
+    "published_at": "2019-11-12T17:58:52Z",
+    "score": 0.511
+  },
+  {
+    "position": 58,
+    "youtube_video_id": "F4neLJQC1_E",
+    "title": "Dua Lipa: Tiny Desk (Home) Concert",
+    "duration_seconds": 958,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/F4neLJQC1_E/hqdefault.jpg",
+    "published_at": "2020-12-04T17:00:10Z",
+    "score": 0.7419
+  },
+  {
+    "position": 59,
+    "youtube_video_id": "dzgEjZyN9ec",
+    "title": "Lous and The Yakuza: Tiny Desk (Home) Concert",
+    "duration_seconds": 1102,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/dzgEjZyN9ec/hqdefault.jpg",
+    "published_at": "2021-01-27T10:00:11Z",
+    "score": 0.7414
+  },
+  {
+    "position": 60,
+    "youtube_video_id": "MQSos6YvrKk",
+    "title": "Karol G: Tiny Desk (Home) Concert",
+    "duration_seconds": 990,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/MQSos6YvrKk/hqdefault.jpg",
+    "published_at": "2021-05-27T09:00:07Z",
+    "score": 0.7356
+  },
+  {
+    "position": 61,
+    "youtube_video_id": "_t-nRXwAL1k",
+    "title": "Paramore: NPR Music Tiny Desk Concert",
+    "duration_seconds": 761,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/_t-nRXwAL1k/hqdefault.jpg",
+    "published_at": "2017-10-10T13:00:05Z",
+    "score": 0.725
+  },
+  {
+    "position": 62,
+    "youtube_video_id": "Su6kidaGW_8",
+    "title": "Justin Bieber: Tiny Desk (Home) Concert",
+    "duration_seconds": 915,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/Su6kidaGW_8/hqdefault.jpg",
+    "published_at": "2021-03-17T16:00:15Z",
+    "score": 0.7225
+  },
+  {
+    "position": 63,
+    "youtube_video_id": "KGczofguB0c",
+    "title": "Olivia Rodrigo: Tiny Desk (Home) Concert",
+    "duration_seconds": 1067,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/KGczofguB0c/hqdefault.jpg",
+    "published_at": "2021-12-07T17:00:10Z",
+    "score": 0.7205
+  },
+  {
+    "position": 64,
+    "youtube_video_id": "-vLoM-EqWq8",
+    "title": "Chika: NPR Music Tiny Desk Concert",
+    "duration_seconds": 1081,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/-vLoM-EqWq8/hqdefault.jpg",
+    "published_at": "2020-03-20T09:00:02Z",
+    "score": 0.7178
+  },
+  {
+    "position": 65,
+    "youtube_video_id": "j82L3pLjb_0",
+    "title": "Coldplay: NPR Music Tiny Desk Concert",
+    "duration_seconds": 1094,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/j82L3pLjb_0/hqdefault.jpg",
+    "published_at": "2020-03-16T09:00:30Z",
+    "score": 0.7152
+  },
+  {
+    "position": 66,
+    "youtube_video_id": "jIIuzB11dsA",
+    "title": "Harry Styles: NPR Music Tiny Desk Concert",
+    "duration_seconds": 1154,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/jIIuzB11dsA/hqdefault.jpg",
+    "published_at": "2020-03-23T09:00:18Z",
+    "score": 0.7035
+  },
+  {
+    "position": 67,
+    "youtube_video_id": "Dy4pEFFbFsA",
+    "title": "Mon Laferte: Tiny Desk (Home) Concert",
+    "duration_seconds": 1101,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/Dy4pEFFbFsA/hqdefault.jpg",
+    "published_at": "2022-01-12T10:00:07Z",
+    "score": 0.6861
+  },
+  {
+    "position": 68,
+    "youtube_video_id": "ZvIzmTiYoPo",
+    "title": "Wheatus - Teenage Dirtbag | Paste Studios, NYC (2019)",
+    "duration_seconds": 258,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/ZvIzmTiYoPo/hqdefault.jpg",
+    "published_at": "2019-12-17T02:35:51Z",
+    "score": 0.682
+  },
+  {
+    "position": 69,
+    "youtube_video_id": "EL5tzCys1Ro",
+    "title": "Blue October - I Hope You're Happy | Paste Studios, NYC (2018)",
+    "duration_seconds": 236,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/EL5tzCys1Ro/hqdefault.jpg",
+    "published_at": "2018-04-17T23:12:22Z",
+    "score": 0.6776
+  },
+  {
+    "position": 70,
+    "youtube_video_id": "3F8EToq3Rzs",
+    "title": "Keane - Somewhere Only We Know | Paste Studios, NYC (2019)",
+    "duration_seconds": 234,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/3F8EToq3Rzs/hqdefault.jpg",
+    "published_at": "2019-08-06T13:15:15Z",
+    "score": 0.6773
+  },
+  {
+    "position": 71,
+    "youtube_video_id": "Q0atlehWrsE",
+    "title": "Sticky Fingers - Yours to Keep | Paste Studios, NYC (2019)",
+    "duration_seconds": 232,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/Q0atlehWrsE/hqdefault.jpg",
+    "published_at": "2019-03-06T06:04:36Z",
+    "score": 0.6769
+  },
+  {
+    "position": 72,
+    "youtube_video_id": "xnS2tbgcTc0",
+    "title": "Summer Walker: NPR Music Tiny Desk Concert",
+    "duration_seconds": 888,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/xnS2tbgcTc0/hqdefault.jpg",
+    "published_at": "2019-10-25T09:00:10Z",
+    "score": 0.6723
+  },
+  {
+    "position": 73,
+    "youtube_video_id": "IUMTaAQ43lY",
+    "title": "Tom Misch: NPR Music Tiny Desk Concert",
+    "duration_seconds": 1045,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/IUMTaAQ43lY/hqdefault.jpg",
+    "published_at": "2018-06-08T09:00:03Z",
+    "score": 0.6693
+  },
+  {
+    "position": 74,
+    "youtube_video_id": "m3VqpX3GVdo",
+    "title": "Tal Wilkenfeld - Under the Sun | Paste Studios, NYC (2016)",
+    "duration_seconds": 316,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/m3VqpX3GVdo/hqdefault.jpg",
+    "published_at": "2016-04-11T16:33:55Z",
+    "score": 0.6656
+  }
+]$$::jsonb) as payload(
+  position int,
+  youtube_video_id text,
+  title text,
+  duration_seconds int,
+  youtube_channel_id text,
+  youtube_channel_name text,
+  thumbnail_url text,
+  published_at timestamptz
+)
+order by payload.position;

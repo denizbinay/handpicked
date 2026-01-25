@@ -1,0 +1,53 @@
+{
+  "channel": {
+    "slug": "animation-masters",
+    "title": "Animation Masters",
+    "description": "Behind the scenes of animation. From Disney to indie."
+  },
+  "criteria": {
+    "timeWindow": "last 12 years",
+    "durationBand": "8-40 minutes",
+    "allowlist": [
+      {
+        "name": "Disney",
+        "channelId": "UCswHAbaWV6tsed5J5E8vBgg"
+      },
+      {
+        "name": "Pixar",
+        "channelId": "UC_IRYSp4auq7hKLvziWVH6w"
+      },
+      {
+        "name": "DreamWorks",
+        "channelId": "UCssh6mfFqFo5QyFGLsnM4Cg"
+      },
+      {
+        "name": "Cartoon Network",
+        "channelId": "UC3841rYNeYcwTMP321kAn1g"
+      },
+      {
+        "name": "The Animation Guild",
+        "channelId": "UCR9uNwbU7CVQdY9Kaw02aHQ"
+      }
+    ],
+    "templates": [
+      "\"animation\" + \"behind the scenes\" + channel:{allowlist}",
+      "\"making of\" + \"animation\" + channel:{allowlist}",
+      "\"animation\" + \"process\" + channel:{allowlist}",
+      "\"animator\" + \"interview\" + channel:{allowlist}",
+      "\"storyboard\" + channel:{allowlist}"
+    ],
+    "scoringWeights": {
+      "trust": 0.4,
+      "relevance": 0.25,
+      "recency": 0.2,
+      "runtime": 0.1,
+      "variety": 0.05
+    }
+  },
+  "run": {
+    "timestamp": "2026-01-25T17:41:16.324Z",
+    "candidateCount": 98,
+    "filteredCount": 3,
+    "finalCount": 3
+  }
+}

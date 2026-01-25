@@ -1,0 +1,310 @@
+insert into public.channel_schedules (
+  channel_id,
+  position,
+  youtube_video_id,
+  title,
+  duration_seconds,
+  youtube_channel_id,
+  youtube_channel_name,
+  thumbnail_url,
+  published_at,
+  is_disabled
+)
+select
+  (select id from public.channels where slug = 'acoustic-sessions'),
+  payload.position,
+  payload.youtube_video_id,
+  payload.title,
+  payload.duration_seconds,
+  payload.youtube_channel_id,
+  payload.youtube_channel_name,
+  payload.thumbnail_url,
+  payload.published_at,
+  false
+from jsonb_to_recordset($$[
+  {
+    "position": 100,
+    "youtube_video_id": "WyMZCc-r4k4",
+    "title": "Dashboard Confessional - Hands Down - 6/22/2017 - Paste Studios, New York, NY",
+    "duration_seconds": 243,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/WyMZCc-r4k4/hqdefault.jpg",
+    "published_at": "2017-06-26T17:01:13Z",
+    "score": 0.5679
+  },
+  {
+    "position": 101,
+    "youtube_video_id": "dJFJfmYVZkg",
+    "title": "Cigarettes After Sex - K. (Live on KEXP)",
+    "duration_seconds": 353,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/dJFJfmYVZkg/hqdefault.jpg",
+    "published_at": "2017-11-20T13:00:03Z",
+    "score": 0.5617
+  },
+  {
+    "position": 102,
+    "youtube_video_id": "S5f_KpdeYC0",
+    "title": "Evanescence - Good Enough - 10/3/2017 - Steinway Hall, New York, NY",
+    "duration_seconds": 334,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/S5f_KpdeYC0/hqdefault.jpg",
+    "published_at": "2017-11-02T21:14:42Z",
+    "score": 0.558
+  },
+  {
+    "position": 103,
+    "youtube_video_id": "OhCb8GpeDfc",
+    "title": "SYML - You And I (Live on KEXP)",
+    "duration_seconds": 190,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/OhCb8GpeDfc/hqdefault.jpg",
+    "published_at": "2023-01-02T12:00:14Z",
+    "score": 0.5575
+  },
+  {
+    "position": 104,
+    "youtube_video_id": "9n9hcdohtpY",
+    "title": "Phoebe Bridgers - Scott Street (Live on KEXP)",
+    "duration_seconds": 325,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/9n9hcdohtpY/hqdefault.jpg",
+    "published_at": "2018-09-14T12:00:01Z",
+    "score": 0.5562
+  },
+  {
+    "position": 105,
+    "youtube_video_id": "-mnH9-SX2Tg",
+    "title": "Cigarettes After Sex - Apocalypse (Live on KEXP)",
+    "duration_seconds": 315,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/-mnH9-SX2Tg/hqdefault.jpg",
+    "published_at": "2017-11-20T13:00:00Z",
+    "score": 0.5542
+  },
+  {
+    "position": 106,
+    "youtube_video_id": "kwW_k6OKLUU",
+    "title": "Ryley Walker - Summer Dress (Live on KEXP)",
+    "duration_seconds": 295,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/kwW_k6OKLUU/hqdefault.jpg",
+    "published_at": "2014-08-30T12:00:08Z",
+    "score": 0.5503
+  },
+  {
+    "position": 107,
+    "youtube_video_id": "lB2PbVV8L-0",
+    "title": "Shakey Graves - Kiss The Girl (Live on KEXP)",
+    "duration_seconds": 286,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/lB2PbVV8L-0/hqdefault.jpg",
+    "published_at": "2015-06-27T13:00:01Z",
+    "score": 0.5486
+  },
+  {
+    "position": 108,
+    "youtube_video_id": "Es0qQXkTPrE",
+    "title": "Cigarettes After Sex - Heavenly (Live on KEXP)",
+    "duration_seconds": 286,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/Es0qQXkTPrE/hqdefault.jpg",
+    "published_at": "2019-12-13T12:00:02Z",
+    "score": 0.5486
+  },
+  {
+    "position": 109,
+    "youtube_video_id": "Q-h5UsyTFW0",
+    "title": "Fishbone - Chim Chim's Badass Revenge (Live on KEXP)",
+    "duration_seconds": 276,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/Q-h5UsyTFW0/hqdefault.jpg",
+    "published_at": "2017-02-01T15:02:12Z",
+    "score": 0.5466
+  },
+  {
+    "position": 110,
+    "youtube_video_id": "jhicDUgXyNg",
+    "title": "Delvon Lamarr Organ Trio - Warm-up Set (Live on KEXP)",
+    "duration_seconds": 1109,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/jhicDUgXyNg/hqdefault.jpg",
+    "published_at": "2017-07-21T17:00:03Z",
+    "score": 0.5456
+  },
+  {
+    "position": 111,
+    "youtube_video_id": "GsnH2SJZsUU",
+    "title": "NAO - DYWM (Live on KEXP)",
+    "duration_seconds": 267,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/GsnH2SJZsUU/hqdefault.jpg",
+    "published_at": "2016-10-24T12:00:01Z",
+    "score": 0.5448
+  },
+  {
+    "position": 112,
+    "youtube_video_id": "8rDIqYseWP0",
+    "title": "Stromae - Papaoutai (Live on KEXP)",
+    "duration_seconds": 248,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/8rDIqYseWP0/hqdefault.jpg",
+    "published_at": "2015-04-21T17:26:43Z",
+    "score": 0.5411
+  },
+  {
+    "position": 113,
+    "youtube_video_id": "jmnIS7TaRNU",
+    "title": "Blaenavon - Lonely Side (Live on KEXP)",
+    "duration_seconds": 238,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/jmnIS7TaRNU/hqdefault.jpg",
+    "published_at": "2017-07-27T12:00:04Z",
+    "score": 0.5392
+  },
+  {
+    "position": 114,
+    "youtube_video_id": "R65wV3K-dw4",
+    "title": "Mac DeMarco - Chamber of Reflection (Live on KEXP)",
+    "duration_seconds": 233,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/R65wV3K-dw4/hqdefault.jpg",
+    "published_at": "2015-04-27T12:00:30Z",
+    "score": 0.5382
+  },
+  {
+    "position": 115,
+    "youtube_video_id": "ODtLFFMIP5s",
+    "title": "Stromae - Formidable (Live on KEXP)",
+    "duration_seconds": 230,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/ODtLFFMIP5s/hqdefault.jpg",
+    "published_at": "2015-04-21T12:00:02Z",
+    "score": 0.5376
+  },
+  {
+    "position": 116,
+    "youtube_video_id": "7hkdom8Nwas",
+    "title": "Portugal. The Man - So American (Live on KEXP)",
+    "duration_seconds": 225,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/7hkdom8Nwas/hqdefault.jpg",
+    "published_at": "2017-04-22T12:00:00Z",
+    "score": 0.5366
+  },
+  {
+    "position": 117,
+    "youtube_video_id": "td_CYmQujd0",
+    "title": "Lord Huron - The Night We Met (Live on KEXP)",
+    "duration_seconds": 209,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/td_CYmQujd0/hqdefault.jpg",
+    "published_at": "2015-04-29T21:37:04Z",
+    "score": 0.5335
+  },
+  {
+    "position": 118,
+    "youtube_video_id": "IS2iVcGz_Ok",
+    "title": "Aurora - All Is Soft Inside (Live on KEXP)",
+    "duration_seconds": 321,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/IS2iVcGz_Ok/hqdefault.jpg",
+    "published_at": "2019-01-14T12:00:02Z",
+    "score": 0.5276
+  },
+  {
+    "position": 119,
+    "youtube_video_id": "no--qhx3O7Q",
+    "title": "Aurora - Runaway (Live on KEXP)",
+    "duration_seconds": 273,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/no--qhx3O7Q/hqdefault.jpg",
+    "published_at": "2019-01-14T14:00:10Z",
+    "score": 0.5182
+  },
+  {
+    "position": 120,
+    "youtube_video_id": "nJLuG8c11Gk",
+    "title": "Aurora - Churchyard (Live on KEXP)",
+    "duration_seconds": 249,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/nJLuG8c11Gk/hqdefault.jpg",
+    "published_at": "2019-01-14T12:00:09Z",
+    "score": 0.5135
+  },
+  {
+    "position": 121,
+    "youtube_video_id": "M0iB_oVEyP8",
+    "title": "Aurora - Gentle Earthquake (Live on KEXP)",
+    "duration_seconds": 244,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/M0iB_oVEyP8/hqdefault.jpg",
+    "published_at": "2019-01-14T12:00:03Z",
+    "score": 0.5125
+  },
+  {
+    "position": 122,
+    "youtube_video_id": "jTRT0_3rQek",
+    "title": "Sticky Fingers - Rum Rage - 3/5/2019 - Paste Studios - New York, NY",
+    "duration_seconds": 224,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/jTRT0_3rQek/hqdefault.jpg",
+    "published_at": "2019-03-06T06:03:18Z",
+    "score": 0.5086
+  },
+  {
+    "position": 123,
+    "youtube_video_id": "1S5XEqOeyc4",
+    "title": "SHAED - Trampoline - 7/20/2018 - Paste Studios - New York, NY",
+    "duration_seconds": 222,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/1S5XEqOeyc4/hqdefault.jpg",
+    "published_at": "2018-07-22T21:42:28Z",
+    "score": 0.5082
+  },
+  {
+    "position": 124,
+    "youtube_video_id": "nTPvHQ4_250",
+    "title": "Everlast - Don't Complain - 8/27/2018 - Paste Studios - New York, NY",
+    "duration_seconds": 197,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/nTPvHQ4_250/hqdefault.jpg",
+    "published_at": "2018-08-28T02:56:14Z",
+    "score": 0.5033
+  }
+]$$::jsonb) as payload(
+  position int,
+  youtube_video_id text,
+  title text,
+  duration_seconds int,
+  youtube_channel_id text,
+  youtube_channel_name text,
+  thumbnail_url text,
+  published_at timestamptz
+)
+order by payload.position;

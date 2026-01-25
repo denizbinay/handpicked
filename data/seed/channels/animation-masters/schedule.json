@@ -1,0 +1,35 @@
+[
+  {
+    "position": 0,
+    "youtube_video_id": "B3KBVBDUrc4",
+    "title": "Disney and Pixar’s Soul: Virtual Red Carpet",
+    "duration_seconds": 1131,
+    "youtube_channel_id": "UC_IRYSp4auq7hKLvziWVH6w",
+    "youtube_channel_name": "Pixar",
+    "thumbnail_url": "https://i.ytimg.com/vi/B3KBVBDUrc4/hqdefault.jpg",
+    "published_at": "2020-12-26T19:49:36Z",
+    "score": 0.7067
+  },
+  {
+    "position": 1,
+    "youtube_video_id": "31jhtMdGViI",
+    "title": "Story School  | Monsters U | Disney Pixar",
+    "duration_seconds": 535,
+    "youtube_channel_id": "UC_IRYSp4auq7hKLvziWVH6w",
+    "youtube_channel_name": "Pixar",
+    "thumbnail_url": "https://i.ytimg.com/vi/31jhtMdGViI/hqdefault.jpg",
+    "published_at": "2016-09-27T21:00:00Z",
+    "score": 0.6724
+  },
+  {
+    "position": 2,
+    "youtube_video_id": "jo-UNLm4yh8",
+    "title": "Make Your Own Flipbook with Pixar’s Pete Docter",
+    "duration_seconds": 618,
+    "youtube_channel_id": "UC_IRYSp4auq7hKLvziWVH6w",
+    "youtube_channel_name": "Pixar",
+    "thumbnail_url": "https://i.ytimg.com/vi/jo-UNLm4yh8/hqdefault.jpg",
+    "published_at": "2020-07-08T16:00:16Z",
+    "score": 0.5977
+  }
+]

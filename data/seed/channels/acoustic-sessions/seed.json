@@ -1,0 +1,53 @@
+{
+  "channel": {
+    "slug": "acoustic-sessions",
+    "title": "Acoustic Sessions",
+    "description": "Stripped down performances. Just the artist and their instrument."
+  },
+  "criteria": {
+    "timeWindow": "last 12 years",
+    "durationBand": "3-20 minutes",
+    "allowlist": [
+      {
+        "name": "NPR Music",
+        "channelId": "UC4eYXhJI4-7wSWc8UNRwD4A"
+      },
+      {
+        "name": "KEXP",
+        "channelId": "UC3I2GFN_F8WudD_2jUZbojA"
+      },
+      {
+        "name": "Paste Magazine",
+        "channelId": "UC_PscE_7n8SiMspieMGMK_A"
+      },
+      {
+        "name": "Sofar Sounds",
+        "channelId": "UCRLZb8PpI9N7COmYqHiDH7A"
+      },
+      {
+        "name": "Tiny Desk Concerts",
+        "channelId": "UC4eYXhJI4-7wSWc8UNRwD4A"
+      }
+    ],
+    "templates": [
+      "\"acoustic\" + \"session\" + channel:{allowlist}",
+      "\"live\" + \"acoustic\" + channel:{allowlist}",
+      "\"stripped\" + \"performance\" + channel:{allowlist}",
+      "\"session\" + \"live\" + channel:{allowlist}",
+      "\"solo\" + \"acoustic\" + channel:{allowlist}"
+    ],
+    "scoringWeights": {
+      "trust": 0.4,
+      "relevance": 0.25,
+      "recency": 0.2,
+      "runtime": 0.1,
+      "variety": 0.05
+    }
+  },
+  "run": {
+    "timestamp": "2026-01-25T17:41:07.026Z",
+    "candidateCount": 170,
+    "filteredCount": 126,
+    "finalCount": 126
+  }
+}

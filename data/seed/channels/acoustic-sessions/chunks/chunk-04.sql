@@ -1,0 +1,310 @@
+insert into public.channel_schedules (
+  channel_id,
+  position,
+  youtube_video_id,
+  title,
+  duration_seconds,
+  youtube_channel_id,
+  youtube_channel_name,
+  thumbnail_url,
+  published_at,
+  is_disabled
+)
+select
+  (select id from public.channels where slug = 'acoustic-sessions'),
+  payload.position,
+  payload.youtube_video_id,
+  payload.title,
+  payload.duration_seconds,
+  payload.youtube_channel_id,
+  payload.youtube_channel_name,
+  payload.thumbnail_url,
+  payload.published_at,
+  false
+from jsonb_to_recordset($$[
+  {
+    "position": 75,
+    "youtube_video_id": "RG6O-Qq79G0",
+    "title": "Nicki Nicole: Tiny Desk (Home) Concert",
+    "duration_seconds": 943,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/RG6O-Qq79G0/hqdefault.jpg",
+    "published_at": "2021-10-13T09:00:09Z",
+    "score": 0.6615
+  },
+  {
+    "position": 76,
+    "youtube_video_id": "fbEuzt1apaU",
+    "title": "KALEO - Way Down We Go | Sofar London",
+    "duration_seconds": 224,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/fbEuzt1apaU/hqdefault.jpg",
+    "published_at": "2016-11-14T14:01:30Z",
+    "score": 0.6475
+  },
+  {
+    "position": 77,
+    "youtube_video_id": "id28fCyYgIU",
+    "title": "Damian 'Jr. Gong' Marley: NPR Music Tiny Desk Concert",
+    "duration_seconds": 914,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/id28fCyYgIU/hqdefault.jpg",
+    "published_at": "2019-09-16T09:00:08Z",
+    "score": 0.6394
+  },
+  {
+    "position": 78,
+    "youtube_video_id": "PwV1-wZzT1Y",
+    "title": "FKJ: Tiny Desk (Home) Concert",
+    "duration_seconds": 1057,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/PwV1-wZzT1Y/hqdefault.jpg",
+    "published_at": "2022-07-07T09:00:14Z",
+    "score": 0.6392
+  },
+  {
+    "position": 79,
+    "youtube_video_id": "Kvzm7MbBy3Y",
+    "title": "FAVELA - The Pauper | Sofar Leeds",
+    "duration_seconds": 303,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/Kvzm7MbBy3Y/hqdefault.jpg",
+    "published_at": "2019-08-24T09:04:43Z",
+    "score": 0.6352
+  },
+  {
+    "position": 80,
+    "youtube_video_id": "TmLbBOpaiZs",
+    "title": "Manny Walters - My Own Fault | Sofar Cape Town",
+    "duration_seconds": 299,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/TmLbBOpaiZs/hqdefault.jpg",
+    "published_at": "2017-07-24T17:00:18Z",
+    "score": 0.6344
+  },
+  {
+    "position": 81,
+    "youtube_video_id": "ySAsCIyp90Y",
+    "title": "Pomme - On Brûlera | Sofar Paris",
+    "duration_seconds": 287,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/ySAsCIyp90Y/hqdefault.jpg",
+    "published_at": "2018-06-09T14:29:46Z",
+    "score": 0.6321
+  },
+  {
+    "position": 82,
+    "youtube_video_id": "g9YKRrnBt4A",
+    "title": "The Teskey Brothers - Crying Shame | Sofar NYC",
+    "duration_seconds": 285,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/g9YKRrnBt4A/hqdefault.jpg",
+    "published_at": "2018-01-23T14:00:00Z",
+    "score": 0.6317
+  },
+  {
+    "position": 83,
+    "youtube_video_id": "em73jjSVrOA",
+    "title": "Kaleb Birhanu - Tey Midir | Sofar Addis Ababa",
+    "duration_seconds": 276,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/em73jjSVrOA/hqdefault.jpg",
+    "published_at": "2022-06-27T02:59:46Z",
+    "score": 0.6299
+  },
+  {
+    "position": 84,
+    "youtube_video_id": "MMq1TNRpk4A",
+    "title": "Tony Lucca feat. Keaton Simons - Bring it On Home To Me (Sam Cooke Cover) | Sofar Dallas- Fort Worth",
+    "duration_seconds": 275,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/MMq1TNRpk4A/hqdefault.jpg",
+    "published_at": "2014-12-15T17:58:11Z",
+    "score": 0.6297
+  },
+  {
+    "position": 85,
+    "youtube_video_id": "cowLEMsCK8o",
+    "title": "Mild Orange - Mysight | Sofar Dunedin",
+    "duration_seconds": 262,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/cowLEMsCK8o/hqdefault.jpg",
+    "published_at": "2017-11-20T16:30:12Z",
+    "score": 0.6272
+  },
+  {
+    "position": 86,
+    "youtube_video_id": "QoK3he5Ugvw",
+    "title": "Hozier - From Eden | Sofar Manchester",
+    "duration_seconds": 260,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/QoK3he5Ugvw/hqdefault.jpg",
+    "published_at": "2014-11-19T17:00:13Z",
+    "score": 0.6268
+  },
+  {
+    "position": 87,
+    "youtube_video_id": "3htBS9RS9QE",
+    "title": "Faber - Widerstand | Sofar Hamburg",
+    "duration_seconds": 251,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/3htBS9RS9QE/hqdefault.jpg",
+    "published_at": "2016-01-29T13:27:44Z",
+    "score": 0.625
+  },
+  {
+    "position": 88,
+    "youtube_video_id": "WIVVVlVHrAk",
+    "title": "LAUV - I Like Me Better | Sofar London",
+    "duration_seconds": 234,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/WIVVVlVHrAk/hqdefault.jpg",
+    "published_at": "2017-11-18T17:59:49Z",
+    "score": 0.6217
+  },
+  {
+    "position": 89,
+    "youtube_video_id": "ylMZPD-pDLk",
+    "title": "Richard Cejer - Through the Years | Sofar Utrecht",
+    "duration_seconds": 226,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/ylMZPD-pDLk/hqdefault.jpg",
+    "published_at": "2022-08-31T02:59:47Z",
+    "score": 0.6201
+  },
+  {
+    "position": 90,
+    "youtube_video_id": "fwC30E1IVKQ",
+    "title": "Billie Eilish - Six Feet Under | Sofar Los Angeles",
+    "duration_seconds": 226,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/fwC30E1IVKQ/hqdefault.jpg",
+    "published_at": "2016-08-27T17:30:59Z",
+    "score": 0.6201
+  },
+  {
+    "position": 91,
+    "youtube_video_id": "ZN0lK-UD9oA",
+    "title": "Chelsea Taylor - Sober | Sofar St. Louis",
+    "duration_seconds": 219,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/ZN0lK-UD9oA/hqdefault.jpg",
+    "published_at": "2019-01-28T15:00:21Z",
+    "score": 0.6188
+  },
+  {
+    "position": 92,
+    "youtube_video_id": "QqpKfOQ7ltw",
+    "title": "OSTON - Shrug | Sofar Chicago",
+    "duration_seconds": 218,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/QqpKfOQ7ltw/hqdefault.jpg",
+    "published_at": "2020-04-25T10:59:47Z",
+    "score": 0.6186
+  },
+  {
+    "position": 93,
+    "youtube_video_id": "oCcks-fwq2c",
+    "title": "Post Malone: Tiny Desk Concert",
+    "duration_seconds": 1088,
+    "youtube_channel_id": "UC4eYXhJI4-7wSWc8UNRwD4A",
+    "youtube_channel_name": "NPR Music",
+    "thumbnail_url": "https://i.ytimg.com/vi/oCcks-fwq2c/hqdefault.jpg",
+    "published_at": "2023-08-15T16:00:08Z",
+    "score": 0.6053
+  },
+  {
+    "position": 94,
+    "youtube_video_id": "65ixtmChy48",
+    "title": "Maverick Sabre - Come Fly Away | Sofar London",
+    "duration_seconds": 264,
+    "youtube_channel_id": "UCRLZb8PpI9N7COmYqHiDH7A",
+    "youtube_channel_name": "Sofar Sounds",
+    "thumbnail_url": "https://i.ytimg.com/vi/65ixtmChy48/hqdefault.jpg",
+    "published_at": "2015-09-30T16:10:35Z",
+    "score": 0.5998
+  },
+  {
+    "position": 95,
+    "youtube_video_id": "xtUeDkWlE0U",
+    "title": "Collective Soul - The World I Know | Live at Paste Studios, NYC",
+    "duration_seconds": 242,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/xtUeDkWlE0U/hqdefault.jpg",
+    "published_at": "2017-12-08T19:14:23Z",
+    "score": 0.5955
+  },
+  {
+    "position": 96,
+    "youtube_video_id": "0tX38okyyDY",
+    "title": "The White Buffalo - Full Session - 8/28/2017 - Paste Studios - New York, NY",
+    "duration_seconds": 896,
+    "youtube_channel_id": "UC_PscE_7n8SiMspieMGMK_A",
+    "youtube_channel_name": "Paste Magazine",
+    "thumbnail_url": "https://i.ytimg.com/vi/0tX38okyyDY/hqdefault.jpg",
+    "published_at": "2018-08-09T14:15:56Z",
+    "score": 0.5874
+  },
+  {
+    "position": 97,
+    "youtube_video_id": "y9sidm8-QNk",
+    "title": "Twin Shadow - Full Performance (Live on KEXP at Home)",
+    "duration_seconds": 970,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/y9sidm8-QNk/hqdefault.jpg",
+    "published_at": "2021-09-01T03:26:14Z",
+    "score": 0.5729
+  },
+  {
+    "position": 98,
+    "youtube_video_id": "0q1U-2mIpws",
+    "title": "Portugal. The Man - Purple Yellow Red and Blue (Live on KEXP)",
+    "duration_seconds": 268,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/0q1U-2mIpws/hqdefault.jpg",
+    "published_at": "2017-04-22T12:00:00Z",
+    "score": 0.5728
+  },
+  {
+    "position": 99,
+    "youtube_video_id": "1d6axAl3fBw",
+    "title": "Petite Amie - Adios  (Live on KEXP)",
+    "duration_seconds": 265,
+    "youtube_channel_id": "UC3I2GFN_F8WudD_2jUZbojA",
+    "youtube_channel_name": "KEXP",
+    "thumbnail_url": "https://i.ytimg.com/vi/1d6axAl3fBw/hqdefault.jpg",
+    "published_at": "2021-12-01T12:00:00Z",
+    "score": 0.5722
+  }
+]$$::jsonb) as payload(
+  position int,
+  youtube_video_id text,
+  title text,
+  duration_seconds int,
+  youtube_channel_id text,
+  youtube_channel_name text,
+  thumbnail_url text,
+  published_at timestamptz
+)
+order by payload.position;

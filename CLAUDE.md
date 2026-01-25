@@ -153,7 +153,6 @@ When working on this project, the AI must follow these rules:
 - Product intent: `specs/product.md`
 - Player behavior: `specs/player.md`
 - Data model: `specs/database.md`
-- Current focus and state: `PROGRESS.md`
 
 If these files are empty or incomplete, that is intentional and should be addressed gradually.
 

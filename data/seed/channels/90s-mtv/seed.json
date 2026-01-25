@@ -1,0 +1,53 @@
+{
+  "channel": {
+    "slug": "90s-mtv",
+    "title": "90s MTV Hits",
+    "description": "The music videos that defined a generation. Peak MTV, no reality shows."
+  },
+  "criteria": {
+    "timeWindow": "1990-1999",
+    "durationBand": "3-7 minutes",
+    "allowlist": [
+      {
+        "name": "Official Artist Channels",
+        "channelId": "UCR5qQZvilqFDtmuOGTsaTAA"
+      },
+      {
+        "name": "Warner Records",
+        "channelId": "UCDj64sior23IP_7xLe8R7sg"
+      },
+      {
+        "name": "Sony Music",
+        "channelId": "UC56gTxNs4f9xZ7Pa2i5xNzg"
+      },
+      {
+        "name": "UMG",
+        "channelId": "UCx1BJtXQqcXKg4VUwA4Otjw"
+      },
+      {
+        "name": "Rhino Records",
+        "channelId": "UCWEtnEiVwUy7mwFeshyAWLA"
+      }
+    ],
+    "templates": [
+      "\"199\" + \"official video\" + channel:{allowlist}",
+      "\"199\" + \"music video\" + channel:{allowlist}",
+      "\"official video\" + \"1990\" + channel:{allowlist}",
+      "\"official video\" + \"1995\" + channel:{allowlist}",
+      "\"official video\" + \"1999\" + channel:{allowlist}"
+    ],
+    "scoringWeights": {
+      "trust": 0.4,
+      "relevance": 0.25,
+      "recency": 0.2,
+      "runtime": 0.1,
+      "variety": 0.05
+    }
+  },
+  "run": {
+    "timestamp": "2026-01-25T17:40:55.507Z",
+    "candidateCount": 30,
+    "filteredCount": 24,
+    "finalCount": 24
+  }
+}
