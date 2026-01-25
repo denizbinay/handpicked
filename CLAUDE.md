@@ -26,11 +26,12 @@ These principles override all other considerations.
    - Users interact with channels, not individual videos.
    - Videos are an implementation detail.
 
-3. **No viewer control**
+3. **No content navigation controls**
    - No skipping
    - No scrubbing
    - No selecting the next video
-   - The only allowed action is switching channels
+   - The only allowed content action is switching channels
+   - Allowed controls: mute/unmute, volume, quality, fullscreen, pause/resume (resume re-syncs to live)
 
 4. **Human curation only**
    - No algorithmic ordering

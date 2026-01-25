@@ -41,17 +41,21 @@ There is no concept of “start from beginning” for viewers.
 
 ## Viewer Controls (Hard Constraints)
 
+Viewers MAY be able to:
+- Mute / unmute
+- Adjust volume
+- Toggle fullscreen
+- Change playback quality
+- Pause and resume (resume MUST re-sync to live timeline)
+
 Viewers MUST NOT be able to:
-- Pause playback
 - Scrub or seek
 - Skip to next or previous video
 - Select individual videos
 - Replay content
 
-The ONLY allowed viewer action:
+The only allowed content navigation action:
 - Switch to a different channel
-
-All other controls are forbidden.
 
 ---
 

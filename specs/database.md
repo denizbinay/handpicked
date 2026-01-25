@@ -107,9 +107,11 @@ Rules:
 
 ## Authentication Model
 
-- Authentication exists only for creators
+- Authentication exists for creators and admins
 - Magic-link / passwordless login is sufficient
-- No roles beyond “creator” are required in v0.1
+- Roles in v0.1: “creator”, “admin”
+- Admins may impersonate creator accounts for support and maintenance
+- Impersonation must be explicit, time-bound, and auditable
 
 Public viewers:
 - Are anonymous

@@ -1,18 +1,19 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient()
-const user = useSupabaseUser()
 const router = useRouter()
 
 const email = ref('')
 const isLoading = ref(false)
 const message = ref<{ type: 'success' | 'error'; text: string } | null>(null)
 
-// Redirect if already logged in
-watch(user, (newUser) => {
-  if (newUser) {
+let authSubscription: { unsubscribe: () => void } | null = null
+
+async function redirectIfAuthenticated() {
+  const { data } = await supabase.auth.getSession()
+  if (data.session) {
     router.push('/curator')
   }
-}, { immediate: true })
+}
 
 async function handleLogin() {
   if (!email.value) {
@@ -46,6 +47,20 @@ async function handleLogin() {
     isLoading.value = false
   }
 }
+
+onMounted(async () => {
+  await redirectIfAuthenticated()
+  const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+    if (session) {
+      router.push('/curator')
+    }
+  })
+  authSubscription = data.subscription
+})
+
+onUnmounted(() => {
+  authSubscription?.unsubscribe()
+})
 </script>
 
 <template>

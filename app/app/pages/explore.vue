@@ -130,7 +130,7 @@ function getCategoryLabel(category: ChannelCategory): string {
       <!-- Filtered View (single category) -->
       <template v-if="selectedCategory">
         <div class="category-section">
-          <div class="channels-grid">
+          <div class="channels-list">
             <ChannelCard
               v-for="channel in filteredChannels"
               :key="channel.id"
@@ -152,7 +152,7 @@ function getCategoryLabel(category: ChannelCategory): string {
             {{ getCategoryLabel(category) }}
             <span class="channel-count">({{ categoryChannels.length }})</span>
           </h2>
-          <div class="channels-grid">
+          <div class="channels-list">
             <ChannelCard
               v-for="channel in categoryChannels"
               :key="channel.id"
@@ -263,10 +263,17 @@ function getCategoryLabel(category: ChannelCategory): string {
   color: #666;
 }
 
-.channels-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+.channels-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+}
+
+.channels-list :deep(.channel-row:last-child) {
+  border-bottom: none;
 }
 
 .empty-state {

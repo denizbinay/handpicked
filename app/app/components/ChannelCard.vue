@@ -20,54 +20,62 @@ const categoryLabels: Record<ChannelCategory, string> = {
 </script>
 
 <template>
-  <NuxtLink :to="`/${channel.slug}`" class="channel-card">
-    <div class="card-header">
-      <h3 class="channel-title">{{ channel.title }}</h3>
-      <span v-if="showCategory && channel.category" class="category-badge">
-        {{ categoryLabels[channel.category] }}
-      </span>
+  <NuxtLink :to="`/${channel.slug}`" class="channel-row">
+    <div class="row-main">
+      <div class="row-header">
+        <h3 class="channel-title">{{ channel.title }}</h3>
+        <span v-if="showCategory && channel.category" class="category-badge">
+          {{ categoryLabels[channel.category] }}
+        </span>
+      </div>
+
+      <p v-if="channel.description" class="channel-description">
+        {{ channel.description }}
+      </p>
     </div>
 
-    <p v-if="channel.description" class="channel-description">
-      {{ channel.description }}
-    </p>
-
-    <div v-if="creator" class="curator-info">
+    <div class="row-meta">
       <NuxtLink
+        v-if="creator"
         :to="`/@${creator.username}`"
         class="curator-link"
         @click.stop
       >
         @{{ creator.username }}
       </NuxtLink>
+      <span v-else class="curator-placeholder">Independent</span>
     </div>
   </NuxtLink>
 </template>
 
 <style scoped>
-.channel-card {
+.channel-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  padding: 16px 20px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.channel-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.row-main {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  text-decoration: none;
-  transition: all 0.15s;
-  min-height: 100px;
+  gap: 6px;
+  min-width: 0;
 }
 
-.channel-card:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-.card-header {
+.row-header {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
 
 .channel-title {
@@ -76,12 +84,15 @@ const categoryLabels: Record<ChannelCategory, string> = {
   color: #fff;
   margin: 0;
   line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .category-badge {
   flex-shrink: 0;
   padding: 3px 8px;
-  background: rgba(68, 170, 255, 0.1);
+  background: rgba(68, 170, 255, 0.08);
   border: 1px solid rgba(68, 170, 255, 0.2);
   border-radius: 4px;
   font-size: 10px;
@@ -101,20 +112,27 @@ const categoryLabels: Record<ChannelCategory, string> = {
   overflow: hidden;
 }
 
-.curator-info {
-  margin-top: auto;
-  padding-top: 8px;
+.row-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 12px;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  white-space: nowrap;
 }
 
 .curator-link {
-  font-size: 12px;
   color: #666;
   text-decoration: none;
-  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
   transition: color 0.15s;
 }
 
 .curator-link:hover {
   color: #4af;
+}
+
+.curator-placeholder {
+  color: #444;
 }
 </style>

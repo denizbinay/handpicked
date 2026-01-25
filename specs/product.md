@@ -48,7 +48,9 @@ Viewers:
 - Do not need an account
 - Arrive on the site and immediately see a channel playing
 - Can switch between channels
-- Cannot control playback within a channel
+- Can control volume/mute, fullscreen, and quality
+- Can pause and resume (resume always re-syncs to live)
+- Cannot scrub, skip, or select videos
 
 There is no interaction with individual videos.
 
