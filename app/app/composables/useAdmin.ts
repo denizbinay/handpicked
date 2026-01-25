@@ -112,17 +112,154 @@ export function useAdmin() {
 
   /**
    * Toggle channel highlight status
+   * When adding: sets highlight_order to max + 1 (append to end)
+   * When removing: clears highlight_order and compacts remaining orders
    */
-  async function toggleHighlight(channelId: string, isHighlight: boolean): Promise<boolean> {
-    const { error } = await supabase
-      .from('channels')
-      .update({ is_highlight: isHighlight, updated_at: new Date().toISOString() })
-      .eq('id', channelId)
+  async function toggleHighlight(channelId: string, isHighlight: boolean): Promise<{ success: boolean; highlight_order: number | null }> {
+    if (isHighlight) {
+      // Adding highlight: get current max highlight_order and append
+      const { data: maxData } = await supabase
+        .from('channels')
+        .select('highlight_order')
+        .eq('is_highlight', true)
+        .order('highlight_order', { ascending: false, nullsFirst: false })
+        .limit(1)
+        .single()
 
-    if (error) {
-      console.error('Failed to toggle highlight:', error)
+      const newOrder = (maxData?.highlight_order ?? -1) + 1
+
+      const { error } = await supabase
+        .from('channels')
+        .update({
+          is_highlight: true,
+          highlight_order: newOrder,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', channelId)
+
+      if (error) {
+        console.error('Failed to add highlight:', error)
+        return { success: false, highlight_order: null }
+      }
+      return { success: true, highlight_order: newOrder }
+    } else {
+      // Removing highlight: get current order first
+      const { data: currentChannel } = await supabase
+        .from('channels')
+        .select('highlight_order')
+        .eq('id', channelId)
+        .single()
+
+      const removedOrder = currentChannel?.highlight_order
+
+      // Clear highlight status
+      const { error } = await supabase
+        .from('channels')
+        .update({
+          is_highlight: false,
+          highlight_order: null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', channelId)
+
+      if (error) {
+        console.error('Failed to remove highlight:', error)
+        return { success: false, highlight_order: null }
+      }
+
+      // Compact remaining orders (decrement all orders > removed order)
+      if (removedOrder !== null && removedOrder !== undefined) {
+        await supabase.rpc('compact_highlight_orders', { removed_order: removedOrder })
+          .then(({ error: compactError }) => {
+            if (compactError) {
+              console.error('Failed to compact highlight orders:', compactError)
+            }
+          })
+      }
+
+      return { success: true, highlight_order: null }
+    }
+  }
+
+  /**
+   * Move highlight up in order (decrease highlight_order)
+   */
+  async function moveHighlightUp(channelId: string, currentOrder: number): Promise<boolean> {
+    if (currentOrder === 0) return false
+
+    const newOrder = currentOrder - 1
+
+    // Find channel currently at newOrder position
+    const { data: swapChannel } = await supabase
+      .from('channels')
+      .select('id')
+      .eq('is_highlight', true)
+      .eq('highlight_order', newOrder)
+      .single()
+
+    if (!swapChannel) {
+      console.error('No channel found at position', newOrder)
       return false
     }
+
+    // Swap positions
+    const [result1, result2] = await Promise.all([
+      supabase
+        .from('channels')
+        .update({ highlight_order: newOrder, updated_at: new Date().toISOString() })
+        .eq('id', channelId),
+      supabase
+        .from('channels')
+        .update({ highlight_order: currentOrder, updated_at: new Date().toISOString() })
+        .eq('id', swapChannel.id),
+    ])
+
+    if (result1.error || result2.error) {
+      console.error('Failed to swap highlight order:', result1.error || result2.error)
+      return false
+    }
+
+    return true
+  }
+
+  /**
+   * Move highlight down in order (increase highlight_order)
+   */
+  async function moveHighlightDown(channelId: string, currentOrder: number, maxOrder: number): Promise<boolean> {
+    if (currentOrder >= maxOrder) return false
+
+    const newOrder = currentOrder + 1
+
+    // Find channel currently at newOrder position
+    const { data: swapChannel } = await supabase
+      .from('channels')
+      .select('id')
+      .eq('is_highlight', true)
+      .eq('highlight_order', newOrder)
+      .single()
+
+    if (!swapChannel) {
+      console.error('No channel found at position', newOrder)
+      return false
+    }
+
+    // Swap positions
+    const [result1, result2] = await Promise.all([
+      supabase
+        .from('channels')
+        .update({ highlight_order: newOrder, updated_at: new Date().toISOString() })
+        .eq('id', channelId),
+      supabase
+        .from('channels')
+        .update({ highlight_order: currentOrder, updated_at: new Date().toISOString() })
+        .eq('id', swapChannel.id),
+    ])
+
+    if (result1.error || result2.error) {
+      console.error('Failed to swap highlight order:', result1.error || result2.error)
+      return false
+    }
+
     return true
   }
 
@@ -236,7 +373,7 @@ export function useAdmin() {
   }
 
   /**
-   * Get highlight channels
+   * Get highlight channels ordered by highlight_order
    */
   async function getHighlightChannels(): Promise<ChannelWithCreator[]> {
     const { data, error } = await supabase
@@ -253,7 +390,7 @@ export function useAdmin() {
         )
       `)
       .eq('is_highlight', true)
-      .order('title', { ascending: true })
+      .order('highlight_order', { ascending: true, nullsFirst: false })
 
     if (error) {
       console.error('Failed to fetch highlight channels:', error)
@@ -298,6 +435,8 @@ export function useAdmin() {
     getAllChannels,
     toggleChannelVisibility,
     toggleHighlight,
+    moveHighlightUp,
+    moveHighlightDown,
     deleteScheduleEntry,
     getAllCurators,
     toggleAdminStatus,

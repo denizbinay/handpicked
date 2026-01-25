@@ -5,7 +5,7 @@ definePageMeta({
   middleware: 'admin-auth',
 })
 
-const { getHighlightChannels, getNonHighlightChannels, toggleHighlight } = useAdmin()
+const { getHighlightChannels, getNonHighlightChannels, toggleHighlight, moveHighlightUp, moveHighlightDown } = useAdmin()
 
 const highlightChannels = ref<ChannelWithCreator[]>([])
 const availableChannels = ref<ChannelWithCreator[]>([])
@@ -31,26 +31,82 @@ async function addHighlight() {
   const channel = availableChannels.value.find(c => c.id === selectedChannelId.value)
   if (!channel) return
 
-  const success = await toggleHighlight(channel.id, true)
-  if (success) {
+  const result = await toggleHighlight(channel.id, true)
+  if (result.success) {
     // Move channel from available to highlights
     availableChannels.value = availableChannels.value.filter(c => c.id !== channel.id)
     channel.is_highlight = true
+    channel.highlight_order = result.highlight_order
     highlightChannels.value.push(channel)
     selectedChannelId.value = ''
   }
 }
 
 async function removeHighlight(channel: ChannelWithCreator) {
-  const success = await toggleHighlight(channel.id, false)
-  if (success) {
+  const removedOrder = channel.highlight_order
+  const result = await toggleHighlight(channel.id, false)
+  if (result.success) {
     // Move channel from highlights to available (if public)
     highlightChannels.value = highlightChannels.value.filter(c => c.id !== channel.id)
     channel.is_highlight = false
+    channel.highlight_order = null
+
+    // Update local orders for remaining highlights (compact)
+    if (removedOrder !== null) {
+      highlightChannels.value.forEach((c) => {
+        if (c.highlight_order !== null && c.highlight_order > removedOrder) {
+          c.highlight_order = c.highlight_order - 1
+        }
+      })
+    }
+
     if (channel.is_public) {
       availableChannels.value.push(channel)
       availableChannels.value.sort((a, b) => a.title.localeCompare(b.title))
     }
+  }
+}
+
+async function handleMoveUp(index: number) {
+  if (index === 0) return
+
+  const channel = highlightChannels.value[index]
+  const prevChannel = highlightChannels.value[index - 1]
+
+  if (!channel || !prevChannel) return
+  if (channel.highlight_order === null || channel.highlight_order === undefined) return
+
+  const success = await moveHighlightUp(channel.id, channel.highlight_order)
+  if (success) {
+    // Swap in local state
+    const tempOrder = channel.highlight_order
+    channel.highlight_order = prevChannel.highlight_order
+    prevChannel.highlight_order = tempOrder
+
+    highlightChannels.value[index] = prevChannel
+    highlightChannels.value[index - 1] = channel
+  }
+}
+
+async function handleMoveDown(index: number) {
+  if (index >= highlightChannels.value.length - 1) return
+
+  const channel = highlightChannels.value[index]
+  const nextChannel = highlightChannels.value[index + 1]
+
+  if (!channel || !nextChannel) return
+  if (channel.highlight_order === null || channel.highlight_order === undefined) return
+
+  const maxOrder = highlightChannels.value.length - 1
+  const success = await moveHighlightDown(channel.id, channel.highlight_order, maxOrder)
+  if (success) {
+    // Swap in local state
+    const tempOrder = channel.highlight_order
+    channel.highlight_order = nextChannel.highlight_order
+    nextChannel.highlight_order = tempOrder
+
+    highlightChannels.value[index] = nextChannel
+    highlightChannels.value[index + 1] = channel
   }
 }
 </script>
@@ -94,13 +150,31 @@ async function removeHighlight(channel: ChannelWithCreator) {
                 @{{ channel.creator_profiles?.username || 'unknown' }}
               </span>
             </div>
-            <button
-              class="remove-button"
-              title="Remove from highlights"
-              @click="removeHighlight(channel)"
-            >
-              Remove
-            </button>
+            <div class="item-actions">
+              <button
+                class="move-button"
+                :disabled="index === 0"
+                title="Move up"
+                @click="handleMoveUp(index)"
+              >
+                &uarr;
+              </button>
+              <button
+                class="move-button"
+                :disabled="index === highlightChannels.length - 1"
+                title="Move down"
+                @click="handleMoveDown(index)"
+              >
+                &darr;
+              </button>
+              <button
+                class="remove-button"
+                title="Remove from highlights"
+                @click="removeHighlight(channel)"
+              >
+                Remove
+              </button>
+            </div>
           </li>
         </ul>
       </section>
@@ -269,6 +343,32 @@ async function removeHighlight(channel: ChannelWithCreator) {
   font-family: var(--font-mono);
 }
 
+.item-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.move-button {
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.move-button:hover:not(:disabled) {
+  border-color: rgba(215, 161, 103, 0.6);
+  color: var(--color-text-primary);
+}
+
+.move-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
 
 .remove-button {
   padding: 6px 12px;

@@ -151,7 +151,21 @@ export function usePersistentPlayer() {
     if (!channels.value || channels.value.length === 0) return
     if (currentChannel.value) return
 
-    await loadChannelBySlug(channels.value[0].slug)
+    // Find first highlight channel by highlight_order
+    const highlightChannels = channels.value
+      .filter((channel) => channel.is_highlight)
+      .sort((a, b) => (a.highlight_order ?? 999) - (b.highlight_order ?? 999))
+
+    const firstHighlight = highlightChannels[0]
+    if (firstHighlight) {
+      await loadChannelBySlug(firstHighlight.slug)
+      return
+    }
+
+    const firstChannel = channels.value[0]
+    if (firstChannel) {
+      await loadChannelBySlug(firstChannel.slug)
+    }
   }
 
   function setPlaybackState(state: PlaybackState) {

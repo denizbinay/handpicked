@@ -39,6 +39,7 @@ export interface Channel {
   created_by: string
   is_public: boolean
   is_highlight: boolean
+  highlight_order: number | null
   category: ChannelCategory | null
   created_at: string
   updated_at: string

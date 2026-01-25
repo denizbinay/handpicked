@@ -35,9 +35,11 @@ const channelList = computed<Channel[]>(() => {
 const curatorHref = computed(() => (isAuthenticated.value ? '/curator' : '/curator/login'))
 const curatorLabel = computed(() => (isAuthenticated.value ? 'Your Dashboard' : 'Become a Curator'))
 
-// Highlight channels: channels with is_highlight flag
+// Highlight channels: channels with is_highlight flag, sorted by highlight_order
 const highlightChannels = computed(() => {
-  return channelList.value.filter(c => c.is_highlight)
+  return channelList.value
+    .filter(c => c.is_highlight)
+    .sort((a, b) => (a.highlight_order ?? 999) - (b.highlight_order ?? 999))
 })
 
 // Get ALL channels for a category (excluding highlights)

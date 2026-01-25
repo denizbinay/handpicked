@@ -21,9 +21,9 @@ export type Database = {
           duration_seconds: number
           id: string
           is_disabled: boolean
+          last_checked_at: string | null
           last_error_code: number | null
           last_error_message: string | null
-          last_checked_at: string | null
           position: number
           published_at: string | null
           thumbnail_url: string | null
@@ -38,9 +38,9 @@ export type Database = {
           duration_seconds: number
           id?: string
           is_disabled?: boolean
+          last_checked_at?: string | null
           last_error_code?: number | null
           last_error_message?: string | null
-          last_checked_at?: string | null
           position: number
           published_at?: string | null
           thumbnail_url?: string | null
@@ -55,9 +55,9 @@ export type Database = {
           duration_seconds?: number
           id?: string
           is_disabled?: boolean
+          last_checked_at?: string | null
           last_error_code?: number | null
           last_error_message?: string | null
-          last_checked_at?: string | null
           position?: number
           published_at?: string | null
           thumbnail_url?: string | null
@@ -105,7 +105,9 @@ export type Database = {
           created_at: string
           created_by: string
           description: string | null
+          highlight_order: number | null
           id: string
+          is_highlight: boolean | null
           is_public: boolean
           slug: string
           title: string
@@ -116,7 +118,9 @@ export type Database = {
           created_at?: string
           created_by: string
           description?: string | null
+          highlight_order?: number | null
           id?: string
+          is_highlight?: boolean | null
           is_public?: boolean
           slug: string
           title: string
@@ -127,7 +131,9 @@ export type Database = {
           created_at?: string
           created_by?: string
           description?: string | null
+          highlight_order?: number | null
           id?: string
+          is_highlight?: boolean | null
           is_public?: boolean
           slug?: string
           title?: string
@@ -148,18 +154,21 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          is_admin: boolean | null
           last_login_at: string | null
         }
         Insert: {
           created_at?: string
           email: string
           id?: string
+          is_admin?: boolean | null
           last_login_at?: string | null
         }
         Update: {
           created_at?: string
           email?: string
           id?: string
+          is_admin?: boolean | null
           last_login_at?: string | null
         }
         Relationships: []
@@ -213,7 +222,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      compact_highlight_orders: {
+        Args: { removed_order: number }
+        Returns: undefined
+      }
     }
     Enums: {
       channel_category:

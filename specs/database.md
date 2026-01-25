@@ -30,6 +30,10 @@ Required fields:
 - created_at
 - updated_at
 
+Admin-managed fields:
+- is_highlight (boolean, default false) - Whether channel appears in sidebar highlights
+- highlight_order (integer, nullable) - Explicit ordering for highlight channels
+
 Optional profile fields:
 - avatar_url (square image URL for channel icon)
 - banner_url (header/banner image URL)
@@ -42,6 +46,14 @@ Rules:
 - Channels are the primary public objects
 - Viewers never interact with videos directly
 - All playback happens through channels
+
+Highlight rules:
+- highlight_order is null when is_highlight is false
+- highlight_order is a sequential integer (0-based) when is_highlight is true
+- Order is explicit and manually set by admins
+- Newly added highlights are appended to the end (highest order + 1)
+- Removing a highlight clears highlight_order and compacts remaining orders
+- All highlight consumers (sidebar, default channel) use highlight_order for ordering
 
 ---
 
