@@ -407,4 +407,10 @@ const socialIcons: Record<string, { label: string; getUrl: (h: string) => string
     font-size: 24px;
   }
 }
+
+@media (max-width: 640px) {
+  .main {
+    padding: 32px 16px;
+  }
+}
 </style>

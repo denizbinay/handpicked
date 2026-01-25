@@ -29,4 +29,16 @@ defineProps<{
   width: 100%;
   padding: var(--space-3xl) var(--space-xl);
 }
+
+@media (max-width: 900px) {
+  .content-wrapper {
+    padding: var(--space-2xl) var(--space-lg);
+  }
+}
+
+@media (max-width: 640px) {
+  .content-wrapper {
+    padding: var(--space-xl) var(--space-md);
+  }
+}
 </style>

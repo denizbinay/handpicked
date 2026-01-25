@@ -552,6 +552,12 @@ watch(
   opacity: 1;
 }
 
+@media (hover: none) {
+  .control-bar {
+    opacity: 1;
+  }
+}
+
 .control-btn {
   display: flex;
   align-items: center;

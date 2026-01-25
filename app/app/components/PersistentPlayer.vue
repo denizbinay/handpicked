@@ -47,6 +47,9 @@ const dockPosition = ref({ x: 0, y: 0 })
 const dockHasPosition = ref(false)
 const dockDragging = ref(false)
 const dockOffset = ref({ x: 0, y: 0 })
+const isDockSuppressed = ref(false)
+
+const dockBreakpoint = 1024
 
 const dockStyle = computed(() => {
   if (isWatchRoute.value) return {}
@@ -72,6 +75,12 @@ function handleHideDock() {
 function handleShowDock() {
   player.showDock()
   playerRef.value?.play()
+}
+
+function closeChannelList() {
+  if (player.showChannelList.value) {
+    player.toggleChannelList()
+  }
 }
 
 function clamp(value: number, min: number, max: number) {
@@ -132,6 +141,15 @@ function handleKeydown(event: KeyboardEvent) {
   }
 }
 
+function updateDockSuppression() {
+  if (!process.client) return
+  const shouldSuppress = window.innerWidth <= dockBreakpoint
+  isDockSuppressed.value = shouldSuppress
+  if (shouldSuppress) {
+    player.hideDock()
+  }
+}
+
 async function syncChannelForRoute() {
   await player.loadChannels()
   const routeSlug = typeof route.params.slug === 'string' ? route.params.slug : null
@@ -154,6 +172,11 @@ async function syncChannelForRoute() {
 onMounted(async () => {
   await syncChannelForRoute()
   window.addEventListener('keydown', handleKeydown)
+  updateDockSuppression()
+  window.addEventListener('resize', updateDockSuppression)
+  if (window.innerWidth <= 900) {
+    player.showChannelList.value = false
+  }
   if (!isWatchRoute.value && !isDockHidden.value) {
     nextTick(() => {
       ensureDockPosition()
@@ -163,6 +186,7 @@ onMounted(async () => {
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown)
+  window.removeEventListener('resize', updateDockSuppression)
   stopDockDrag()
 })
 
@@ -186,9 +210,20 @@ watch(
 </script>
 
 <template>
-  <div v-if="hasPlayableChannel" class="persistent-player" :class="{ full: isWatchRoute, dock: !isWatchRoute }">
+  <div
+    v-if="hasPlayableChannel && (!isDockSuppressed || isWatchRoute)"
+    class="persistent-player"
+    :class="{ full: isWatchRoute, dock: !isWatchRoute }"
+  >
     <div v-show="!isDockHidden" class="player-shell" :style="dockStyle" ref="playerShellRef">
       <div class="player-container">
+        <button
+          v-if="isWatchRoute"
+          class="sidebar-handle"
+          type="button"
+          aria-label="Toggle channel list"
+          @click="player.toggleChannelList"
+        ></button>
         <ChannelPlayer
           v-if="canRenderPlayer"
           ref="playerRef"
@@ -225,6 +260,13 @@ watch(
         </div>
       </div>
 
+      <button
+        v-if="isWatchRoute && showChannelList"
+        class="sidebar-backdrop"
+        type="button"
+        aria-label="Close channel list"
+        @click="closeChannelList"
+      ></button>
       <transition name="slide">
         <ChannelSidebar
           v-if="isWatchRoute && showChannelList"
@@ -236,7 +278,7 @@ watch(
     </div>
 
     <button
-      v-if="isDockHidden"
+      v-if="isDockHidden && !isDockSuppressed"
       class="dock-resume"
       type="button"
       @click="handleShowDock"
@@ -309,6 +351,32 @@ watch(
   flex-direction: column;
   min-width: 0;
   position: relative;
+}
+
+.sidebar-handle {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 64px;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 239, 230, 0.2);
+  background: linear-gradient(180deg, rgba(244, 239, 230, 0.08), rgba(12, 11, 9, 0.6));
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 3;
+}
+
+.sidebar-handle:hover {
+  opacity: 0.85;
+  transform: translateY(-50%) scaleY(1.02);
+}
+
+.sidebar-backdrop {
+  display: none;
 }
 
   .dock-meta {
@@ -429,6 +497,28 @@ watch(
   .persistent-player.dock .player-shell {
     width: 280px;
     height: 158px;
+  }
+}
+
+@media (max-width: 900px) {
+  .player-shell {
+    width: 100%;
+  }
+
+  .sidebar-handle {
+    right: 4px;
+    height: 56px;
+    width: 9px;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(7, 6, 5, 0.55);
+    z-index: 20;
+    border: none;
+    padding: 0;
   }
 }
 </style>

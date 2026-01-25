@@ -137,4 +137,17 @@ const categoryLabels: Record<ChannelCategory, string> = {
 .curator-placeholder {
   color: #4f4a41;
 }
+
+@media (max-width: 640px) {
+  .channel-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .row-meta {
+    justify-content: flex-start;
+  }
+}
 </style>

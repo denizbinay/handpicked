@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Channel, ChannelScheduleItem, ChannelTimeline, ChannelCategory } from '~/types/database'
+import type { Channel, ChannelScheduleItem, ChannelTimeline, ChannelCategory, CreatorProfile } from '~/types/database'
 
 const CATEGORIES: { value: ChannelCategory; label: string }[] = [
   { value: 'tech', label: 'Tech' },
@@ -13,16 +13,18 @@ const CATEGORIES: { value: ChannelCategory; label: string }[] = [
 ]
 
 definePageMeta({
-  middleware: 'curator-auth',
+  middleware: 'admin-auth',
 })
 
 const route = useRoute()
+const router = useRouter()
 const supabase = useSupabaseClient()
 
 const channelId = computed(() => route.params.id as string)
 
 // Channel data
 const channel = ref<Channel | null>(null)
+const owner = ref<CreatorProfile | null>(null)
 const schedule = ref<ChannelScheduleItem[]>([])
 const timeline = ref<ChannelTimeline | null>(null)
 
@@ -31,6 +33,7 @@ const isEditing = ref(false)
 const editTitle = ref('')
 const editDescription = ref('')
 const editIsPublic = ref(false)
+const editIsHighlight = ref(false)
 const editCategory = ref<ChannelCategory | null>(null)
 
 // Add video state
@@ -43,25 +46,26 @@ const isLoading = ref(true)
 const isSaving = ref(false)
 const error = ref<string | null>(null)
 
-// Fetch channel data
+// Fetch channel data (admin version - no ownership check)
 async function fetchChannel() {
   isLoading.value = true
   error.value = null
 
   try {
-    // Get current session to verify ownership
-    const { data: sessionData } = await supabase.auth.getSession()
-    const userId = sessionData.session?.user?.id
-
-    if (!userId) {
-      error.value = 'You must be logged in'
-      return
-    }
-
-    // Fetch channel
+    // Fetch channel with owner info
     const { data: channelData, error: channelError } = await supabase
       .from('channels')
-      .select('*')
+      .select(`
+        *,
+        creator_accounts!channels_created_by_fkey (
+          creator_profiles (
+            id,
+            username,
+            display_name,
+            avatar_url
+          )
+        )
+      `)
       .eq('id', channelId.value)
       .single()
 
@@ -70,16 +74,12 @@ async function fetchChannel() {
       return
     }
 
-    // Verify ownership
-    if (channelData.created_by !== userId) {
-      error.value = 'You do not have access to this channel'
-      return
-    }
-
     channel.value = channelData as Channel
+    owner.value = (channelData as any).creator_accounts?.creator_profiles as CreatorProfile | null
     editTitle.value = channelData.title
     editDescription.value = channelData.description || ''
     editIsPublic.value = channelData.is_public
+    editIsHighlight.value = channelData.is_highlight || false
     editCategory.value = channelData.category || null
 
     // Fetch schedule
@@ -118,7 +118,9 @@ async function saveMetadata() {
       title: editTitle.value,
       description: editDescription.value || null,
       is_public: editIsPublic.value,
+      is_highlight: editIsHighlight.value,
       category: editCategory.value,
+      updated_at: new Date().toISOString(),
     })
     .eq('id', channelId.value)
 
@@ -132,8 +134,41 @@ async function saveMetadata() {
   channel.value.title = editTitle.value
   channel.value.description = editDescription.value
   channel.value.is_public = editIsPublic.value
+  channel.value.is_highlight = editIsHighlight.value
   channel.value.category = editCategory.value
   isEditing.value = false
+}
+
+// Delete channel (admin only)
+async function deleteChannel() {
+  if (!confirm('Are you sure you want to delete this channel? This action cannot be undone.')) {
+    return
+  }
+
+  // Delete schedule entries first
+  await supabase
+    .from('channel_schedules')
+    .delete()
+    .eq('channel_id', channelId.value)
+
+  // Delete timeline
+  await supabase
+    .from('channel_timelines')
+    .delete()
+    .eq('channel_id', channelId.value)
+
+  // Delete channel
+  const { error: deleteError } = await supabase
+    .from('channels')
+    .delete()
+    .eq('id', channelId.value)
+
+  if (deleteError) {
+    alert('Failed to delete channel')
+    return
+  }
+
+  router.push('/admin/channels')
 }
 
 // Add video to schedule
@@ -311,9 +346,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="curator-page">
+  <div class="admin-page">
     <header class="header">
-      <NuxtLink to="/curator" class="back-link">&larr; Back to Dashboard</NuxtLink>
+      <NuxtLink to="/admin/channels" class="back-link">&larr; Back to Channels</NuxtLink>
     </header>
 
     <main class="main">
@@ -323,11 +358,20 @@ onMounted(() => {
       <!-- Error -->
       <div v-else-if="error" class="error-state">
         <p>{{ error }}</p>
-        <NuxtLink to="/curator" class="back-link">Back to Dashboard</NuxtLink>
+        <NuxtLink to="/admin/channels" class="back-link">Back to Channels</NuxtLink>
       </div>
 
       <!-- Channel Editor -->
       <div v-else-if="channel" class="channel-editor">
+        <!-- Admin Banner -->
+        <div class="admin-banner">
+          <span class="admin-badge">ADMIN MODE</span>
+          <span class="owner-info">
+            Owner: @{{ owner?.username || 'unknown' }}
+            <span v-if="owner?.display_name">({{ owner.display_name }})</span>
+          </span>
+        </div>
+
         <!-- Channel Info Section -->
         <section class="section">
           <div class="section-header">
@@ -369,6 +413,7 @@ onMounted(() => {
                 <span class="status-badge" :class="{ public: channel.is_public }">
                   {{ channel.is_public ? 'Public' : 'Private' }}
                 </span>
+                <span v-if="channel.is_highlight" class="highlight-badge">Highlight</span>
               </span>
             </div>
           </div>
@@ -391,9 +436,15 @@ onMounted(() => {
                 </option>
               </select>
             </div>
-            <div class="form-group checkbox">
-              <input id="edit-public" v-model="editIsPublic" type="checkbox" />
-              <label for="edit-public">Public</label>
+            <div class="form-row-checkboxes">
+              <div class="form-group checkbox">
+                <input id="edit-public" v-model="editIsPublic" type="checkbox" />
+                <label for="edit-public">Public</label>
+              </div>
+              <div class="form-group checkbox">
+                <input id="edit-highlight" v-model="editIsHighlight" type="checkbox" />
+                <label for="edit-highlight">Highlight</label>
+              </div>
             </div>
             <div class="form-actions">
               <button
@@ -499,13 +550,26 @@ onMounted(() => {
             </button>
           </div>
         </section>
+
+        <!-- Admin Actions Section -->
+        <section class="section danger-section">
+          <div class="section-header">
+            <h2>Danger Zone</h2>
+          </div>
+          <div class="danger-content">
+            <p>Permanently delete this channel and all its videos.</p>
+            <button class="delete-button" @click="deleteChannel">
+              Delete Channel
+            </button>
+          </div>
+        </section>
       </div>
     </main>
   </div>
 </template>
 
 <style scoped>
-.curator-page {
+.admin-page {
   min-height: 100vh;
   background: transparent;
   color: var(--color-text-primary);
@@ -552,7 +616,32 @@ onMounted(() => {
 .channel-editor {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
+}
+
+.admin-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(215, 161, 103, 0.1);
+  border: 1px solid rgba(215, 161, 103, 0.3);
+  border-radius: var(--radius-lg);
+}
+
+.admin-badge {
+  padding: 4px 10px;
+  background: rgba(215, 161, 103, 0.2);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--color-accent);
+}
+
+.owner-info {
+  font-size: 13px;
+  color: var(--color-text-secondary);
 }
 
 .section {
@@ -608,6 +697,7 @@ onMounted(() => {
   display: flex;
   gap: 16px;
   padding: 8px 0;
+  align-items: center;
 }
 
 .info-row .label {
@@ -619,6 +709,9 @@ onMounted(() => {
 .info-row .value {
   color: var(--color-text-secondary);
   font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .info-row .value.mono {
@@ -638,28 +731,20 @@ onMounted(() => {
   color: #7fd1a1;
 }
 
+.highlight-badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: rgba(215, 161, 103, 0.15);
+  color: var(--color-accent);
+}
+
 .category-badge {
   padding: 2px 8px;
   border-radius: 4px;
   font-size: 11px;
   background: rgba(215, 161, 103, 0.12);
   color: var(--color-accent);
-}
-
-.form-group select {
-  padding: 10px 12px;
-  background: rgba(11, 10, 8, 0.9);
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  color: var(--color-text-primary);
-  font-size: 13px;
-  font-family: inherit;
-  cursor: pointer;
-}
-
-.form-group select:focus {
-  border-color: rgba(215, 161, 103, 0.6);
-  outline: none;
 }
 
 .edit-form {
@@ -691,7 +776,8 @@ onMounted(() => {
 }
 
 .form-group input[type='text'],
-.form-group textarea {
+.form-group textarea,
+.form-group select {
   padding: 10px 12px;
   background: rgba(11, 10, 8, 0.9);
   border: 1px solid var(--color-border);
@@ -705,6 +791,11 @@ onMounted(() => {
   width: 16px;
   height: 16px;
   accent-color: var(--color-accent);
+}
+
+.form-row-checkboxes {
+  display: flex;
+  gap: 24px;
 }
 
 .form-actions {
@@ -876,46 +967,56 @@ onMounted(() => {
   color: var(--color-accent);
 }
 
-.preview-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid rgba(244, 239, 230, 0.12);
-}
-
-.url-preview {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--color-text-muted);
-}
-
 .empty {
   color: var(--color-text-muted);
   font-style: italic;
 }
 
-.form-row {
-  display: flex;
-  gap: 16px;
+/* Danger Zone */
+.danger-section {
+  border-color: rgba(239, 138, 122, 0.3);
 }
 
-.form-row .form-group {
-  flex: 1;
+.danger-section .section-header {
+  background: rgba(239, 138, 122, 0.05);
 }
 
-.form-group input[type='url'] {
-  padding: 10px 12px;
-  background: rgba(11, 10, 8, 0.9);
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  color: var(--color-text-primary);
+.danger-section .section-header h2 {
+  color: #ef8a7a;
+}
+
+.danger-content {
+  padding: 20px;
+}
+
+.danger-content p {
   font-size: 13px;
-  font-family: inherit;
-  width: 100%;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.delete-button {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid rgba(239, 138, 122, 0.5);
+  border-radius: 999px;
+  color: #ef8a7a;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.delete-button:hover {
+  background: rgba(239, 138, 122, 0.1);
+  border-color: #ef8a7a;
 }
 
 @media (max-width: 900px) {
+  .admin-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .add-video {
     flex-direction: column;
   }
@@ -944,6 +1045,11 @@ onMounted(() => {
   .form-actions {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .form-row-checkboxes {
+    flex-direction: column;
+    gap: 12px;
   }
 }
 </style>

@@ -6,6 +6,10 @@ const props = defineProps<{
   currentSlug: string | null
 }>()
 
+const supabase = useSupabaseClient()
+const isAuthenticated = ref(false)
+let authSubscription: { unsubscribe: () => void } | null = null
+
 const emit = defineEmits<{
   select: [slug: string]
 }>()
@@ -29,9 +33,12 @@ const channelList = computed<Channel[]>(() => {
   return Array.isArray(props.channels) ? props.channels : []
 })
 
-// Highlight channels: top 6 channels
+const curatorHref = computed(() => (isAuthenticated.value ? '/curator' : '/curator/login'))
+const curatorLabel = computed(() => (isAuthenticated.value ? 'Your Dashboard' : 'Become a Curator'))
+
+// Highlight channels: channels with is_highlight flag
 const highlightChannels = computed(() => {
-  return channelList.value.slice(0, 6)
+  return channelList.value.filter(c => c.is_highlight)
 })
 
 // Get ALL channels for a category (excluding highlights)
@@ -57,6 +64,19 @@ function toggleCategory(category: ChannelCategory) {
 function isActive(channel: Channel): boolean {
   return channel.slug === props.currentSlug
 }
+
+onMounted(async () => {
+  const { data } = await supabase.auth.getSession()
+  isAuthenticated.value = Boolean(data.session)
+  const { data: authData } = supabase.auth.onAuthStateChange((_event, session) => {
+    isAuthenticated.value = Boolean(session)
+  })
+  authSubscription = authData.subscription
+})
+
+onUnmounted(() => {
+  authSubscription?.unsubscribe()
+})
 </script>
 
 <template>
@@ -64,6 +84,9 @@ function isActive(channel: Channel): boolean {
     <!-- Header -->
     <div class="header">
       <span class="title">CHANNELS</span>
+      <NuxtLink :to="curatorHref" class="curator-link">
+        {{ curatorLabel }}
+      </NuxtLink>
     </div>
 
     <!-- Main content area -->
@@ -167,6 +190,24 @@ function isActive(channel: Channel): boolean {
   letter-spacing: 1px;
 }
 
+.curator-link {
+  color: var(--color-text-tertiary);
+  font-size: 11px;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 239, 230, 0.12);
+  background: rgba(15, 14, 12, 0.6);
+  transition: all 0.15s;
+}
+
+.curator-link:hover {
+  color: var(--color-text-primary);
+  border-color: rgba(215, 161, 103, 0.6);
+  background: rgba(215, 161, 103, 0.12);
+  box-shadow: var(--shadow-glow);
+}
+
 .sidebar-content {
   flex: 1;
   display: flex;
@@ -177,6 +218,30 @@ function isActive(channel: Channel): boolean {
 .highlights-section {
   padding: 12px 0;
   flex-shrink: 0;
+  overflow: hidden;
+  max-height: 45vh;
+  position: relative;
+}
+
+.highlights-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 24px;
+  background: linear-gradient(180deg, rgba(12, 11, 9, 0), rgba(12, 11, 9, 0.85));
+  pointer-events: none;
+}
+
+@media (max-height: 760px) {
+  .highlights-section {
+    max-height: 35vh;
+  }
+
+  .highlights-section::after {
+    height: 20px;
+  }
 }
 
 .section-header {
@@ -361,5 +426,22 @@ function isActive(channel: Channel): boolean {
   border-color: rgba(215, 161, 103, 0.6);
   color: var(--color-text-primary);
   box-shadow: var(--shadow-glow);
+}
+
+@media (max-width: 900px) {
+  .channel-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(85vw, 320px);
+    z-index: 30;
+    border-left: 1px solid var(--color-border);
+    box-shadow: -12px 0 30px rgba(0, 0, 0, 0.35);
+  }
+
+  .highlights-section {
+    max-height: 40vh;
+  }
 }
 </style>

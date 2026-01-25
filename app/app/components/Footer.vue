@@ -1,5 +1,48 @@
 <script setup lang="ts">
 const currentYear = new Date().getFullYear()
+const supabase = useSupabaseClient()
+
+const isAuthenticated = ref(false)
+const isAdmin = ref(false)
+const curatorHref = computed(() => (isAuthenticated.value ? '/curator' : '/curator/login'))
+const curatorLabel = computed(() => (isAuthenticated.value ? 'Dashboard' : 'Curate'))
+let authSubscription: { unsubscribe: () => void } | null = null
+
+async function refreshAuthState() {
+  const { data } = await supabase.auth.getSession()
+  const session = data.session
+  isAuthenticated.value = Boolean(session)
+
+  if (!session) {
+    isAdmin.value = false
+    return
+  }
+
+  const { data: accountData } = await supabase
+    .from('creator_accounts')
+    .select('is_admin')
+    .eq('id', session.user.id)
+    .single()
+
+  isAdmin.value = accountData?.is_admin === true
+}
+
+onMounted(async () => {
+  await refreshAuthState()
+  const { data } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    isAuthenticated.value = Boolean(session)
+    if (session) {
+      await refreshAuthState()
+    } else {
+      isAdmin.value = false
+    }
+  })
+  authSubscription = data.subscription
+})
+
+onUnmounted(() => {
+  authSubscription?.unsubscribe()
+})
 </script>
 
 <template>
@@ -15,7 +58,10 @@ const currentYear = new Date().getFullYear()
 
       <!-- Center: Links -->
       <nav class="links">
+        <NuxtLink to="/explore" class="link">Explore</NuxtLink>
         <NuxtLink to="/about" class="link">About</NuxtLink>
+        <NuxtLink :to="curatorHref" class="link">{{ curatorLabel }}</NuxtLink>
+        <NuxtLink v-if="isAdmin" to="/admin" class="link">Admin</NuxtLink>
         <a href="https://github.com" target="_blank" rel="noopener" class="link">GitHub</a>
         <a href="mailto:hello@example.com" class="link">Contact</a>
       </nav>

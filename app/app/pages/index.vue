@@ -189,4 +189,20 @@ body,
 .player-page {
   min-height: 0;
 }
+
+@media (max-width: 640px) {
+  .error-content,
+  .empty-content {
+    max-width: 320px;
+    padding: 24px;
+  }
+
+  .empty-content .brand {
+    font-size: 34px;
+  }
+
+  .empty-content .tagline {
+    font-size: 16px;
+  }
+}
 </style>

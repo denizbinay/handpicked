@@ -289,4 +289,36 @@ function getCategoryLabel(category: ChannelCategory): string {
   color: var(--color-text-muted);
   font-size: 14px;
 }
+
+@media (max-width: 900px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 20px 20px;
+  }
+
+  .category-filter {
+    padding: 12px 20px;
+  }
+
+  .content {
+    padding: 24px 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-title {
+    font-size: 20px;
+  }
+
+  .filter-pill {
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+
+  .content {
+    padding: 20px 16px;
+  }
+}
 </style>

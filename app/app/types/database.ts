@@ -6,6 +6,7 @@ export interface CreatorAccount {
   email: string
   created_at: string
   last_login_at: string | null
+  is_admin: boolean
 }
 
 export interface CreatorProfile {
@@ -37,6 +38,7 @@ export interface Channel {
   description: string | null
   created_by: string
   is_public: boolean
+  is_highlight: boolean
   category: ChannelCategory | null
   created_at: string
   updated_at: string

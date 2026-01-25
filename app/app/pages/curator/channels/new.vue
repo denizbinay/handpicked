@@ -376,4 +376,15 @@ async function handleSubmit() {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+@media (max-width: 640px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
 </style>

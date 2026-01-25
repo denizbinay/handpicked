@@ -11,6 +11,7 @@ const router = useRouter()
 // Get user info for display
 const userEmail = ref<string | null>(null)
 const userId = ref<string | null>(null)
+const isAdmin = ref(false)
 
 // Profile state
 const profile = ref<CreatorProfile | null>(null)
@@ -37,6 +38,15 @@ const { data: channels, refresh: refreshChannels } = await useAsyncData(
     // Store user info
     userId.value = currentUserId
     userEmail.value = sessionData.session?.user?.email || null
+
+    // Check if user is admin
+    const { data: accountData } = await supabase
+      .from('creator_accounts')
+      .select('is_admin')
+      .eq('id', currentUserId)
+      .single()
+
+    isAdmin.value = accountData?.is_admin === true
 
     // Fetch profile
     const { data: profileData } = await supabase
@@ -148,6 +158,7 @@ async function deleteChannel(channelId: string) {
         <span class="user-email">{{ userEmail }}</span>
       </div>
       <div class="header-right">
+        <NuxtLink v-if="isAdmin" to="/admin" class="link-button admin-link">Admin</NuxtLink>
         <NuxtLink to="/" class="link-button">View as Viewer</NuxtLink>
         <button class="logout-button" @click="handleLogout">Logout</button>
       </div>
@@ -352,6 +363,16 @@ async function deleteChannel(channelId: string) {
 .link-button:hover {
   border-color: rgba(215, 161, 103, 0.6);
   color: var(--color-text-primary);
+}
+
+.link-button.admin-link {
+  border-color: rgba(215, 161, 103, 0.4);
+  color: var(--color-accent);
+}
+
+.link-button.admin-link:hover {
+  background: rgba(215, 161, 103, 0.1);
+  border-color: rgba(215, 161, 103, 0.8);
 }
 
 .logout-button {
@@ -703,5 +724,38 @@ async function deleteChannel(channelId: string) {
 .save-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+@media (max-width: 900px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .header-right {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .channel-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .channel-actions {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding: 24px 16px;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
 }
 </style>
