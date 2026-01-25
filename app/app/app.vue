@@ -1,3 +1,11 @@
+<script setup lang="ts">
+const { initAuth } = useAuth()
+
+onMounted(() => {
+  initAuth()
+})
+</script>
+
 <template>
   <div class="app-shell">
     <ClientOnly>

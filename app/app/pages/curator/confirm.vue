@@ -8,21 +8,21 @@ const error = ref<string | null>(null)
 onMounted(async () => {
   try {
     // The Supabase client automatically handles the token from the URL
-    const { data, error: authError } = await supabase.auth.getSession()
+    const { data, error: authError } = await supabase.auth.getUser()
 
     if (authError) {
       error.value = authError.message
       return
     }
 
-    if (data.session) {
+    if (data.user) {
       // Ensure creator account exists
-      await ensureCreatorAccount(data.session.user.id, data.session.user.email!)
+      await ensureCreatorAccount(data.user.id, data.user.email!)
 
       // Redirect to curator dashboard
       router.push('/curator')
     } else {
-      error.value = 'No session found. Please try logging in again.'
+      error.value = 'No user found. Please try logging in again.'
     }
   } catch (err) {
     error.value = 'An unexpected error occurred'

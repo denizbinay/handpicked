@@ -6,9 +6,8 @@ const props = defineProps<{
   currentSlug: string | null
 }>()
 
-const supabase = useSupabaseClient()
-const isAuthenticated = ref(false)
-let authSubscription: { unsubscribe: () => void } | null = null
+const { authState, refreshSession } = useAuth()
+const isAuthenticated = computed(() => authState.value === 'authenticated')
 
 const emit = defineEmits<{
   select: [slug: string]
@@ -66,16 +65,7 @@ function isActive(channel: Channel): boolean {
 }
 
 onMounted(async () => {
-  const { data } = await supabase.auth.getSession()
-  isAuthenticated.value = Boolean(data.session)
-  const { data: authData } = supabase.auth.onAuthStateChange((_event, session) => {
-    isAuthenticated.value = Boolean(session)
-  })
-  authSubscription = authData.subscription
-})
-
-onUnmounted(() => {
-  authSubscription?.unsubscribe()
+  await refreshSession()
 })
 </script>
 

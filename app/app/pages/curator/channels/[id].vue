@@ -50,9 +50,9 @@ async function fetchChannel() {
   error.value = null
 
   try {
-    // Get current session to verify ownership
-    const { data: sessionData } = await supabase.auth.getSession()
-    const userId = sessionData.session?.user?.id
+    // Get verified user to verify ownership
+    const { data: userData } = await supabase.auth.getUser()
+    const userId = userData.user?.id
 
     if (!userId) {
       error.value = 'You must be logged in'

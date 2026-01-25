@@ -16,8 +16,8 @@ async function loadCurators() {
   loading.value = true
 
   // Get current user ID
-  const { data: sessionData } = await supabase.auth.getSession()
-  currentUserId.value = sessionData.session?.user?.id || null
+  const { data: userData } = await supabase.auth.getUser()
+  currentUserId.value = userData.user?.id || null
 
   curators.value = await getAllCurators()
   loading.value = false

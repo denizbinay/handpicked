@@ -1,16 +1,15 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient()
 const router = useRouter()
+const { authState, refreshSession } = useAuth()
 
 const email = ref('')
 const isLoading = ref(false)
 const message = ref<{ type: 'success' | 'error'; text: string } | null>(null)
 
-let authSubscription: { unsubscribe: () => void } | null = null
-
 async function redirectIfAuthenticated() {
-  const { data } = await supabase.auth.getSession()
-  if (data.session) {
+  await refreshSession()
+  if (authState.value === 'authenticated') {
     router.push('/curator')
   }
 }
@@ -50,16 +49,11 @@ async function handleLogin() {
 
 onMounted(async () => {
   await redirectIfAuthenticated()
-  const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-    if (session) {
+  watch(authState, (state) => {
+    if (state === 'authenticated') {
       router.push('/curator')
     }
   })
-  authSubscription = data.subscription
-})
-
-onUnmounted(() => {
-  authSubscription?.unsubscribe()
 })
 </script>
 

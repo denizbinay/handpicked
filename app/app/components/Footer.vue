@@ -1,19 +1,23 @@
 <script setup lang="ts">
 const currentYear = new Date().getFullYear()
 const supabase = useSupabaseClient()
+const { authState, refreshSession } = useAuth()
 
-const isAuthenticated = ref(false)
+const isAuthenticated = computed(() => authState.value === 'authenticated')
 const isAdmin = ref(false)
 const curatorHref = computed(() => (isAuthenticated.value ? '/curator' : '/curator/login'))
 const curatorLabel = computed(() => (isAuthenticated.value ? 'Dashboard' : 'Curate'))
-let authSubscription: { unsubscribe: () => void } | null = null
 
-async function refreshAuthState() {
-  const { data } = await supabase.auth.getSession()
-  const session = data.session
-  isAuthenticated.value = Boolean(session)
+async function refreshAdminState() {
+  if (!isAuthenticated.value) {
+    isAdmin.value = false
+    return
+  }
 
-  if (!session) {
+  const { data: userData } = await supabase.auth.getUser()
+  const userId = userData.user?.id
+
+  if (!userId) {
     isAdmin.value = false
     return
   }
@@ -21,27 +25,22 @@ async function refreshAuthState() {
   const { data: accountData } = await supabase
     .from('creator_accounts')
     .select('is_admin')
-    .eq('id', session.user.id)
+    .eq('id', userId)
     .single()
 
   isAdmin.value = accountData?.is_admin === true
 }
 
 onMounted(async () => {
-  await refreshAuthState()
-  const { data } = supabase.auth.onAuthStateChange(async (_event, session) => {
-    isAuthenticated.value = Boolean(session)
-    if (session) {
-      await refreshAuthState()
+  await refreshSession()
+  await refreshAdminState()
+  watch(authState, async (state) => {
+    if (state === 'authenticated') {
+      await refreshAdminState()
     } else {
       isAdmin.value = false
     }
   })
-  authSubscription = data.subscription
-})
-
-onUnmounted(() => {
-  authSubscription?.unsubscribe()
 })
 </script>
 

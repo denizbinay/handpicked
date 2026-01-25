@@ -32,13 +32,13 @@ export function useAdmin() {
    * Check if current user is an admin
    */
   async function isAdmin(): Promise<boolean> {
-    const { data: sessionData } = await supabase.auth.getSession()
-    if (!sessionData.session) return false
+    const { data: userData } = await supabase.auth.getUser()
+    if (!userData.user) return false
 
     const { data, error } = await supabase
       .from('creator_accounts')
       .select('is_admin')
-      .eq('id', sessionData.session.user.id)
+      .eq('id', userData.user.id)
       .single()
 
     if (error || !data) return false
@@ -173,8 +173,8 @@ export function useAdmin() {
    */
   async function toggleAdminStatus(userId: string, isAdmin: boolean): Promise<boolean> {
     // Prevent self-demotion
-    const { data: sessionData } = await supabase.auth.getSession()
-    if (sessionData.session?.user.id === userId && !isAdmin) {
+    const { data: userData } = await supabase.auth.getUser()
+    if (userData.user?.id === userId && !isAdmin) {
       console.error('Cannot remove your own admin status')
       return false
     }

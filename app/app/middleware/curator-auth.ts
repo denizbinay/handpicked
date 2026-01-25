@@ -12,9 +12,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return
   }
 
-  // Redirect to login if not authenticated
-  const { data } = await supabase.auth.getSession()
-  if (!data.session) {
+  // Redirect to login if not authenticated (verified)
+  const { data } = await supabase.auth.getUser()
+  if (!data.user) {
     return navigateTo('/curator/login')
   }
 })

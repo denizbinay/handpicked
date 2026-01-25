@@ -26,18 +26,18 @@ const editSocialGithub = ref('')
 const editSocialInstagram = ref('')
 const editSocialYoutube = ref('')
 
-// Fetch curator's profile and channels
+// Fetch curator's profile and channels (client-only)
 const { data: channels, refresh: refreshChannels } = await useAsyncData(
   'curator-channels',
   async () => {
-    const { data: sessionData } = await supabase.auth.getSession()
-    const currentUserId = sessionData.session?.user?.id
+    const { data: userData } = await supabase.auth.getUser()
+    const currentUserId = userData.user?.id
 
     if (!currentUserId) return []
 
     // Store user info
     userId.value = currentUserId
-    userEmail.value = sessionData.session?.user?.email || null
+    userEmail.value = userData.user?.email || null
 
     // Check if user is admin
     const { data: accountData } = await supabase
@@ -72,7 +72,8 @@ const { data: channels, refresh: refreshChannels } = await useAsyncData(
     }
 
     return data as Channel[]
-  }
+  },
+  { server: false }
 )
 
 function initProfileForm() {

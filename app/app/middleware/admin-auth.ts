@@ -7,13 +7,13 @@
 export default defineNuxtRouteMiddleware(async () => {
   const supabase = useSupabaseClient()
 
-  // Check session
-  const { data: sessionData } = await supabase.auth.getSession()
-  if (!sessionData.session) {
+  // Check verified user
+  const { data: userData } = await supabase.auth.getUser()
+  if (!userData.user) {
     return navigateTo('/curator/login')
   }
 
-  const userId = sessionData.session.user.id
+  const userId = userData.user.id
 
   // Check if user is admin
   const { data: account, error } = await supabase
