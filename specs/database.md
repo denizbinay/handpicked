@@ -56,6 +56,12 @@ Required fields:
 - youtube_video_id
 - duration_seconds (cached)
 - created_at
+- is_disabled (boolean, default false)
+
+Availability tracking fields:
+- last_error_code (integer, nullable) - YouTube error code on last failure
+- last_error_message (text, nullable) - Human-readable error description
+- last_checked_at (timestamp, nullable) - When availability was last verified
 
 Cached video metadata (from YouTube API, for attribution):
 - title (video title)
@@ -68,6 +74,9 @@ Rules:
 - Order is explicit, not inferred
 - Videos must play strictly in this order
 - No randomness or algorithmic reshuffling
+- Disabled schedule entries remain visible to curators but are excluded from playback
+- Videos are auto-disabled on playback errors (100, 101, 150, 153) and can be manually re-enabled
+- Re-enabling triggers a fresh availability check; if still unavailable, the video stays disabled
 
 ---
 

@@ -28,5 +28,6 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     youtubeApiKey: process.env.YOUTUBE_API_KEY,
+    supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
   },
 })

@@ -13,7 +13,9 @@ export function useChannelTimeline() {
    * Calculate total duration of a channel schedule
    */
   function getTotalDuration(schedule: ChannelScheduleItem[]): number {
-    return schedule.reduce((sum, item) => sum + item.duration_seconds, 0)
+    return schedule
+      .filter((item) => !item.is_disabled)
+      .reduce((sum, item) => sum + item.duration_seconds, 0)
   }
 
   /**
@@ -33,7 +35,15 @@ export function useChannelTimeline() {
       return null
     }
 
-    const totalDuration = getTotalDuration(schedule)
+    const playableSchedule = schedule
+      .map((video, index) => ({ video, index }))
+      .filter(({ video }) => !video.is_disabled)
+
+    if (playableSchedule.length === 0) {
+      return null
+    }
+
+    const totalDuration = playableSchedule.reduce((sum, item) => sum + item.video.duration_seconds, 0)
     if (totalDuration === 0) {
       return null
     }
@@ -47,8 +57,8 @@ export function useChannelTimeline() {
     if (elapsedSeconds < 0) {
       return {
         channelId: timeline.channel_id,
-        currentVideo: schedule[0],
-        currentVideoIndex: 0,
+        currentVideo: playableSchedule[0].video,
+        currentVideoIndex: playableSchedule[0].index,
         offsetSeconds: 0,
         totalDurationSeconds: totalDuration,
       }
@@ -59,15 +69,15 @@ export function useChannelTimeline() {
 
     // Find which video is currently playing
     let accumulatedDuration = 0
-    for (let i = 0; i < schedule.length; i++) {
-      const video = schedule[i]
-      const videoEnd = accumulatedDuration + video.duration_seconds
+    for (let i = 0; i < playableSchedule.length; i++) {
+      const entry = playableSchedule[i]
+      const videoEnd = accumulatedDuration + entry.video.duration_seconds
 
       if (positionInSchedule < videoEnd) {
         return {
           channelId: timeline.channel_id,
-          currentVideo: video,
-          currentVideoIndex: i,
+          currentVideo: entry.video,
+          currentVideoIndex: entry.index,
           offsetSeconds: positionInSchedule - accumulatedDuration,
           totalDurationSeconds: totalDuration,
         }
@@ -79,8 +89,8 @@ export function useChannelTimeline() {
     // Fallback to first video (shouldn't happen with valid data)
     return {
       channelId: timeline.channel_id,
-      currentVideo: schedule[0],
-      currentVideoIndex: 0,
+      currentVideo: playableSchedule[0].video,
+      currentVideoIndex: playableSchedule[0].index,
       offsetSeconds: 0,
       totalDurationSeconds: totalDuration,
     }
@@ -92,12 +102,21 @@ export function useChannelTimeline() {
   function getNextVideo(
     schedule: ChannelScheduleItem[],
     currentIndex: number
-  ): { video: ChannelScheduleItem; index: number } {
-    const nextIndex = (currentIndex + 1) % schedule.length
-    return {
-      video: schedule[nextIndex],
-      index: nextIndex,
+  ): { video: ChannelScheduleItem; index: number } | null {
+    if (schedule.length === 0) return null
+
+    for (let offset = 1; offset <= schedule.length; offset++) {
+      const nextIndex = (currentIndex + offset) % schedule.length
+      const candidate = schedule[nextIndex]
+      if (!candidate.is_disabled) {
+        return {
+          video: candidate,
+          index: nextIndex,
+        }
+      }
     }
+
+    return null
   }
 
   /**

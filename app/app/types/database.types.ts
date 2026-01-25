@@ -20,6 +20,10 @@ export type Database = {
           created_at: string
           duration_seconds: number
           id: string
+          is_disabled: boolean
+          last_error_code: number | null
+          last_error_message: string | null
+          last_checked_at: string | null
           position: number
           published_at: string | null
           thumbnail_url: string | null
@@ -33,6 +37,10 @@ export type Database = {
           created_at?: string
           duration_seconds: number
           id?: string
+          is_disabled?: boolean
+          last_error_code?: number | null
+          last_error_message?: string | null
+          last_checked_at?: string | null
           position: number
           published_at?: string | null
           thumbnail_url?: string | null
@@ -46,6 +54,10 @@ export type Database = {
           created_at?: string
           duration_seconds?: number
           id?: string
+          is_disabled?: boolean
+          last_error_code?: number | null
+          last_error_message?: string | null
+          last_checked_at?: string | null
           position?: number
           published_at?: string | null
           thumbnail_url?: string | null

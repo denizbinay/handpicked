@@ -93,6 +93,9 @@ export function useYouTubePlayer() {
 
             // Playback
             playsinline: 1,
+
+            // Security: required for API client identity (prevents error 153)
+            origin: window.location.origin,
           },
           events: {
             onReady: () => {

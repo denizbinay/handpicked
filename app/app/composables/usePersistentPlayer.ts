@@ -128,7 +128,8 @@ export function usePersistentPlayer() {
       return
     }
 
-    schedule.value = scheduleData as ChannelScheduleItem[]
+    const scheduleItems = (scheduleData || []) as ChannelScheduleItem[]
+    schedule.value = scheduleItems.filter((item) => !item.is_disabled)
 
     const { data: timelineData, error: timelineError } = await supabase
       .from('channel_timelines')

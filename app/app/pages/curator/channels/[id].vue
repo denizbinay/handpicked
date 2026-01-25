@@ -37,6 +37,7 @@ const editCategory = ref<ChannelCategory | null>(null)
 const newVideoUrl = ref('')
 const isAddingVideo = ref(false)
 const addVideoError = ref<string | null>(null)
+const togglingItemId = ref<string | null>(null)
 
 // Loading states
 const isLoading = ref(true)
@@ -147,10 +148,26 @@ async function addVideo() {
     // Fetch video info from YouTube API
     const videoInfo = await $fetch('/api/youtube/video', {
       params: { id: newVideoUrl.value },
-    })
+    }) as {
+      id: string
+      title: string
+      channelTitle: string
+      channelId: string
+      publishedAt: string
+      duration_seconds: number
+      thumbnail: string | null
+      embeddable: boolean
+      privacyStatus: string
+      uploadStatus: string
+      isAvailable: boolean
+    }
 
-    // Add to schedule
+    // Add to schedule (mark disabled if not available)
     const newPosition = schedule.value.length
+    const shouldDisable = !videoInfo.isAvailable
+    const errorMessage = shouldDisable
+      ? `Not embeddable: ${videoInfo.privacyStatus}, embeddable=${videoInfo.embeddable}`
+      : null
 
     const { data: newItem, error: insertError } = await supabase
       .from('channel_schedules')
@@ -164,6 +181,9 @@ async function addVideo() {
         youtube_channel_id: videoInfo.channelId,
         thumbnail_url: videoInfo.thumbnail,
         published_at: videoInfo.publishedAt,
+        is_disabled: shouldDisable,
+        last_error_message: errorMessage,
+        last_checked_at: new Date().toISOString(),
       })
       .select()
       .single()
@@ -175,6 +195,10 @@ async function addVideo() {
 
     schedule.value.push(newItem as ChannelScheduleItem)
     newVideoUrl.value = ''
+
+    if (shouldDisable) {
+      addVideoError.value = 'Video added but marked unavailable (not embeddable or private)'
+    }
   } catch (err: any) {
     addVideoError.value = err.data?.message || 'Failed to fetch video info'
   } finally {
@@ -260,6 +284,68 @@ async function moveDown(index: number) {
   schedule.value[index + 1] = item
   schedule.value[index].position = index
   schedule.value[index + 1].position = index + 1
+}
+
+async function toggleScheduleItem(item: ChannelScheduleItem) {
+  togglingItemId.value = item.id
+  const nextValue = !item.is_disabled
+
+  // If re-enabling, recheck availability first
+  if (nextValue === false) {
+    // Re-enabling: verify video is now available
+    try {
+      const videoInfo = await $fetch('/api/youtube/video', {
+        params: { id: item.youtube_video_id },
+      }) as { isAvailable: boolean; embeddable: boolean; privacyStatus: string }
+
+      if (!videoInfo.isAvailable) {
+        alert(`Video is still unavailable (embeddable: ${videoInfo.embeddable}, status: ${videoInfo.privacyStatus})`)
+        togglingItemId.value = null
+        return
+      }
+
+      // Update with cleared error fields
+      const { error: updateError } = await supabase
+        .from('channel_schedules')
+        .update({
+          is_disabled: false,
+          last_error_code: null,
+          last_error_message: null,
+          last_checked_at: new Date().toISOString(),
+        })
+        .eq('id', item.id)
+
+      togglingItemId.value = null
+
+      if (updateError) {
+        alert('Failed to update video status')
+        return
+      }
+
+      item.is_disabled = false
+      item.last_error_code = undefined
+      item.last_error_message = undefined
+    } catch {
+      alert('Failed to verify video availability')
+      togglingItemId.value = null
+    }
+    return
+  }
+
+  // Disabling: just set the flag
+  const { error: updateError } = await supabase
+    .from('channel_schedules')
+    .update({ is_disabled: nextValue })
+    .eq('id', item.id)
+
+  togglingItemId.value = null
+
+  if (updateError) {
+    alert('Failed to update video status')
+    return
+  }
+
+  item.is_disabled = nextValue
 }
 
 // Reset timeline (restart channel from now)
@@ -448,13 +534,23 @@ onMounted(() => {
               v-for="(item, index) in schedule"
               :key="item.id"
               class="schedule-item"
+              :class="{ disabled: item.is_disabled }"
             >
               <span class="item-position">{{ index + 1 }}</span>
               <div class="item-info">
                 <span class="item-title">{{ item.title || item.youtube_video_id }}</span>
+                <span v-if="item.is_disabled" class="item-badge unavailable">Unavailable</span>
+                <span v-if="item.last_error_message && item.is_disabled" class="item-error">{{ item.last_error_message }}</span>
                 <span class="item-duration">{{ formatDuration(item.duration_seconds) }}</span>
               </div>
               <div class="item-actions">
+                <button
+                  class="toggle-button"
+                  :disabled="togglingItemId === item.id"
+                  @click="toggleScheduleItem(item)"
+                >
+                  {{ item.is_disabled ? 'Enable' : 'Disable' }}
+                </button>
                 <button
                   class="move-button"
                   :disabled="index === 0"
@@ -795,6 +891,10 @@ onMounted(() => {
   border-bottom: 1px solid var(--color-border-subtle);
 }
 
+.schedule-item.disabled {
+  opacity: 0.6;
+}
+
 .schedule-item:last-child {
   border-bottom: none;
 }
@@ -821,6 +921,32 @@ onMounted(() => {
   white-space: nowrap;
 }
 
+.item-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+  background: rgba(244, 239, 230, 0.08);
+  margin-top: 4px;
+  width: fit-content;
+}
+
+.item-badge.unavailable {
+  background: rgba(239, 138, 122, 0.15);
+  color: #ef8a7a;
+}
+
+.item-error {
+  display: block;
+  font-size: 10px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+  font-style: italic;
+}
+
 .item-duration {
   font-size: 11px;
   color: var(--color-text-muted);
@@ -830,6 +956,26 @@ onMounted(() => {
 .item-actions {
   display: flex;
   gap: 4px;
+}
+
+.toggle-button {
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text-tertiary);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.toggle-button:hover:not(:disabled) {
+  border-color: rgba(215, 161, 103, 0.6);
+  color: var(--color-text-primary);
+}
+
+.toggle-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .move-button,

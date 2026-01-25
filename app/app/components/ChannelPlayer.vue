@@ -56,6 +56,7 @@ const qualityLabels: Record<string, string> = {
 let advanceTimer: ReturnType<typeof setTimeout> | null = null
 let wasPaused = false
 let currentVideoId: string | null = null
+let loadTimeout: ReturnType<typeof setTimeout> | null = null
 
 /**
  * Calculate and sync to current playback position (full reload)
@@ -64,6 +65,7 @@ function syncToTimeline() {
   const state = calculatePlaybackState(props.schedule, props.timeline)
   if (!state) {
     emit('error', 'No videos in schedule')
+    isLoading.value = false
     return
   }
 
@@ -75,6 +77,7 @@ function syncToTimeline() {
 
   if (needsReload) {
     youtube.loadVideo(state.currentVideo.youtube_video_id, state.offsetSeconds)
+    armLoadTimeout(state.currentVideo.youtube_video_id)
     // Try to maintain unmuted state across channel switches
     tryAutoUnmute()
   } else {
@@ -143,7 +146,14 @@ function scheduleNextVideo(state: PlaybackState) {
 function advanceToNextVideo() {
   if (!currentState.value) return
 
-  const { video, index } = getNextVideo(props.schedule, currentState.value.currentVideoIndex)
+  const next = getNextVideo(props.schedule, currentState.value.currentVideoIndex)
+  if (!next) {
+    emit('error', 'No playable videos')
+    isLoading.value = false
+    return
+  }
+
+  const { video, index } = next
 
   currentState.value = {
     ...currentState.value,
@@ -156,7 +166,23 @@ function advanceToNextVideo() {
   emit('playback-state', currentState.value)
 
   youtube.loadVideo(video.youtube_video_id, 0)
+  armLoadTimeout(video.youtube_video_id)
   scheduleNextVideo(currentState.value)
+}
+
+function armLoadTimeout(videoId: string) {
+  if (loadTimeout) {
+    clearTimeout(loadTimeout)
+  }
+
+  isLoading.value = true
+  loadTimeout = setTimeout(() => {
+    if (currentVideoId === videoId && isLoading.value) {
+      loadTimeout = null
+      emit('error', 'Video failed to load')
+      advanceToNextVideo()
+    }
+  }, 12000)
 }
 
 /**
@@ -164,8 +190,16 @@ function advanceToNextVideo() {
  */
 function onPlayerStateChange(state: number) {
   if (state === PlayerState.ENDED) {
+    if (loadTimeout) {
+      clearTimeout(loadTimeout)
+      loadTimeout = null
+    }
     advanceToNextVideo()
   } else if (state === PlayerState.PLAYING) {
+    if (loadTimeout) {
+      clearTimeout(loadTimeout)
+      loadTimeout = null
+    }
     isLoading.value = false
     isPaused.value = false
 
@@ -186,10 +220,52 @@ function onPlayerStateChange(state: number) {
 
 /**
  * Handle YouTube player errors
+ * Error codes 100, 101, 150, 153 indicate unavailable/unembeddable videos
  */
-function onPlayerError(errorCode: number) {
+async function onPlayerError(errorCode: number) {
   console.error('YouTube player error:', errorCode)
+  if (loadTimeout) {
+    clearTimeout(loadTimeout)
+    loadTimeout = null
+  }
+
+  // Auto-disable video for specific error codes
+  const disableErrorCodes = [100, 101, 150, 153]
+  if (disableErrorCodes.includes(errorCode) && currentState.value) {
+    const scheduleItem = currentState.value.currentVideo
+    try {
+      await $fetch('/api/schedule/disable', {
+        method: 'POST',
+        body: {
+          scheduleItemId: scheduleItem.id,
+          errorCode,
+          errorMessage: getYouTubeErrorMessage(errorCode),
+        },
+      })
+      console.log(`Video ${scheduleItem.youtube_video_id} disabled due to error ${errorCode}`)
+    } catch (err) {
+      console.error('Failed to disable video:', err)
+    }
+  }
+
   advanceToNextVideo()
+}
+
+/**
+ * Get human-readable error message for YouTube error codes
+ */
+function getYouTubeErrorMessage(errorCode: number): string {
+  switch (errorCode) {
+    case 100:
+      return 'Video not found or has been removed'
+    case 101:
+    case 150:
+      return 'Video owner does not allow embedding'
+    case 153:
+      return 'Video not available for embedding on this domain'
+    default:
+      return `YouTube error ${errorCode}`
+  }
 }
 
 /**

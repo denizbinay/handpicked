@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
     const response = await fetch(
       `https://www.googleapis.com/youtube/v3/videos?` +
         new URLSearchParams({
-          part: 'snippet,contentDetails',
+          part: 'snippet,contentDetails,status',
           id: extractedId,
           key: apiKey,
         })
@@ -68,6 +68,15 @@ export default defineEventHandler(async (event) => {
     const video = data.items[0]
     const duration = parseDuration(video.contentDetails.duration)
 
+    // Extract availability status
+    const status = video.status || {}
+    const embeddable = status.embeddable ?? false
+    const privacyStatus = status.privacyStatus || 'unknown'
+    const uploadStatus = status.uploadStatus || 'unknown'
+
+    // Determine if video is available for embedding
+    const isAvailable = embeddable && privacyStatus === 'public' && uploadStatus === 'processed'
+
     return {
       id: extractedId,
       title: video.snippet.title,
@@ -76,6 +85,11 @@ export default defineEventHandler(async (event) => {
       publishedAt: video.snippet.publishedAt,
       duration_seconds: duration,
       thumbnail: video.snippet.thumbnails?.medium?.url || null,
+      // Availability fields
+      embeddable,
+      privacyStatus,
+      uploadStatus,
+      isAvailable,
     }
   } catch (error: any) {
     if (error.statusCode) {

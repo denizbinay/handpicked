@@ -52,6 +52,11 @@ export interface ChannelScheduleItem {
   title: string | null
   duration_seconds: number
   created_at: string
+  // Availability fields
+  is_disabled?: boolean
+  last_error_code?: number
+  last_error_message?: string
+  last_checked_at?: string
   // Video attribution fields
   youtube_channel_name: string | null
   youtube_channel_id: string | null
